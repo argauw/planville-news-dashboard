@@ -401,11 +401,11 @@ a:hover { color: var(--color-primary-hover); }
   gap: var(--space-3);
 }
 
-/* Date Navigation — Glass Style */
+/* Date Navigation — Tab Style */
 .date-nav {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: 3px;
   background: var(--bg-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -415,36 +415,53 @@ a:hover { color: var(--color-primary-hover); }
   box-shadow: var(--shadow-sm);
 }
 
-.date-nav-btn {
+.date-nav-tab {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
+  gap: 5px;
   height: 30px;
+  padding: 0 12px;
   border: none;
   background: none;
   color: var(--text-secondary);
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all var(--transition-fast);
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
-.date-nav-btn:hover {
+.date-nav-tab:hover {
   background: var(--color-primary-light);
   color: var(--color-primary);
 }
 
-.date-nav-label {
-  font-size: 12px;
+.date-nav-tab.active {
+  background: var(--color-primary);
+  color: #fff;
   font-weight: 600;
-  color: var(--text-primary);
-  padding: 0 var(--space-2);
-  min-width: 120px;
-  text-align: center;
-  cursor: pointer;
 }
 
-.date-nav-label:hover { color: var(--color-primary); }
+.date-nav-tab.active:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.date-nav-date-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.date-nav-tab .tab-icon {
+  width: 14px;
+  height: 14px;
+}
 
 /* Search — Glass Style */
 .search-box {
@@ -1777,6 +1794,17 @@ a:hover { color: var(--color-primary-hover); }
   border: 1px solid rgba(30, 60, 42, 0.08);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
+[data-theme="light"] .date-nav-tab {
+  color: var(--text-secondary);
+}
+[data-theme="light"] .date-nav-tab:hover {
+  background: rgba(50, 152, 102, 0.08);
+  color: var(--color-primary);
+}
+[data-theme="light"] .date-nav-tab.active {
+  background: var(--color-primary);
+  color: #fff;
+}
 
 /* Search box: more defined */
 [data-theme="light"] .search-box {
@@ -2084,15 +2112,16 @@ a:hover { color: var(--color-primary-hover); }
   background: rgba(24, 24, 30, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
-[data-theme="dark"] .date-nav-label {
-  color: #FFFFFF;
-}
-[data-theme="dark"] .date-nav-btn {
+[data-theme="dark"] .date-nav-tab {
   color: #A0A0AA;
 }
-[data-theme="dark"] .date-nav-btn:hover {
+[data-theme="dark"] .date-nav-tab:hover {
   color: #4ADE80;
   background: rgba(74, 222, 128, 0.08);
+}
+[data-theme="dark"] .date-nav-tab.active {
+  background: var(--color-primary);
+  color: #fff;
 }
 
 /* Search box */
@@ -3004,6 +3033,28 @@ const DEMO_STATS = {
     return date.toLocaleDateString('de-DE', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
   }
 
+  function getDateTabActive(tab) {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const target = new Date(state.selectedDate.getFullYear(), state.selectedDate.getMonth(), state.selectedDate.getDate());
+    const diffDays = Math.floor((today - target) / (1000 * 60 * 60 * 24));
+    if (tab === 'today') return diffDays === 0 ? ' active' : '';
+    if (tab === 'yesterday') return diffDays === 1 ? ' active' : '';
+    if (tab === 'custom') return diffDays > 1 ? ' active' : '';
+    return '';
+  }
+
+  function formatCustomDateLabel(date) {
+    return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
+  function formatDateInputValue(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
   function getTopicLabel(id) { const t = TOPICS.find(t => t.id === id); return t ? t.label : id; }
   function getTopicIcon(id) { const t = TOPICS.find(t => t.id === id); return t ? t.icon : 'tag'; }
 
@@ -3165,10 +3216,13 @@ const DEMO_STATS = {
         </div>
         <div class="header-actions">
           <div class="date-nav">
-            <button class="date-nav-btn" id="datePrev" title="Vorheriger Tag"><i data-lucide="chevron-left" width="16" height="16"></i></button>
-            <span class="date-nav-label" id="dateLabel">${formatDateLabel(state.selectedDate)}</span>
-            <button class="date-nav-btn" id="dateNext" title="Nächster Tag"><i data-lucide="chevron-right" width="16" height="16"></i></button>
-            <button class="date-nav-btn" id="dateToday" title="Heute"><i data-lucide="calendar" width="16" height="16"></i></button>
+            <button class="date-nav-tab${getDateTabActive('today')}" id="dateTabToday">Heute</button>
+            <button class="date-nav-tab${getDateTabActive('yesterday')}" id="dateTabYesterday">Gestern</button>
+            <button class="date-nav-tab${getDateTabActive('custom')}" id="dateTabCustom">
+              <i data-lucide="calendar" class="tab-icon"></i>
+              <span>${getDateTabActive('custom') ? formatCustomDateLabel(state.selectedDate) : 'Datum'}</span>
+            </button>
+            <input type="date" class="date-nav-date-input" id="datePickerInput" value="${formatDateInputValue(state.selectedDate)}">
             ${tip('dateNav')}
           </div>
           <div class="search-box">
@@ -3656,19 +3710,26 @@ const DEMO_STATS = {
       });
     });
 
-    // Date navigation
-    const datePrev = $('#datePrev');
-    const dateNext = $('#dateNext');
-    const dateToday = $('#dateToday');
-    if (datePrev) datePrev.addEventListener('click', () => { state.selectedDate = new Date(state.selectedDate.getTime() - 86400000); render(); });
-    if (dateNext) {
-      dateNext.addEventListener('click', () => {
-        const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
-        const next = new Date(state.selectedDate.getTime() + 86400000);
-        if (next <= tomorrow) { state.selectedDate = next; render(); }
-      });
-    }
-    if (dateToday) dateToday.addEventListener('click', () => { state.selectedDate = new Date(); render(); });
+    // Date navigation tabs
+    const dateTabToday = $('#dateTabToday');
+    const dateTabYesterday = $('#dateTabYesterday');
+    const dateTabCustom = $('#dateTabCustom');
+    const datePickerInput = $('#datePickerInput');
+    if (dateTabToday) dateTabToday.addEventListener('click', () => { state.selectedDate = new Date(); render(); });
+    if (dateTabYesterday) dateTabYesterday.addEventListener('click', () => {
+      const y = new Date(); y.setDate(y.getDate() - 1);
+      state.selectedDate = y; render();
+    });
+    if (dateTabCustom) dateTabCustom.addEventListener('click', () => {
+      if (datePickerInput) { datePickerInput.showPicker ? datePickerInput.showPicker() : datePickerInput.click(); }
+    });
+    if (datePickerInput) datePickerInput.addEventListener('change', (e) => {
+      if (e.target.value) {
+        const parts = e.target.value.split('-');
+        state.selectedDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        render();
+      }
+    });
 
     // Search
     const searchInput = $('#searchInput');
