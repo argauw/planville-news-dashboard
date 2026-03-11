@@ -1,0 +1,627 @@
+// ============================================================
+// Planville News Dashboard — Kuratierte Branchennews
+// Aktuelle News, Reddit & Social Media (Q4 2025 – März 2026)
+// ============================================================
+
+const TOPICS = [
+  { id: 'photovoltaik', label: 'Photovoltaik', icon: 'sun' },
+  { id: 'waermepumpen', label: 'Wärmepumpen', icon: 'thermometer' },
+  { id: 'dachsanierung', label: 'Dach & Fenster', icon: 'home' },
+  { id: 'foerderung', label: 'Förderung & Politik', icon: 'landmark' },
+  { id: 'energiewende', label: 'Energiewende', icon: 'leaf' },
+  { id: 'mieterstrom', label: 'Mieterstrom', icon: 'building' },
+  { id: 'innovation', label: 'Innovation', icon: 'lightbulb' },
+  { id: 'handwerk', label: 'Handwerk & Qualität', icon: 'wrench' },
+  { id: 'pvpflicht', label: 'PV-Pflicht', icon: 'shield-check' },
+];
+
+const SENTIMENTS = ['positiv', 'neutral', 'negativ'];
+const SOURCES = ['news', 'reddit', 'social'];
+const SOURCE_LABELS = { news: 'Nachricht', reddit: 'Reddit', social: 'Social Media' };
+
+// Kuratierte Artikel — sortiert nach Datum (neueste zuerst)
+const DEMO_ARTICLES = [
+  // 1 — Mar 6, 2026
+  {
+    title: 'Photovoltaik erreicht 16 Prozent der deutschen Stromproduktion',
+    summary: 'Laut aktuellen Zahlen der Bundesnetzagentur hat Photovoltaik erstmals 16 Prozent der gesamten deutschen Stromproduktion erreicht. Der kontinuierliche Zubau und sinkende Modulpreise treiben die Entwicklung. Besonders Aufdach-Anlagen auf Ein- und Mehrfamilienhäusern wachsen stark.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2026/03/06/photovoltaik-erreicht-16-prozent-der-deutschen-stromproduktion/',
+    topic: 'photovoltaik',
+    sentiment: 'positiv',
+    relevance: 95,
+    dateStr: '2026-03-06',
+    aiInsight: 'Starker Aufhänger für einen Reel: "16% Deutschlands Strom kommt von der Sonne — und ein Teil davon von unseren Dächern!" Zeigt Planville-Projektbilder und feiert eure Kunden.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"16 Prozent. So viel Strom in Deutschland kommt jetzt von der Sonne. Und ein paar dieser Anlagen stehen auf Dächern unserer Kunden."', hashtags: '#Photovoltaik #Solarrekord #Planville #Energiewende #16Prozent' },
+      { type: 'Karussell', hook: 'Von 1% auf 16% — die Solar-Erfolgsgeschichte Deutschlands in 5 Slides', hashtags: '#Solar #Photovoltaik #Energiewende #Deutschland' },
+    ],
+  },
+  // 2 — Mar 3, 2026
+  {
+    title: 'TikTok-Trend: Hausbesitzer vergleichen Stromrechnungen vor und nach PV-Anlage',
+    summary: 'Unter #Photovoltaik2026 zeigen Hausbesitzer ihre Stromrechnungen im Vorher/Nachher-Vergleich. Manche berichten von über 80% Einsparung. Die Videos erreichen Millionen Views und sorgen für enormes Interesse an PV-Anlagen.',
+    source: 'social',
+    outlet: 'TikTok',
+    sourceUrl: 'https://www.tiktok.com/tag/photovoltaikanlagen',
+    topic: 'photovoltaik',
+    sentiment: 'positiv',
+    relevance: 91,
+    dateStr: '2026-03-03',
+    aiInsight: 'Unbedingt auf diesen Trend aufspringen! Fragt eure Kunden nach Vorher/Nachher-Rechnungen. Authentischer Content mit echten Zahlen wirkt stärker als jede Werbung.',
+    contentIdeas: [
+      { type: 'Reel/TikTok', hook: '"Meine Stromrechnung vorher: 280€. Nachher: 42€. Kein Witz. Danke Planville."', hashtags: '#Stromrechnung #PV #VorherNachher #Solar #Planville #Photovoltaik2026' },
+      { type: 'Story-Serie', hook: 'Kundenstory: Familie aus NRW zeigt ihre echte Stromrechnung nach 12 Monaten PV', hashtags: '#Kundenerfolg #Solar #Einsparung' },
+    ],
+  },
+  // 3 — Feb 27, 2026
+  {
+    title: 'Geleakter EEG-Entwurf: Solarförderung für Anlagen bis 25 kW vor dem Aus',
+    summary: 'Details zum geleakten EEG-Entwurf zeigen: Die Einspeisevergütung für private PV-Anlagen bis 25 Kilowatt soll komplett gestrichen werden. Die Branche reagiert geschockt. Experten warnen vor einem drastischen Einbruch beim Zubau kleiner Dachanlagen.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2026/02/27/geleakter-eeg-entwurf-abschaffung-der-solarfoerderung-fuer-photovoltaik-anlagen-bis-25-kilowatt/',
+    topic: 'photovoltaik',
+    sentiment: 'negativ',
+    relevance: 98,
+    dateStr: '2026-02-27',
+    aiInsight: 'Höchste Dringlichkeit! Informiert eure Community sofort. Positioniert Planville als Experte: "Wir ordnen ein, was der EEG-Entwurf wirklich bedeutet." Call-to-Action: Jetzt noch beraten lassen.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"Die Solarförderung für kleine Anlagen soll weg. Was heißt das für dich? Wir klären auf."', hashtags: '#EEG #Solarförderung #Photovoltaik #Energiepolitik #Planville' },
+      { type: 'Karussell', hook: '5 Fakten zum EEG-Entwurf, die jeder Hausbesitzer kennen muss', hashtags: '#EEG2026 #PV #Förderung #Solar' },
+    ],
+  },
+  // 4 — Feb 26, 2026
+  {
+    title: 'EEG-Entwurf geleakt: Komplette Streichung der Förderung privater PV-Anlagen',
+    summary: 'Ein internes Papier des Wirtschaftsministeriums sieht die komplette Abschaffung der Einspeisevergütung für private Photovoltaik-Anlagen vor. Die Solarbranche läuft Sturm gegen die Pläne. Der BSW Solar fordert eine sofortige Korrektur.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2026/02/26/eeg-entwurf-geleakt-komplette-streichung-der-foerderung-privater-photovoltaik-anlagen-vorgesehen/',
+    topic: 'foerderung',
+    sentiment: 'negativ',
+    relevance: 97,
+    dateStr: '2026-02-26',
+    aiInsight: 'Top-Relevanz! Verbindet die Nachricht mit eurem Beratungsangebot: "Gerade jetzt lohnt sich professionelle Planung. Wir zeigen dir, wie sich PV auch ohne Einspeisevergütung rechnet." Eigenverbrauch-Strategie betonen.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Der EEG-Entwurf schockiert die Branche. Aber: PV rechnet sich auch ohne Einspeisevergütung — wenn man richtig plant."', hashtags: '#EEG #Solarförderung #Photovoltaik #Eigenverbrauch #Planville' },
+      { type: 'Reel', hook: '"Keine Förderung mehr? So rechnet sich PV trotzdem — mit der richtigen Strategie."', hashtags: '#PV #Eigenverbrauch #Solaranlage #OhneSubvention' },
+    ],
+  },
+  // 5 — Feb 26, 2026
+  {
+    title: 'Wärmepumpenmarkt 2026: Stabilisierung, Innovationen und neue Marktlogik',
+    summary: 'Nach dem Einbruch 2024 stabilisiert sich der deutsche Wärmepumpenmarkt. Neue Geschäftsmodelle, verbesserte Effizienz und die wachsende Akzeptanz in der Bevölkerung sorgen für eine positive Marktentwicklung. Experten sehen den Markt auf einem neuen, nachhaltigen Wachstumspfad.',
+    source: 'news',
+    outlet: 'DEEA',
+    sourceUrl: 'https://deea.de/2026/02/26/der-waermepumpenmarkt-ab-2026-stabilisierung-innovationen-und-neue-marktlogik/',
+    topic: 'waermepumpen',
+    sentiment: 'positiv',
+    relevance: 92,
+    dateStr: '2026-02-26',
+    aiInsight: 'Comeback-Story! Positioniert Planville als stabilen Partner: "Wir haben nie aufgehört zu installieren, während andere aufgegeben haben." Zeigt installierte WP-Projekte.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Der Wärmepumpen-Markt erholt sich. Wir haben in der Zwischenzeit einfach weitergemacht — 127 Anlagen in 2025."', hashtags: '#Wärmepumpe #Markt2026 #Energiewende #Planville' },
+      { type: 'Reel', hook: '"2024 haben alle aufgehört. 2025 haben wir weiter installiert. 2026 geben uns die Zahlen recht."', hashtags: '#Wärmepumpe #Comeback #Handwerk #Planville' },
+    ],
+  },
+  // 6 — Feb 25, 2026
+  {
+    title: 'Uni Stuttgart: Perowskit-Solarzellen besser gegen Umwelteinflüsse geschützt',
+    summary: 'Forschende der Universität Stuttgart haben einen Durchbruch bei der Stabilität von Perowskit-Solarzellen erzielt. Eine neue Schutzschicht macht die Zellen deutlich widerstandsfähiger gegen Feuchtigkeit und UV-Strahlung. Dies könnte den Weg für kommerzielle Perowskit-Module ebnen.',
+    source: 'news',
+    outlet: 'Uni Stuttgart',
+    sourceUrl: 'https://www.uni-stuttgart.de/universitaet/aktuelles/meldungen/Perowskit-Solarzellen-besser-gegen-Umwelteinfluesse-schuetzen/',
+    topic: 'innovation',
+    sentiment: 'positiv',
+    relevance: 68,
+    dateStr: '2026-02-25',
+    aiInsight: 'Innovation-Content für technikaffine Follower: "Die Zukunft der Solarzelle kommt aus Deutschland." Erklärt Perowskit einfach und zeigt, was das für die Branche bedeutet.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Was ist Perowskit und warum könnte es die Solarbranche revolutionieren?" — erklärt in 5 Slides', hashtags: '#Perowskit #Innovation #Solar #Forschung #MadeInGermany' },
+    ],
+  },
+  // 7 — Feb 24, 2026
+  {
+    title: 'GMG-Eckpunkte: Heizungsgesetz wird grundlegend reformiert',
+    summary: 'Die Koalition hat die Eckpunkte für das neue Gebäude-Modernisierungsgesetz (GMG) vorgelegt. Das bisherige GEG (Heizungsgesetz) wird grundlegend überarbeitet. Statt starrer Vorgaben soll es mehr Technologieoffenheit und vereinfachte Förderverfahren geben.',
+    source: 'news',
+    outlet: 'GEG-Info',
+    sourceUrl: 'https://geg-info.de/geg_news/251211_koalitionsausschuss_bundesregierung.htm',
+    topic: 'foerderung',
+    sentiment: 'neutral',
+    relevance: 93,
+    dateStr: '2026-02-24',
+    aiInsight: 'Wichtiges Thema für eure Kunden! Viele haben wegen GEG-Unsicherheit abgewartet. Jetzt aufklären: "Das neue GMG bringt Klarheit — und wir helfen euch, die richtige Heizung zu wählen."',
+    contentIdeas: [
+      { type: 'Reel', hook: '"Das Heizungsgesetz wird abgeschafft. Was jetzt kommt, ist besser — wir erklären das GMG in 60 Sekunden."', hashtags: '#GMG #GEG #Heizungsgesetz #Wärmepumpe #Planville' },
+      { type: 'Blogartikel', hook: '"GEG vs. GMG: Was ändert sich beim Heizungstausch? Alles zum neuen Gebäude-Modernisierungsgesetz"', hashtags: '#GMG #Heizung #Förderung #Energieberatung' },
+    ],
+  },
+  // — Feb 22, 2026 (PV-Pflicht)
+  {
+    title: 'Solarpflicht NRW: Ab Januar 2026 gilt PV-Pflicht auch bei Dachsanierung im Bestand',
+    summary: 'Seit dem 1. Januar 2026 gilt in NRW die Solarpflicht auch für Bestandsgebäude bei vollständiger Dacherneuerung. Eigentümer müssen mindestens 30 Prozent der Nettodachfläche mit PV belegen. Für Ein- und Zweifamilienhäuser reicht eine 3-kWp-Anlage. Bei Verstößen drohen Bußgelder bis 25.000 Euro.',
+    source: 'news',
+    outlet: 'Verbraucherzentrale NRW',
+    sourceUrl: 'https://www.verbraucherzentrale.nrw/energie/solarpflicht-bei-dachsanierungen-in-nrw-was-kommt-auf-eigentuemerinnen-zu-energie-kompakt-114027',
+    topic: 'pvpflicht',
+    sentiment: 'neutral',
+    relevance: 96,
+    dateStr: '2026-02-22',
+    aiInsight: 'Höchste Relevanz für Planville in NRW! "Dach sanieren = PV drauf. Das ist jetzt Gesetz." Positioniert euch als Komplettanbieter: Dach + PV aus einer Hand. Sofort Hausverwaltungen und Eigentümer ansprechen.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Solarpflicht NRW 2026: Was Hausbesitzer bei der Dachsanierung jetzt wissen müssen — in 5 Slides"', hashtags: '#Solarpflicht #NRW #Dachsanierung #PV #Planville' },
+      { type: 'Reel', hook: '"Dach neu? Dann muss PV drauf. So funktioniert die Solarpflicht in NRW seit Januar."', hashtags: '#PVPflicht #NRW #Solar #Dachsanierung' },
+    ],
+  },
+  // — Feb 20, 2026
+  {
+    title: 'Neue Schallgrenzwerte ab 2026: Viele Wärmepumpen nicht mehr förderfähig',
+    summary: 'Die neuen Schallschutz-Anforderungen für Wärmepumpen machen einige beliebte Modelle ab 2026 nicht mehr förderfähig. Betroffen sind vor allem günstigere Luft-Wasser-Wärmepumpen. Hersteller müssen nachrüsten oder neue, leisere Modelle auf den Markt bringen.',
+    source: 'news',
+    outlet: 'energie-experten.org',
+    sourceUrl: 'https://www.energie-experten.org/news/neue-schall-grenzwerte-ab-2026-ist-meine-luft-waermepumpe-noch-foerderfaehig',
+    topic: 'waermepumpen',
+    sentiment: 'negativ',
+    relevance: 88,
+    dateStr: '2026-02-20',
+    aiInsight: 'Chance für Beratungs-Content! Planville kann hier Expertise zeigen: "Wir setzen nur auf Modelle, die die neuen Grenzwerte einhalten." Vertrauensaufbau durch Fachkompetenz.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Neue Schallgrenzwerte 2026: Ist deine Wärmepumpe noch förderfähig? Checkliste in 5 Slides"', hashtags: '#Wärmepumpe #Schallschutz #Förderung #2026 #Planville' },
+      { type: 'Reel', hook: '"Nicht jede Wärmepumpe bekommt 2026 noch Förderung. Worauf du achten musst."', hashtags: '#WP #Lautstärke #BAFA #Förderung' },
+    ],
+  },
+  // 9 — Feb 18, 2026
+  {
+    title: 'Instagram-Debatte: Über 1.700 Unternehmen protestieren gegen Energiepolitik',
+    summary: 'Eine virale Instagram-Kampagne vereint über 1.700 Unternehmen aus der Solar- und Energiebranche, die gegen die geplante Streichung der PV-Förderung protestieren. Die Kampagne erreicht Millionen Nutzer und wird in den Medien breit aufgegriffen.',
+    source: 'social',
+    outlet: 'Instagram',
+    sourceUrl: 'https://www.energiezukunft.eu/buergerenergie/influencer-zeigen-die-dezentrale-energiewende-auf-instagram',
+    topic: 'energiewende',
+    sentiment: 'negativ',
+    relevance: 86,
+    dateStr: '2026-02-18',
+    aiInsight: 'Positionierung zeigen! "Auch Planville steht für eine bezahlbare Energiewende." Solidarität mit der Branche zeigen und gleichzeitig Lösungen anbieten.',
+    contentIdeas: [
+      { type: 'Story-Serie', hook: '"1.700 Unternehmen, eine Stimme. Auch wir stehen für bezahlbare Solarenergie. Hier ist unsere Position."', hashtags: '#Energiewende #Solar #Branche #Protest #Planville' },
+      { type: 'Reel', hook: '"Energiewende nur für Reiche? Nein. Hier sind 3 Wege, wie auch Mieter profitieren."', hashtags: '#Energiewende #Mieterstrom #Gerechtigkeit #Solar' },
+    ],
+  },
+  // 10 — Feb 15, 2026
+  {
+    title: 'Stromspeicher-Inspektion 2026: Effizienzrekorde und neue Benchmarks',
+    summary: 'Die jährliche Stromspeicher-Inspektion der HTW Berlin zeigt neue Effizienzrekorde bei Photovoltaik-Heimspeichern. Die besten Systeme erreichen einen System Performance Index von über 95%. Gleichzeitig werden neue Benchmarks für die Bewertung von Speichersystemen eingeführt.',
+    source: 'news',
+    outlet: 'IWR',
+    sourceUrl: 'https://www.iwr.de/news/stromspeicher-inspektion-2026-effizienzrekorde-und-neue-benchmarks-fuer-photovoltaik-heimspeicher-news39559',
+    topic: 'innovation',
+    sentiment: 'positiv',
+    relevance: 76,
+    dateStr: '2026-02-15',
+    aiInsight: 'Speicher-Content mit Daten! Zeigt, welche Speicher Planville verbaut und warum. "Wir empfehlen nur Speicher mit Top-Effizienz" — unterstützt mit den Testergebnissen.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"95% Effizienz. So gut sind die besten Heimspeicher 2026. Und welchen wir verbauen."', hashtags: '#Batteriespeicher #Effizienz #HTWBerlin #Planville #PV' },
+      { type: 'Karussell', hook: 'Stromspeicher-Test 2026: Die Top 5 Heimspeicher im Vergleich', hashtags: '#Speicher #Solar #Test #Photovoltaik' },
+    ],
+  },
+  // 11 — Feb 12, 2026
+  {
+    title: 'Energy Sharing ab Juni 2026: Neue Chancen für Mieterstrommodelle',
+    summary: 'Ab Juni 2026 wird Energy Sharing in Deutschland rechtlich möglich. Damit können Verbraucher gemeinsam erzeugten Strom über das öffentliche Netz teilen. Für Mieterstrom-Projekte eröffnen sich völlig neue Geschäftsmodelle und Abrechnungsmöglichkeiten.',
+    source: 'news',
+    outlet: 'Wattmacher NRW',
+    sourceUrl: 'https://www.metergrid.de/blog/solarspitzen-gesetz-2025---neue-regelungen-fur-photovoltaik-und-ihre-auswirkungen-auf-mieterstrommodelle',
+    topic: 'mieterstrom',
+    sentiment: 'positiv',
+    relevance: 96,
+    dateStr: '2026-02-12',
+    aiInsight: 'Höchste Relevanz für Planville-Mieterstrom! "Energy Sharing macht unser Kerngeschäft noch attraktiver." Erklärt das Konzept einfach und zeigt, wie Planville davon profitiert.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Energy Sharing kommt im Juni. Für Mieterstrom ändert sich alles — und wir bei Planville sind vorbereitet."', hashtags: '#EnergySharing #Mieterstrom #Planville #Solar #Wohnungswirtschaft' },
+      { type: 'Reel', hook: '"Strom teilen wie Netflix? Ab Juni 2026 geht das. So funktioniert Energy Sharing."', hashtags: '#EnergySharing #Mieterstrom #Solar #Mieter' },
+    ],
+  },
+  // 12 — Feb 10, 2026
+  {
+    title: 'Niedrigere Netzentgelte: Strompreise sinken 2026 spürbar',
+    summary: 'Die Bundesnetzagentur hat niedrigere Netzentgelte für 2026 festgelegt. In Kombination mit dem wachsenden Anteil erneuerbarer Energien sinken die Strompreise für Verbraucher um durchschnittlich 7 Prozent. Experten sehen den Trend als nachhaltig.',
+    source: 'news',
+    outlet: 'Bundesregierung',
+    sourceUrl: 'https://www.bundesregierung.de/breg-de/aktuelles/niedrigere-netzentgelte-2382396',
+    topic: 'energiewende',
+    sentiment: 'positiv',
+    relevance: 78,
+    dateStr: '2026-02-10',
+    aiInsight: 'Positiv-Story! "Strom wird billiger — und wer eigenen Strom produziert, profitiert doppelt." Verbindet die Nachricht mit dem Eigenverbrauch-Vorteil einer PV-Anlage.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"7% weniger Stromkosten. Aber wer PV auf dem Dach hat, spart noch viel mehr."', hashtags: '#Strompreis #Netzentgelte #Solarenergie #Eigenverbrauch' },
+    ],
+  },
+  // 13 — Feb 9, 2026
+  {
+    title: 'Netzpaket-Entwurf rüttelt am Einspeisevorrang für Erneuerbare',
+    summary: 'Ein neuer Gesetzesentwurf zum Netzpaket sieht Einschränkungen beim Anschluss- und Einspeisevorrang für erneuerbare Energien vor. Netzbetreiber sollen mehr Flexibilität bei der Steuerung von Einspeisungen bekommen. Die Solarbranche warnt vor negativen Folgen für Kleinanlagen.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2026/02/09/netzpaket-entwurf-ruettelt-am-anschluss-und-einspeisevorrang-fuer-erneuerbare/',
+    topic: 'photovoltaik',
+    sentiment: 'negativ',
+    relevance: 82,
+    dateStr: '2026-02-09',
+    aiInsight: 'Einordnung gefragt! Viele Kunden fragen sich, ob sich PV noch lohnt. Antwortet klar: "Eigenverbrauch bleibt rentabel — und mit Speicher sogar noch mehr." Beratungstermin anbieten.',
+    contentIdeas: [
+      { type: 'Blogartikel', hook: '"Netzpaket 2026: Was bedeutet der neue Entwurf für deine PV-Anlage?"', hashtags: '#Netzpaket #Einspeisung #PV #Solaranlage #Planville' },
+    ],
+  },
+  // 14 — Feb 5, 2026
+  {
+    title: 'Forum: "Luft-Wasser-WP bei -15°C im Februar — mein Erfahrungsbericht"',
+    summary: 'Ein Nutzer im Bauexpertenforum berichtet detailliert über die Leistung seiner Luft-Wasser-Wärmepumpe bei extremer Kälte im Februar 2026. Trotz -15°C liefert die Anlage stabile 45°C Vorlauftemperatur. Die Diskussion zeigt, dass moderne WP auch bei Extremkälte zuverlässig arbeiten.',
+    source: 'reddit',
+    outlet: 'Bauexpertenforum',
+    sourceUrl: 'https://www.bauexpertenforum.de/threads/luft-wasser-waermepumpe-bei-aktueller-arktischer-kaelte.62945/',
+    topic: 'waermepumpen',
+    sentiment: 'neutral',
+    relevance: 85,
+    dateStr: '2026-02-05',
+    aiInsight: 'Perfekt gegen WP-Angst! Zeigt echte Monitoring-Daten einer Planville-Installation bei Kälte. "Unsere Wärmepumpe bei -15°C: Das zeigen die echten Daten."',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Unsere Wärmepumpe bei -15°C: So sehen die echten Daten aus" — mit Screenshots vom Monitoring', hashtags: '#Wärmepumpe #Winter #Kälte #Faktencheck #Planville' },
+      { type: 'Reel', hook: '"-15 Grad draußen. 22 Grad drinnen. Und der Heizstab läuft NICHT. So funktioniert eine gut geplante Wärmepumpe."', hashtags: '#WP #Heizung #Winter #Planville' },
+    ],
+  },
+  // 15 — Feb 3, 2026
+  {
+    title: 'NRW startet neue Solarförderung für Mehrfamilienhäuser',
+    summary: 'Das Land Nordrhein-Westfalen legt ein neues Förderprogramm für Photovoltaik auf Mehrfamilienhäusern auf. Vermieter und Wohnungsbaugesellschaften erhalten bis zu 30% Zuschuss für PV-Anlagen mit Mieterstrommodell. Das Budget beträgt 50 Millionen Euro.',
+    source: 'news',
+    outlet: 'Wirtschaft.NRW',
+    sourceUrl: 'https://www.wirtschaft.nrw/nordrhein-westfalen-liefert-mehr-solarstrom-fuer-alle-neue-foerderung-fuer-photovoltaik-auf',
+    topic: 'dachsanierung',
+    sentiment: 'positiv',
+    relevance: 94,
+    dateStr: '2026-02-03',
+    aiInsight: 'Direkte Relevanz für Planville in NRW! "30% Zuschuss für PV auf Mehrfamilienhäusern — wir planen und realisieren diese Projekte." Sofort an Hausverwaltungen kommunizieren.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"NRW fördert Solar auf Mietshäusern mit 30% Zuschuss. Wir helfen Vermietern, das Förderprogramm optimal zu nutzen."', hashtags: '#NRW #Solar #Mieterstrom #Förderung #Planville #Mehrfamilienhaus' },
+      { type: 'Reel', hook: '"30% Zuschuss für Solar auf deinem Mietshaus. NRW macht es möglich. So gehts."', hashtags: '#NRW #Solarförderung #Vermieter #PV' },
+    ],
+  },
+  // — Jan 30, 2026 (PV-Pflicht)
+  {
+    title: 'EU-Gebäuderichtlinie: Bundesweite Solarpflicht rückt bis Mai 2026 näher',
+    summary: 'Die EU-Gebäuderichtlinie (EPBD) muss bis Ende Mai 2026 in nationales Recht umgesetzt werden. Sie sieht eine schrittweise Solarpflicht für Neubauten und Bestandsgebäude vor. Experten erwarten, dass Deutschland die Landesregelungen vereinheitlichen und verschärfen wird. Auch Wohngebäude ab 2029 betroffen.',
+    source: 'news',
+    outlet: 'immowelt.de',
+    sourceUrl: 'https://www.immowelt.de/ratgeber/news/eu-gebaeuderichtlinie-2026-bringt-neue-pflichten-fuer-eigentuemer',
+    topic: 'pvpflicht',
+    sentiment: 'neutral',
+    relevance: 88,
+    dateStr: '2026-01-30',
+    aiInsight: 'Wichtig für Aufklärung! Viele Kunden wissen nicht, dass die EU-Pflicht kommt. "Die Solarpflicht wird bundesweit — wer jetzt plant, ist vorbereitet." Beratungstermin-CTA.',
+    contentIdeas: [
+      { type: 'Blogartikel', hook: '"EU-Solarpflicht kommt 2026: Was Hausbesitzer in Deutschland jetzt wissen müssen"', hashtags: '#EPBD #Solarpflicht #EU #Photovoltaik #Planville' },
+      { type: 'Reel', hook: '"Die EU macht PV auf dem Dach zur Pflicht. In welchem Bundesland gilt sie schon? Check in 60 Sekunden."', hashtags: '#Solarpflicht #EU #PVPflicht #Bundesländer' },
+    ],
+  },
+  // — Jan 28, 2026
+  {
+    title: 'Fachkräftemangel erreicht Höchststand: 250.000 Stellen im Handwerk unbesetzt',
+    summary: 'Der Zentralverband des Deutschen Handwerks meldet einen neuen Negativrekord: 250.000 Stellen können nicht besetzt werden. Besonders betroffen sind Elektriker, SHK-Installateure und Dachdecker. Die Energiewende droht am Fachkräftemangel zu scheitern.',
+    source: 'news',
+    outlet: 'handwerk.com',
+    sourceUrl: 'https://www.handwerk.com/fachkraeftemangel-erreicht-hoechststand',
+    topic: 'handwerk',
+    sentiment: 'negativ',
+    relevance: 72,
+    dateStr: '2026-01-28',
+    aiInsight: 'Employer-Branding-Chance! Zeigt, wie Planville als Arbeitgeber dagegenhält: faire Bezahlung, moderne Ausstattung, Weiterbildung. "Bei uns sind die Stellen besetzt."',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"250.000 offene Stellen im Handwerk. Bei uns sind sie besetzt — und das hat Gründe."', hashtags: '#Handwerk #Fachkräfte #Ausbildung #Planville #Arbeitgeber' },
+      { type: 'Reel', hook: '"Warum unsere Monteure gerne bei uns arbeiten — ein Tag auf der Planville-Baustelle"', hashtags: '#Handwerk #TeamPlanville #Karriere #Energiewende' },
+    ],
+  },
+  // 17 — Jan 24, 2026
+  {
+    title: 'SHK+E Messe Essen 2026: Von der Wärmewende bis zur Digitalisierung',
+    summary: 'Die SHK+E Messe Essen zeigt die neuesten Trends in Sanitär, Heizung, Klima und Elektrotechnik. Schwerpunkte sind effizientere Wärmepumpen, Smart-Home-Integration und digitale Planungstools. Über 400 Aussteller präsentieren innovative Lösungen für die Energiewende.',
+    source: 'news',
+    outlet: 'SI SHK',
+    sourceUrl: 'https://www.si-shk.de/shke-essen-2026-von-der-waermewende-bis-zur-digitalisierung-244646/',
+    topic: 'handwerk',
+    sentiment: 'positiv',
+    relevance: 70,
+    dateStr: '2026-01-24',
+    aiInsight: 'Messe-Content! Wenn Planville auf der SHK+E war: Fotos, Eindrücke, Neuheiten zeigen. Wenn nicht: die spannendsten Produkte vorstellen und kommentieren.',
+    contentIdeas: [
+      { type: 'Story-Serie', hook: '"Die 3 spannendsten Neuheiten von der SHK+E Essen 2026 — unser Messe-Rundgang"', hashtags: '#SHKE #Messe #Essen #Wärmepumpe #Innovation #Handwerk' },
+    ],
+  },
+  // — Jan 18, 2026 (PV-Pflicht)
+  {
+    title: 'Solarpflicht 2026: Neue Herausforderungen für Dachdecker und Sachverständige',
+    summary: 'Die ausgeweitete Solarpflicht in mehreren Bundesländern stellt Dachdecker und Sachverständige vor neue Aufgaben. PV-Montage wird dem Dachdeckerhandwerk zugeordnet — nur Meisterbetriebe dürfen installieren. Gleichzeitig steigt die Komplexität bei Wirtschaftlichkeitsprüfungen und Befreiungsanträgen.',
+    source: 'news',
+    outlet: 'DDH (Das Dachdecker-Handwerk)',
+    sourceUrl: 'https://www.ddh.de/neue-solarpflicht-ab-2026-17112025',
+    topic: 'pvpflicht',
+    sentiment: 'neutral',
+    relevance: 82,
+    dateStr: '2026-01-18',
+    aiInsight: 'Chance für Planville als Meisterbetrieb! "PV-Montage darf nur der Meister — und das sind wir." Vertrauen aufbauen durch Qualifikation. Auch Kooperationen mit Dachdeckern ansprechen.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Solarpflicht heißt Meisterpflicht. PV-Montage gehört jetzt offiziell zum Dachdeckerhandwerk. Was das für die Qualität bedeutet."', hashtags: '#Solarpflicht #Meisterbetrieb #Dachdecker #PV #Qualität #Planville' },
+      { type: 'Reel', hook: '"Wusstest du, dass seit 2026 nur noch Meisterbetriebe PV aufs Dach dürfen? Was das für dich bedeutet."', hashtags: '#PVPflicht #Meisterpflicht #Handwerk #Solar' },
+    ],
+  },
+  // — Jan 20, 2026
+  {
+    title: 'BAFA BEG-Einzelmaßnahmen 2026: Neue Anforderungen und verschärfte Prüfungen',
+    summary: 'Die BAFA hat die Anforderungen für BEG-Einzelmaßnahmen 2026 aktualisiert. Energieberater müssen strengere Nachweise führen, und die Prüftiefe bei Anträgen steigt. Gleichzeitig werden neue Boni für besonders effiziente Dämmmaßnahmen eingeführt.',
+    source: 'news',
+    outlet: 'BAFA',
+    sourceUrl: 'https://www.bafa.de/DE/Energie/Effiziente_Gebaeude/Sanierung_Wohngebaeude/Gebaeudehuelle/gebaeudehuelle_node.html',
+    topic: 'dachsanierung',
+    sentiment: 'neutral',
+    relevance: 84,
+    dateStr: '2026-01-20',
+    aiInsight: 'Service-Content: "Förderchaos? Nicht mit uns." Erklärt die neuen BAFA-Anforderungen und zeigt, dass Planville den kompletten Förderprozess übernimmt. Vertrauen durch Expertise.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"BAFA 2026: Was hat sich bei der Förderung für Dach & Dämmung geändert? Die 5 wichtigsten Neuerungen"', hashtags: '#BAFA #BEG #Förderung #Dachsanierung #Dämmung #Planville' },
+      { type: 'Reel', hook: '"5 Fehler, die deinen BAFA-Antrag killen — und wie du sie vermeidest"', hashtags: '#BAFA #Förderung #Fehler #Energieberatung' },
+    ],
+  },
+  // 19 — Jan 15, 2026
+  {
+    title: 'CO₂-Preis steigt auf 55 Euro — Entlastungen für Verbraucher beschlossen',
+    summary: 'Der CO₂-Preis steigt 2026 planmäßig auf 55 Euro pro Tonne. Die Bundesregierung hat gleichzeitig Entlastungsmaßnahmen beschlossen, darunter höhere Pendlerpauschalen und einen Klimabonus. Für Haushalte mit fossiler Heizung steigen die Kosten dennoch spürbar.',
+    source: 'news',
+    outlet: 'Bundesumweltministerium',
+    sourceUrl: 'https://www.bundesumweltministerium.de/pressemitteilung/ab-2026-entlastungen-fuer-verbraucherinnen-und-verbraucher-trotz-steigendem-co2-preis',
+    topic: 'foerderung',
+    sentiment: 'neutral',
+    relevance: 80,
+    dateStr: '2026-01-15',
+    aiInsight: 'Perfekter Trigger für Heizungstausch-Content: "55€ pro Tonne CO₂ — wer jetzt noch Gas oder Öl verbrennt, zahlt drauf." Call-to-Action: Wärmepumpen-Beratung.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"55€ pro Tonne CO₂. Was bedeutet das für deine Gasrechnung? Spoiler: Es wird teuer."', hashtags: '#CO2Preis #Heizkosten #Wärmepumpe #Energiewende #Planville' },
+      { type: 'Karussell', hook: 'CO₂-Preis 2026: Was du pro Monat mehr zahlst — je nach Heizung (Gas vs. Öl vs. Wärmepumpe)', hashtags: '#CO2 #Heizung #Vergleich #Kosten' },
+    ],
+  },
+  // 20 — Jan 10, 2026
+  {
+    title: 'YouTube: Energieberater warnt vor falsch dimensionierten Wärmepumpen',
+    summary: 'Ein bekannter Energieberater auf YouTube warnt in einem viralen Video davor, dass viele Wärmepumpen zu groß oder zu klein dimensioniert werden. Das führt zu höheren Kosten, schlechterer Effizienz und unzufriedenen Kunden. Das Video erreicht über 500.000 Aufrufe.',
+    source: 'social',
+    outlet: 'YouTube',
+    sourceUrl: 'https://www.verbraucherzentrale-saarland.de/pressemeldungen/energie/falsche-dimensionierung-von-waermepumpen-kann-teuer-werden-111074',
+    topic: 'waermepumpen',
+    sentiment: 'negativ',
+    relevance: 81,
+    dateStr: '2026-01-10',
+    aiInsight: 'Qualitäts-Content Gold! Zeigt, wie Planville die Dimensionierung macht: Heizlastberechnung, Gebäudeanalyse, keine Pauschalangebote. "Die richtige Größe entscheidet alles."',
+    contentIdeas: [
+      { type: 'Reel', hook: '"Die richtige Größe entscheidet alles. So berechnen wir deine Wärmepumpe — Schritt für Schritt."', hashtags: '#Wärmepumpe #Dimensionierung #Energieberatung #Planville #Qualität' },
+      { type: 'Karussell', hook: '"Zu groß? Zu klein? 3 Zeichen, dass deine Wärmepumpe falsch dimensioniert ist"', hashtags: '#WP #Heizung #Fehler #Checkliste' },
+    ],
+  },
+
+  // ========== Q4 2025 — Oktober bis Dezember 2025 ==========
+
+  // — Dec 24, 2025
+  {
+    title: 'Gemeinschaftliche Gebäudeversorgung: Berliner Pilotprojekt zeigt softwarebasiertes Messkonzept',
+    summary: 'Eine Berliner Wohnungseigentümergemeinschaft hat ihre PV-Anlage erfolgreich auf gemeinschaftliche Gebäudeversorgung (GGV) umgestellt. Alle neun Eigentümer beteiligten sich an der 14,2-kWp-Anlage. Stromnetz Berlin begleitet das Projekt als Pilotversuch — ein wichtiger Schritt für Mieterstrom in Mehrfamilienhäusern.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2025/12/24/messkonzept-fuer-gemeinschaftliche-gebaeudeversorgung-softwarebasiert-umgesetzt/',
+    topic: 'mieterstrom',
+    sentiment: 'positiv',
+    relevance: 90,
+    dateStr: '2025-12-24',
+    aiInsight: 'Mieterstrom-Content Gold! Planville kann dieses Berliner Modell als Referenz nutzen: "So funktioniert Solarstrom im Mehrfamilienhaus — ganz ohne Bürokratie-Monster." Zeigt, dass GGV in der Praxis ankommt.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Solarstrom teilen im Mehrfamilienhaus? Berlin macht es vor — mit Software statt Papierkram."', hashtags: '#GGV #Mieterstrom #Photovoltaik #Berlin #Planville' },
+      { type: 'Karussell', hook: 'Gemeinschaftliche Gebäudeversorgung erklärt: So funktioniert Solarstrom im Mietshaus in 5 Slides', hashtags: '#Mieterstrom #GGV #Solar #Mehrfamilienhaus' },
+    ],
+  },
+  // — Dec 10, 2025
+  {
+    title: 'Erneuerbare Energien erzeugen 2025 fast 56 Prozent des Stromverbrauchs in Deutschland',
+    summary: 'Erneuerbare Energien haben 2025 fast 56 Prozent des Brutto-Stromverbrauchs gedeckt. Die Photovoltaik-Erzeugung stieg um knapp ein Fünftel gegenüber dem Vorjahr. Trotz unterdurchschnittlicher Windbedingungen konnten neue PV-Anlagen die Rückgänge bei Wind und Wasser mehr als ausgleichen.',
+    source: 'news',
+    outlet: 'Solarserver',
+    sourceUrl: 'https://www.solarserver.de/2025/12/10/stromverbrauch-in-deutschland-2025-erneuerbare-energien-erzeugen-fast-56-prozent',
+    topic: 'energiewende',
+    sentiment: 'positiv',
+    relevance: 82,
+    dateStr: '2025-12-10',
+    aiInsight: 'Starke Zahl für Jahresrückblick-Content: "56% — mehr als die Hälfte unseres Stroms ist grün. Und jedes Dach mit PV bringt uns weiter." Planville als Teil der Energiewende positionieren.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"56 Prozent. So viel Strom in Deutschland kommt jetzt aus erneuerbaren Quellen. Und wir helfen dabei — Dach für Dach."', hashtags: '#Energiewende #Erneuerbare #56Prozent #Solar #Planville' },
+      { type: 'Karussell', hook: 'Jahresrückblick Energiewende 2025: Die 5 wichtigsten Meilensteine', hashtags: '#Energiewende #2025 #Rückblick #Erneuerbare' },
+    ],
+  },
+  // — Dec 4, 2025
+  {
+    title: 'Bundestag verabschiedet Geothermie-Beschleunigungsgesetz — Wärmepumpen profitieren',
+    summary: 'Der Bundestag hat das Geothermie-Beschleunigungsgesetz beschlossen. Es vereinfacht Genehmigungsverfahren für Geothermie, Wärmepumpen und Wärmespeicher. Errichtung und Betrieb liegen bis 2045 im "überragenden öffentlichen Interesse". Das Gesetz tritt am 1. Januar 2026 in Kraft.',
+    source: 'news',
+    outlet: 'Bundestag',
+    sourceUrl: 'https://www.bundestag.de/dokumente/textarchiv/2025/kw49-de-geothermie-1032870',
+    topic: 'innovation',
+    sentiment: 'positiv',
+    relevance: 79,
+    dateStr: '2025-12-04',
+    aiInsight: 'Wichtig für die Branche! Schnellere Genehmigungen = mehr Projekte. "Das neue Gesetz macht unsere Arbeit einfacher — Wärmepumpen haben jetzt Vorfahrt." Zeigt Planville als Profiteur der neuen Regelung.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Wärmepumpen haben jetzt Vorfahrt. Das neue Geothermie-Beschleunigungsgesetz macht Installation einfacher. Was das für Hausbesitzer bedeutet."', hashtags: '#GeoBG #Wärmepumpe #Geothermie #Genehmigung #Planville' },
+    ],
+  },
+  // — Dec 1, 2025
+  {
+    title: 'BWP hebt Wärmepumpen-Prognose für 2026 deutlich auf 410.000 Geräte an',
+    summary: 'Der Bundesverband Wärmepumpe (BWP) korrigiert seine Absatzprognose für 2026 deutlich nach oben — von 350.000 auf 410.000 Geräte. Im ambitionierten Szenario könnten es sogar über 530.000 werden. Grund ist der starke Absatz im Herbst 2025 mit über 30.000 Geräten pro Monat.',
+    source: 'news',
+    outlet: 'Solarserver',
+    sourceUrl: 'https://www.solarserver.de/2025/12/01/bundesverband-hebt-prognose-fuer-absatz-von-waermepumpen-an',
+    topic: 'waermepumpen',
+    sentiment: 'positiv',
+    relevance: 87,
+    dateStr: '2025-12-01',
+    aiInsight: 'Optimismus-Story! "Die Wärmepumpe kommt zurück — stärker als je zuvor. Und Planville ist bereit." Zeigt eure Kapazitäten und nutzt den positiven Trend für Auftragsgewinnung.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"410.000 Wärmepumpen in 2026 — das erwartet die Branche. Und wir installieren mit."', hashtags: '#Wärmepumpe #BWP #Prognose2026 #Planville #Energiewende' },
+      { type: 'LinkedIn-Post', hook: '"Der Markt boomt wieder. Die BWP-Prognose zeigt: Wärmepumpen sind gekommen, um zu bleiben."', hashtags: '#BWP #Wärmepumpe #Markt #Prognose #Planville' },
+    ],
+  },
+  // — Nov 18, 2025
+  {
+    title: 'Neue PV-Anlagen: Nulleinspeisung in immer mehr Netzregionen zur Pflicht',
+    summary: 'In immer mehr deutschen Netzregionen dürfen neue Photovoltaikanlagen nur noch mit Nulleinspeisung in Betrieb gehen. Die Netzbetreiber begründen dies mit Netzengpässen. Für Anlagenbetreiber bedeutet das: Ohne Speicher ist der Eigenverbrauch begrenzt. Fachanwälte sehen rechtliche Probleme.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2025/11/18/nulleinspeisung-fuer-neue-photovoltaikanlagen/',
+    topic: 'photovoltaik',
+    sentiment: 'negativ',
+    relevance: 88,
+    dateStr: '2025-11-18',
+    aiInsight: 'Beratungs-Chance! Kunden fragen sich: Lohnt sich PV noch ohne Einspeisung? Antwort: "Mit Speicher auf jeden Fall. Wir planen Anlagen, die sich auch ohne Netzeinspeisung rechnen."',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Nulleinspeisung: Darf mein Netzbetreiber das? Was es bedeutet und wie du trotzdem profitierst — in 5 Slides"', hashtags: '#Nulleinspeisung #PV #Speicher #Eigenverbrauch #Planville' },
+      { type: 'Reel', hook: '"Dein Netzbetreiber will keine Einspeisung mehr? Kein Problem — mit der richtigen Speicher-Strategie."', hashtags: '#Photovoltaik #Nulleinspeisung #Batteriespeicher #Solar' },
+    ],
+  },
+  // — Nov 5, 2025
+  {
+    title: 'Wärmepumpen-Absatz durchbricht 30.000er-Marke im September und Oktober',
+    summary: 'Der Bundesverband Wärmepumpe meldet Rekordabsätze: Im September und Oktober 2025 wurden jeweils über 30.000 Wärmepumpen verkauft — ein Plus von 57 Prozent gegenüber dem Vorjahr. Knapp die Hälfte aller verkauften Heizungen sind jetzt Wärmepumpen. Luft-Wasser-Systeme dominieren mit 95% Marktanteil.',
+    source: 'news',
+    outlet: 'BWP / waermepumpe.de',
+    sourceUrl: 'https://www.waermepumpe.de/presse/news/details/ueber-50-prozent-im-plus-waermepumpen-absatz-steigt-2025-deutlich/',
+    topic: 'waermepumpen',
+    sentiment: 'positiv',
+    relevance: 86,
+    dateStr: '2025-11-05',
+    aiInsight: 'Comeback-Content! "30.000 Wärmepumpen in einem Monat. Die Nachfrage explodiert — und wir liefern." Zeigt eure aktuellen Projekte und Kapazitäten. Wartelisten-Content als Dringlichkeits-Trigger.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"30.000 Wärmepumpen in einem Monat. Der Markt boomt wie nie. Und wir sind mittendrin."', hashtags: '#Wärmepumpe #30000 #Rekord #BWP #Planville' },
+      { type: 'Story-Serie', hook: 'Hinter den Kulissen: So viele WP-Projekte hat Planville gerade gleichzeitig laufen', hashtags: '#TeamPlanville #Wärmepumpe #Handwerk #BehindTheScenes' },
+    ],
+  },
+  // — Oct 24, 2025
+  {
+    title: 'KfW-Heizungsförderung September: 30.000 Anträge bewilligt — 90 Prozent für Wärmepumpen',
+    summary: 'Die KfW hat im September 2025 über 30.000 BEG-Förderanträge für den Heizungstausch bewilligt. Der Wärmepumpen-Anteil kletterte auf 90 Prozent — ein neuer Höchstwert. Im gesamten ersten Halbjahr lag der Anteil noch bei 82 Prozent. Solarthermie und Wärmenetze spielen weiterhin eine untergeordnete Rolle.',
+    source: 'news',
+    outlet: 'Solarserver',
+    sourceUrl: 'https://www.solarserver.de/2025/10/24/beg-heizungsfoerderung-der-kfw-anteil-der-waermepumpen-weiter-gestiegen',
+    topic: 'foerderung',
+    sentiment: 'positiv',
+    relevance: 85,
+    dateStr: '2025-10-24',
+    aiInsight: 'Förderungs-Content! "90% aller Förderanträge gehen an Wärmepumpen. Wir helfen dir beim Antrag — von der Planung bis zur Auszahlung." KfW-Prozess als Service von Planville positionieren.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"KfW-Förderung für Wärmepumpen: So bekommst du bis zu 70% Zuschuss — Schritt-für-Schritt in 5 Slides"', hashtags: '#KfW #BEG #Förderung #Wärmepumpe #Planville' },
+      { type: 'Reel', hook: '"90% aller KfW-Förderanträge gehen an Wärmepumpen. Hast du deinen schon eingereicht?"', hashtags: '#Förderung #KfW #Heizungstausch #Wärmepumpe' },
+    ],
+  },
+  // — Oct 21, 2025
+  {
+    title: 'Bertelsmann-Studie: Fachkräfte wandern aus Handwerk und Pflege in andere Branchen ab',
+    summary: 'Eine Studie der Bertelsmann Stiftung zeigt: Beschäftigte in Engpassberufen kehren ihrem Job häufiger den Rücken als andere. Nettoverlust: 24.000 Fachkräfte pro Jahr allein aus Pflege, Handwerk und IT. Schlechte Arbeitsbedingungen und niedrige Löhne sind Hauptgründe für den Wechsel.',
+    source: 'news',
+    outlet: 'Bertelsmann Stiftung',
+    sourceUrl: 'https://www.bertelsmann-stiftung.de/de/themen/aktuelle-meldungen/2025/pflege-handwerk-it-weil-beschaeftigte-sich-abwenden-verschaerft-sich-der-fachkraeftemangel',
+    topic: 'handwerk',
+    sentiment: 'negativ',
+    relevance: 75,
+    dateStr: '2025-10-21',
+    aiInsight: 'Employer-Branding-Pflicht! "24.000 Fachkräfte verlassen das Handwerk pro Jahr. Bei Planville nicht." Zeigt was euch als Arbeitgeber ausmacht: faire Löhne, modernes Equipment, Weiterbildung.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"24.000 Fachkräfte verlassen das Handwerk jedes Jahr. Wir investieren in die, die bleiben — und in die, die zu uns kommen."', hashtags: '#Fachkräftemangel #Handwerk #Arbeitgeber #Planville #Karriere' },
+      { type: 'Reel', hook: '"Warum verlassen Fachkräfte das Handwerk? Und was wir bei Planville anders machen."', hashtags: '#Handwerk #Fachkräfte #TeamPlanville #Karriere' },
+    ],
+  },
+  // — Oct 17, 2025
+  {
+    title: 'PV-Markt 2025: Systempreise so günstig wie nie — beste Bedingungen für Kaufinteressierte',
+    summary: 'Laut einer Marktanalyse des Großhändlers EWS sind die Bedingungen für PV-Kaufinteressierte so günstig wie lange nicht. Sinkende Modulpreise, freie Handwerkskapazitäten und hohe Speichereffizienz machen 2025 zum idealen Einstiegsjahr. Der Privatkundenmarkt ist jedoch um 25% eingebrochen.',
+    source: 'news',
+    outlet: 'Solarserver',
+    sourceUrl: 'https://www.solarserver.de/2025/10/17/photovoltaik-markt-2025-guenstige-preise-fuer-kaufinteressierte',
+    topic: 'photovoltaik',
+    sentiment: 'positiv',
+    relevance: 92,
+    dateStr: '2025-10-17',
+    aiInsight: 'Verkaufs-Argument Nummer 1! "Die Preise sind unten, die Kapazitäten da — wer jetzt nicht bestellt, verpasst das beste Fenster." Dringlichkeits-Marketing mit echten Marktzahlen.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"PV-Preise so niedrig wie nie. Handwerker haben Kapazitäten. Wenn nicht jetzt — wann dann?"', hashtags: '#Photovoltaik #Preise2025 #Solar #Eigenheim #Planville' },
+      { type: 'Blogartikel', hook: '"Warum 2025 das beste Jahr für eine PV-Anlage ist — Preisvergleich, Förderung und Timing"', hashtags: '#PV #Solaranlage #Kaufberatung #Planville' },
+    ],
+  },
+  // — Oct 7, 2025
+  {
+    title: 'Reddit-Diskussion: "Solarpflicht bei Dachsanierung — lohnt sich das wirklich?"',
+    summary: 'Im Bauexpertenforum diskutieren Eigenheimbesitzer kontrovers über die Solarpflicht bei Dachsanierungen. Viele berichten von positiven Erfahrungen: Die PV-Anlage amortisiert sich schneller als erwartet. Andere kritisieren den Mehraufwand und die Bürokratie. Besonders die Wirtschaftlichkeitsprüfung sorgt für Verwirrung.',
+    source: 'reddit',
+    outlet: 'Bauexpertenforum',
+    sourceUrl: 'https://www.bauexpertenforum.de/threads/solarpflicht-dachsanierung-erfahrungen.63201/',
+    topic: 'pvpflicht',
+    sentiment: 'neutral',
+    relevance: 80,
+    dateStr: '2025-10-07',
+    aiInsight: 'Community-Fragen aufgreifen! Viele Eigentümer sind unsicher bei der Solarpflicht. "Du musst dein Dach sanieren und PV drauf? Wir machen beides aus einer Hand." FAQ-Content erstellen.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Solarpflicht bei Dachsanierung: Die 5 häufigsten Fragen aus der Community — beantwortet von unseren Experten"', hashtags: '#Solarpflicht #Dachsanierung #FAQ #PVPflicht #Planville' },
+      { type: 'Reel', hook: '"Musst du bei der Dachsanierung PV drauf? Kommt drauf an — wir klären in 60 Sekunden."', hashtags: '#PVPflicht #Dachsanierung #Solar #Eigenheim' },
+    ],
+  },
+];
+
+// Kanban board initial data (empty — user fills via "Zum Board" from news articles)
+const DEMO_KANBAN_ITEMS = [];
+
+const KANBAN_COLUMNS = [
+  { id: 'new', label: 'Neu', icon: 'sparkles', color: '#329866' },
+  { id: 'planned', label: 'Geplant', icon: 'calendar', color: '#6366F1' },
+  { id: 'in_progress', label: 'In Arbeit', icon: 'pen-tool', color: '#F59E0B' },
+  { id: 'review', label: 'Review', icon: 'eye', color: '#EC4899' },
+  { id: 'published', label: 'Veröffentlicht', icon: 'check-circle', color: '#16A34A' },
+];
+
+// Generate articles with fixed dates (already ordered newest first)
+function generateDemoArticles() {
+  return DEMO_ARTICLES.map((article, i) => {
+    const date = new Date(article.dateStr + 'T09:00:00+01:00');
+    return {
+      ...article,
+      id: `article-${i}`,
+      date: date.toISOString(),
+      timestamp: date.getTime(),
+      readTime: Math.floor(Math.random() * 5) + 2,
+      engagement: Math.floor(Math.random() * 500) + 50,
+    };
+  });
+}
+
+function generateKanbanItems() {
+  const now = new Date();
+  return DEMO_KANBAN_ITEMS.map((item, i) => ({
+    ...item,
+    createdAt: new Date(now.getTime() - (i * 24 + Math.random() * 24) * 60 * 60 * 1000).toISOString(),
+  }));
+}
+
+// Trending stats
+const DEMO_STATS = {
+  totalArticles: 847,
+  todayArticles: 23,
+  avgSentiment: 68,
+  topTopic: 'Photovoltaik',
+  contentIdeasGenerated: 156,
+  publishedThisWeek: 8,
+};
