@@ -8,12 +8,3772 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
-  <link rel="stylesheet" href="css/styles.css">
+  <style>
+/* ============================================================
+   Planville News Dashboard — Styles v3
+   Liquid Glass Design with Multi-Accent Color Palette
+   ============================================================ */
+
+/* === THEME VARIABLES === */
+:root {
+  /* Planville Brand */
+  --color-primary: #329866;
+  --color-primary-hover: #28805A;
+  --color-primary-light: rgba(50, 152, 102, 0.12);
+  --color-primary-medium: rgba(50, 152, 102, 0.22);
+  --color-secondary: #222B20;
+  --color-button: #FFA202;
+  --color-button-hover: #E68F00;
+  --color-success: #22C55E;
+  --color-error: #EF4444;
+  --color-warning: #F59E0B;
+
+  /* Accent Palette */
+  --accent-teal: #14B8A6;
+  --accent-teal-light: rgba(20, 184, 166, 0.12);
+  --accent-blue: #3B82F6;
+  --accent-blue-light: rgba(59, 130, 246, 0.12);
+  --accent-purple: #8B5CF6;
+  --accent-purple-light: rgba(139, 92, 246, 0.12);
+  --accent-pink: #EC4899;
+  --accent-pink-light: rgba(236, 72, 153, 0.12);
+  --accent-amber: #F59E0B;
+  --accent-amber-light: rgba(245, 158, 11, 0.12);
+  --accent-indigo: #6366F1;
+  --accent-indigo-light: rgba(99, 102, 241, 0.12);
+
+  /* Typography */
+  --font-family: 'Poppins', sans-serif;
+
+  /* Spacing */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px;
+  --space-4: 16px; --space-5: 20px; --space-6: 24px;
+  --space-8: 32px; --space-10: 40px; --space-12: 48px;
+
+  /* Border Radius */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  /* Sidebar */
+  --sidebar-width: 264px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== LIGHT THEME ===== */
+/* Warm muted tones — easy on the eyes, deeper shadows, darker accents */
+[data-theme="light"] {
+  /* Background: warm grey-green, not bright white */
+  --bg-body: linear-gradient(145deg, #E4E9E5 0%, #DFE4E6 30%, #E3E0E8 60%, #E8E5DD 100%);
+  --bg-primary: rgba(248, 249, 248, 0.85);
+  --bg-secondary: rgba(238, 241, 239, 0.8);
+  --bg-tertiary: rgba(220, 228, 222, 0.6);
+  --bg-card: rgba(248, 249, 248, 0.85);
+  --bg-sidebar: rgba(243, 245, 244, 0.92);
+  --bg-hover: rgba(50, 152, 102, 0.07);
+  --bg-input: rgba(248, 249, 248, 0.9);
+  --bg-glass: rgba(245, 247, 246, 0.7);
+  --bg-glass-strong: rgba(248, 249, 248, 0.88);
+
+  /* Text: darker for better readability */
+  --text-primary: #1A1F1C;
+  --text-secondary: #3A4640;
+  --text-muted: #637069;
+  --text-inverse: #FFFFFF;
+
+  /* Borders: more visible */
+  --border-color: rgba(30, 60, 42, 0.12);
+  --border-light: rgba(30, 60, 42, 0.06);
+  --border-glass: rgba(30, 60, 42, 0.08);
+
+  /* Shadows: significantly deeper for depth */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(30, 60, 42, 0.05);
+  --shadow-card-hover: 0 8px 28px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(50, 152, 102, 0.1);
+  --shadow-glass: 0 2px 12px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(30, 60, 42, 0.06);
+  --shadow-glass-hover: 0 8px 28px rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(50, 152, 102, 0.12);
+  --shadow-float: 0 16px 48px rgba(0, 0, 0, 0.14), 0 6px 16px rgba(0, 0, 0, 0.06);
+
+  --scrollbar-thumb: rgba(50, 80, 62, 0.25);
+  --scrollbar-track: rgba(0, 0, 0, 0.04);
+
+  --glass-blur: 16px;
+  --glass-border: 1px solid rgba(30, 60, 42, 0.08);
+}
+
+/* ===== DARK THEME ===== */
+/* Palette: True blacks & neutral greys + green accents separated by hue/luminance */
+[data-theme="dark"] {
+  /* Backgrounds: neutral black → charcoal → grey (NO green tint) */
+  --bg-body: linear-gradient(145deg, #09090B 0%, #0C0C0E 40%, #111113 70%, #0A0A0C 100%);
+  --bg-primary: rgba(18, 18, 22, 0.8);
+  --bg-secondary: rgba(24, 24, 30, 0.65);
+  --bg-tertiary: rgba(34, 34, 42, 0.5);
+  --bg-card: rgba(22, 22, 28, 0.6);
+  --bg-sidebar: rgba(14, 14, 18, 0.85);
+  --bg-hover: rgba(255, 255, 255, 0.05);
+  --bg-input: rgba(26, 26, 32, 0.85);
+  --bg-glass: rgba(28, 28, 35, 0.45);
+  --bg-glass-strong: rgba(26, 26, 32, 0.7);
+
+  /* Text: dominantly WHITE */
+  --text-primary: #F5F5F7;
+  --text-secondary: #B8B8C0;
+  --text-muted: #72727E;
+  --text-inverse: #09090B;
+
+  /* Borders: subtle grey + faint green glow on glass */
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.04);
+  --border-glass: rgba(255, 255, 255, 0.07);
+
+  /* Shadows: pure black based */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(50, 152, 102, 0.15);
+  --shadow-glass: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-glass-hover: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --shadow-float: 0 16px 48px rgba(0, 0, 0, 0.5);
+
+  --scrollbar-thumb: rgba(255, 255, 255, 0.12);
+  --scrollbar-track: rgba(255, 255, 255, 0.03);
+
+  --glass-blur: 20px;
+  --glass-border: 1px solid rgba(255, 255, 255, 0.07);
+
+  /* Green accent separation by hue & luminance:
+     --color-primary: #329866   (base green — nav, badges, active states)
+     --accent-teal: #14B8A6     (blue-green — content ideas, expand)
+     bright green glow: #4ADE80 (used for success dots, highlights)
+     muted sage: #5A8A6E        (used for subtle tints)
+  */
+}
+
+/* === RESET & BASE === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { height: 100%; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--bg-body);
+  color: var(--text-primary);
+  line-height: 1.6;
+  height: 100%;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Ensure background covers full page */
+[data-theme="light"] body { background-color: #E4E9E5; }
+[data-theme="dark"] body { background-color: #09090B; }
+
+a { color: var(--color-primary); text-decoration: none; }
+a:hover { color: var(--color-primary-hover); }
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+
+/* === GLASS MIXIN UTILITY === */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: var(--glass-border);
+  box-shadow: var(--shadow-glass);
+}
+
+.glass-strong {
+  background: var(--bg-glass-strong);
+  backdrop-filter: blur(calc(var(--glass-blur) * 1.5));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.5));
+  border: var(--glass-border);
+  box-shadow: var(--shadow-glass);
+}
+
+/* === LAYOUT === */
+.app-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+  transition: transform var(--transition-smooth);
+  z-index: 100;
+}
+
+.sidebar-header {
+  padding: var(--space-5) var(--space-5);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sidebar-logo span { color: var(--color-primary); }
+
+.sidebar-nav {
+  padding: var(--space-4) var(--space-3);
+  flex: 1;
+}
+
+.nav-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  padding: var(--space-4) var(--space-3) var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 10px var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  user-select: none;
+  position: relative;
+}
+
+.nav-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.nav-item.active {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(50, 152, 102, 0.15);
+}
+
+.nav-item .nav-icon { width: 20px; height: 20px; flex-shrink: 0; }
+
+.nav-item .nav-badge {
+  margin-left: auto;
+  background: var(--color-primary);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: var(--radius-pill);
+  min-width: 22px;
+  text-align: center;
+}
+
+/* === VERTICAL TOPIC FILTERS === */
+.topic-filters-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 var(--space-2) var(--space-4);
+}
+
+.topic-filter-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 7px var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  user-select: none;
+}
+
+.topic-filter-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.topic-filter-item.active {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(50, 152, 102, 0.12);
+}
+
+.topic-filter-item .filter-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.topic-filter-item .filter-count {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  padding: 1px 7px;
+  border-radius: var(--radius-pill);
+}
+
+.topic-filter-item.active .filter-count {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* === MAIN CONTENT === */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* === MAIN HEADER === */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  background: var(--bg-primary);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--border-color);
+  gap: var(--space-4);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.main-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Date Navigation — Glass Style */
+.date-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  box-shadow: var(--shadow-sm);
+}
+
+.date-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.date-nav-btn:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.date-nav-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 0 var(--space-2);
+  min-width: 120px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.date-nav-label:hover { color: var(--color-primary); }
+
+/* Search — Glass Style */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 7px 14px;
+  transition: all var(--transition-smooth);
+  box-shadow: var(--shadow-sm);
+}
+
+.search-box:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(50, 152, 102, 0.1);
+}
+
+.search-box input {
+  border: none;
+  background: none;
+  font-family: var(--font-family);
+  font-size: 13px;
+  color: var(--text-primary);
+  width: 160px;
+  outline: none;
+}
+
+.search-box input::placeholder { color: var(--text-muted); }
+.search-box .search-icon { color: var(--text-muted); width: 16px; height: 16px; }
+
+/* Refresh indicator — Glass Pill */
+.refresh-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 5px 12px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--glass-border);
+  border-radius: var(--radius-pill);
+}
+
+.refresh-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--color-success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* === THEME TOGGLE BUTTON — Glass Style === */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: var(--glass-border);
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  flex-shrink: 0;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  box-shadow: 0 0 12px rgba(50, 152, 102, 0.15);
+}
+
+/* === VIEW TABS — Glass Pill Switch === */
+.view-tabs {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 3px;
+}
+
+.view-tab {
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  white-space: nowrap;
+}
+
+.view-tab:hover { color: var(--text-primary); background: var(--bg-hover); }
+
+.view-tab.active {
+  background: var(--color-primary);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(50, 152, 102, 0.3);
+}
+
+/* === STATS BAR — Glass Cards with Accent Colors === */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  background: transparent;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--bg-glass-strong);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass);
+  transition: all var(--transition-smooth);
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow-glass-hover);
+  transform: translateY(-1px);
+}
+
+/* Stat card accent strips */
+.stat-card:nth-child(1) { border-left: 3px solid var(--color-primary); }
+.stat-card:nth-child(2) { border-left: 3px solid var(--accent-blue); }
+.stat-card:nth-child(3) { border-left: 3px solid var(--accent-amber); }
+.stat-card:nth-child(4) { border-left: 3px solid var(--accent-pink); }
+
+.stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icon.green { background: var(--color-primary-light); color: var(--color-primary); }
+.stat-icon.blue { background: var(--accent-blue-light); color: var(--accent-blue); }
+.stat-icon.amber { background: var(--accent-amber-light); color: var(--accent-amber); }
+.stat-icon.pink { background: var(--accent-pink-light); color: var(--accent-pink); }
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* === CONTENT AREA === */
+.content-area {
+  flex: 1;
+  padding: var(--space-6);
+  overflow-y: auto;
+}
+
+/* === NEWS FEED === */
+.news-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* === NEWS CARD — Glass Card === */
+.news-card {
+  background: var(--bg-glass-strong);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-glass);
+  transition: all var(--transition-smooth);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.news-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--accent-teal), var(--accent-blue));
+  opacity: 0;
+  transition: opacity var(--transition-smooth);
+}
+
+.news-card:hover {
+  box-shadow: var(--shadow-glass-hover);
+  transform: translateY(-2px);
+}
+
+.news-card:hover::before { opacity: 1; }
+
+.news-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.news-card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* Source badges with distinct accent colors */
+.source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.source-badge.news { background: var(--accent-indigo-light); color: var(--accent-indigo); border: 1px solid rgba(99, 102, 241, 0.15); }
+.source-badge.reddit { background: var(--accent-amber-light); color: #D97706; border: 1px solid rgba(245, 158, 11, 0.15); }
+.source-badge.social { background: var(--accent-pink-light); color: var(--accent-pink); border: 1px solid rgba(236, 72, 153, 0.15); }
+
+.topic-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid rgba(50, 152, 102, 0.12);
+}
+
+.time-badge {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Relevance badge with glass style */
+.relevance-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.relevance-badge.high { background: rgba(34, 197, 94, 0.12); color: var(--color-success); border: 1px solid rgba(34, 197, 94, 0.15); }
+.relevance-badge.medium { background: var(--accent-amber-light); color: var(--accent-amber); border: 1px solid rgba(245, 158, 11, 0.15); }
+.relevance-badge.low { background: rgba(107, 130, 118, 0.1); color: var(--text-muted); border: 1px solid rgba(107, 130, 118, 0.1); }
+
+.news-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin-bottom: var(--space-2);
+}
+
+.news-card-outlet {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.news-card-summary {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: var(--space-4);
+}
+
+/* Sentiment bar */
+.sentiment-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.sentiment-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.sentiment-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.sentiment-dot.positiv { background: var(--color-success); box-shadow: 0 0 6px rgba(34, 197, 94, 0.4); }
+.sentiment-dot.neutral { background: var(--accent-amber); box-shadow: 0 0 6px rgba(245, 158, 11, 0.4); }
+.sentiment-dot.negativ { background: var(--color-error); box-shadow: 0 0 6px rgba(239, 68, 68, 0.4); }
+
+.sentiment-indicator.positiv { color: var(--color-success); }
+.sentiment-indicator.neutral { color: var(--accent-amber); }
+.sentiment-indicator.negativ { color: var(--color-error); }
+
+/* AI Insight Box — Glass with purple accent */
+.ai-insight {
+  background: var(--accent-purple-light);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-left: 3px solid var(--accent-purple);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.ai-insight-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-purple);
+  margin-bottom: var(--space-2);
+}
+
+.ai-insight-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* Content Ideas */
+.content-ideas-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.content-idea-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--glass-border);
+  border-radius: var(--radius-sm);
+}
+
+.idea-type-badge {
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--accent-teal-light);
+  color: var(--accent-teal);
+  border: 1px solid rgba(20, 184, 166, 0.12);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.idea-hook {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.idea-hashtags {
+  font-size: 11px;
+  color: var(--color-primary);
+  margin-top: 4px;
+  word-break: break-all;
+}
+
+.idea-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.idea-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: var(--glass-border);
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-muted);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+}
+
+.idea-action-btn:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-color: rgba(50, 152, 102, 0.2);
+}
+
+/* Expand/collapse toggle */
+.expand-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent-teal);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: color var(--transition-fast);
+}
+
+.expand-toggle:hover { color: var(--color-primary); }
+
+.collapsible { overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease; }
+.collapsible.collapsed { max-height: 0; opacity: 0; }
+.collapsible:not(.collapsed) { max-height: 2000px; opacity: 1; }
+
+/* Card Footer */
+.news-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-light);
+  margin-top: var(--space-2);
+}
+
+.card-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* === GLASS BUTTONS === */
+.card-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: var(--glass-border);
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-secondary);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+}
+
+.card-action-btn:hover {
+  background: var(--color-primary-light);
+  border-color: rgba(50, 152, 102, 0.2);
+  color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(50, 152, 102, 0.1);
+}
+
+.card-action-btn.primary {
+  background: linear-gradient(135deg, var(--color-button), #FFB733);
+  border: 1px solid rgba(255, 162, 2, 0.3);
+  color: #422B00;
+  box-shadow: 0 2px 8px rgba(255, 162, 2, 0.2);
+}
+
+.card-action-btn.primary:hover {
+  background: linear-gradient(135deg, var(--color-button-hover), var(--color-button));
+  box-shadow: 0 4px 16px rgba(255, 162, 2, 0.3);
+}
+
+/* Source Link Button — Glass */
+.source-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: var(--glass-border);
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-secondary);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  text-decoration: none;
+}
+
+.source-link-btn:hover {
+  background: var(--accent-blue-light);
+  border-color: rgba(59, 130, 246, 0.2);
+  color: var(--accent-blue);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.engagement-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* === KANBAN BOARD === */
+.kanban-board {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  padding-bottom: var(--space-4);
+  min-height: 500px;
+}
+
+.kanban-column {
+  min-width: 250px;
+  max-width: 300px;
+  flex: 1;
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-glass);
+}
+
+.kanban-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.kanban-column-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.kanban-column-count {
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.kanban-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+  min-height: 60px;
+}
+
+.kanban-item {
+  background: var(--bg-glass-strong);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  cursor: grab;
+  transition: all var(--transition-smooth);
+}
+
+.kanban-item:hover {
+  box-shadow: var(--shadow-glass-hover);
+  transform: translateY(-1px);
+}
+
+.kanban-item.dragging {
+  opacity: 0.5;
+  transform: rotate(2deg);
+}
+
+.kanban-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.kanban-item-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.kanban-type-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.priority-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.priority-dot.high { background: var(--color-error); box-shadow: 0 0 6px rgba(239, 68, 68, 0.4); }
+.priority-dot.medium { background: var(--accent-amber); box-shadow: 0 0 6px rgba(245, 158, 11, 0.4); }
+.priority-dot.low { background: var(--text-muted); }
+
+.kanban-item-date {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.kanban-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  border: 2px dashed var(--border-color);
+  background: none;
+  color: var(--text-muted);
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  margin-top: var(--space-2);
+}
+
+.kanban-add-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+/* === CONTENT GENERATOR PANEL — Glass Card with accent === */
+.generator-panel {
+  background: var(--bg-glass-strong);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  margin-bottom: var(--space-4);
+  box-shadow: var(--shadow-glass);
+  position: relative;
+  overflow: hidden;
+}
+
+.generator-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink), var(--color-button));
+}
+
+.generator-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.generator-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--color-primary));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.generator-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.generator-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.generator-input-row {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.generator-input {
+  flex: 1;
+  padding: 11px var(--space-4);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: 13px;
+  transition: all var(--transition-smooth);
+}
+
+.generator-input:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+}
+
+.generator-input::placeholder { color: var(--text-muted); }
+
+.generator-select {
+  padding: 11px var(--space-4);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: 13px;
+  min-width: 150px;
+  cursor: pointer;
+}
+
+/* Generate Button — Liquid Glass CTA */
+.generate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 11px 28px;
+  background: linear-gradient(135deg, var(--color-button), #FFB733);
+  color: #422B00;
+  border: 1px solid rgba(255, 183, 51, 0.3);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  box-shadow: 0 4px 16px rgba(255, 162, 2, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.generate-btn:hover {
+  background: linear-gradient(135deg, var(--color-button-hover), var(--color-button));
+  box-shadow: 0 6px 24px rgba(255, 162, 2, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.generate-btn.loading { opacity: 0.7; cursor: wait; }
+
+/* Generated ideas output */
+.generated-ideas {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border-color);
+}
+
+.generated-idea-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-3);
+  transition: all var(--transition-smooth);
+}
+
+.generated-idea-card:hover {
+  box-shadow: var(--shadow-glass-hover);
+}
+
+.generated-idea-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.generated-idea-type {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-purple-light);
+  color: var(--accent-purple);
+  border: 1px solid rgba(139, 92, 246, 0.12);
+}
+
+.generated-idea-hook {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin-bottom: var(--space-3);
+}
+
+.generated-idea-body {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-3);
+}
+
+.generated-idea-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.generated-talking-points { list-style: none; padding: 0; }
+
+.generated-talking-points li {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 4px 0;
+  padding-left: var(--space-5);
+  position: relative;
+}
+
+.generated-talking-points li::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  width: 6px;
+  height: 6px;
+  background: var(--accent-teal);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(20, 184, 166, 0.4);
+}
+
+.generated-hashtags {
+  font-size: 13px;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* === EMPTY STATE === */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+}
+
+.empty-state-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--color-primary-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.empty-state-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state-text {
+  font-size: 14px;
+  color: var(--text-muted);
+  max-width: 400px;
+}
+
+/* === MODAL — Glass Modal === */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-smooth);
+}
+
+.modal-overlay.active { opacity: 1; visibility: visible; }
+
+.modal {
+  background: var(--bg-glass-strong);
+  backdrop-filter: blur(calc(var(--glass-blur) * 2));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 2));
+  border: var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  transform: translateY(20px) scale(0.97);
+  transition: all var(--transition-smooth);
+  box-shadow: var(--shadow-float);
+}
+
+.modal-overlay.active .modal { transform: translateY(0) scale(1); }
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: var(--glass-border);
+  background: var(--bg-glass);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.modal-close:hover { background: rgba(239, 68, 68, 0.1); color: var(--color-error); }
+
+.modal-form-group { margin-bottom: var(--space-5); }
+
+.modal-form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.modal-form-group input,
+.modal-form-group select,
+.modal-form-group textarea {
+  width: 100%;
+  padding: 10px var(--space-3);
+  border: var(--glass-border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: 14px;
+}
+
+.modal-form-group textarea { min-height: 80px; resize: vertical; }
+
+.modal-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  margin-top: var(--space-6);
+}
+
+/* === DEMO BANNER — Gradient Accent === */
+.demo-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6);
+  background: linear-gradient(90deg, var(--color-primary), var(--accent-teal));
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.demo-banner i { flex-shrink: 0; }
+
+/* === LOGO IN HEADER === */
+.header-logo {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: all var(--transition-smooth);
+}
+
+.header-logo:hover { opacity: 0.85; transform: scale(0.98); }
+
+.header-logo img {
+  height: 34px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Bigger sidebar logo */
+.sidebar-logo-large img {
+  height: 44px !important;
+}
+
+/* Header title text (replaces second logo) */
+.header-title-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title-main {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+/* Theme-aware logo switching */
+[data-theme="light"] .logo-light { display: none; }
+[data-theme="dark"] .logo-dark { display: none; }
+
+/* Light theme logo — same shape as dark, turned black via filter */
+[data-theme="light"] .sidebar-logo-large img.logo-dark {
+  filter: brightness(0);
+}
+
+/* === TOOLTIP INFO ICONS === */
+.info-tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+  cursor: help;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: all var(--transition-smooth);
+}
+
+.info-tip:hover { opacity: 1; color: var(--accent-teal); }
+
+.info-tip .tip-text {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-secondary);
+  color: #E8ECE6;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  max-width: 280px;
+  white-space: normal;
+  z-index: 500;
+  pointer-events: none;
+  transition: opacity var(--transition-fast), visibility var(--transition-fast);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.info-tip .tip-text::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--color-secondary) transparent transparent transparent;
+}
+
+.info-tip:hover .tip-text { visibility: visible; opacity: 1; }
+
+/* Tooltip positioning variants */
+.info-tip.tip-right .tip-text {
+  left: calc(100% + 8px);
+  bottom: auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.info-tip.tip-right .tip-text::after {
+  top: 50%;
+  left: -10px;
+  transform: translateY(-50%);
+  border-color: transparent var(--color-secondary) transparent transparent;
+}
+
+.info-tip.tip-left .tip-text {
+  right: calc(100% + 8px);
+  left: auto;
+  bottom: auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.info-tip.tip-left .tip-text::after {
+  top: 50%;
+  right: -10px;
+  left: auto;
+  transform: translateY(-50%);
+  border-color: transparent transparent transparent var(--color-secondary);
+}
+
+/* === SIDEBAR MOBILE OVERLAY === */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 99;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .kanban-board { overflow-x: auto; }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-float);
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay.active { display: block; }
+  .mobile-menu-btn { display: flex; }
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+  .main-header { padding: var(--space-4); }
+  .content-area { padding: var(--space-4); }
+  .date-nav { display: none; }
+  .search-box input { width: 120px; }
+  .generator-input-row { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+  .stats-bar { grid-template-columns: 1fr; }
+  .header-actions { flex-wrap: wrap; }
+  .view-tabs { width: 100%; }
+  .view-tab { flex: 1; text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === LOADING SKELETON === */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* === SPINNER === */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 1s linear infinite; }
+
+/* ================================================================
+   LIGHT THEME — Specific Overrides
+   Softer tones, deeper shadows, darker accents for eye comfort
+   ================================================================ */
+
+/* Sidebar: warm grey with subtle border */
+[data-theme="light"] .sidebar {
+  background: rgba(240, 243, 241, 0.96);
+  border-right: 1px solid rgba(30, 60, 42, 0.1);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.04);
+}
+
+/* Header: warm off-white with bottom shadow */
+[data-theme="light"] .main-header {
+  background: rgba(246, 248, 247, 0.95);
+  border-bottom: 1px solid rgba(30, 60, 42, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Stats cards: solid feel with deeper shadows */
+[data-theme="light"] .stat-card {
+  background: rgba(252, 253, 252, 0.95);
+  border: 1px solid rgba(30, 60, 42, 0.07);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+[data-theme="light"] .stat-card:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* News cards: warm white with prominent shadows */
+[data-theme="light"] .news-card {
+  background: rgba(252, 253, 252, 0.95);
+  border: 1px solid rgba(30, 60, 42, 0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+[data-theme="light"] .news-card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 3px 8px rgba(0, 0, 0, 0.05);
+  border-color: rgba(50, 152, 102, 0.15);
+}
+
+/* AI insight: subtle warm purple tint */
+[data-theme="light"] .ai-insight {
+  background: rgba(139, 92, 246, 0.05);
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  border-left: 3px solid var(--accent-purple);
+}
+
+/* Content idea items: slightly darker */
+[data-theme="light"] .content-idea-item {
+  background: rgba(240, 243, 241, 0.7);
+  border: 1px solid rgba(30, 60, 42, 0.06);
+}
+
+/* View tabs: visible border, deeper shadow */
+[data-theme="light"] .view-tabs {
+  background: rgba(248, 249, 248, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.08);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Date nav: deeper shadow */
+[data-theme="light"] .date-nav {
+  background: rgba(248, 249, 248, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.08);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Search box: more defined */
+[data-theme="light"] .search-box {
+  background: rgba(248, 249, 248, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+[data-theme="light"] .search-box:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(50, 152, 102, 0.12), 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Theme toggle: visible */
+[data-theme="light"] .theme-toggle-btn {
+  background: rgba(248, 249, 248, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+[data-theme="light"] .theme-toggle-btn:hover {
+  background: rgba(50, 152, 102, 0.08);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* Refresh indicator */
+[data-theme="light"] .refresh-indicator {
+  background: rgba(248, 249, 248, 0.85);
+  border: 1px solid rgba(30, 60, 42, 0.06);
+}
+
+/* Glass buttons: more defined with shadows */
+[data-theme="light"] .card-action-btn {
+  background: rgba(248, 249, 248, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  color: var(--text-secondary);
+}
+[data-theme="light"] .card-action-btn:hover {
+  background: rgba(50, 152, 102, 0.08);
+  border-color: rgba(50, 152, 102, 0.25);
+  color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(50, 152, 102, 0.12);
+}
+[data-theme="light"] .card-action-btn.primary {
+  box-shadow: 0 2px 8px rgba(255, 162, 2, 0.25);
+}
+[data-theme="light"] .card-action-btn.primary:hover {
+  box-shadow: 0 4px 16px rgba(255, 162, 2, 0.3);
+}
+
+/* Source link button */
+[data-theme="light"] .source-link-btn {
+  background: rgba(248, 249, 248, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+[data-theme="light"] .source-link-btn:hover {
+  background: rgba(59, 130, 246, 0.06);
+  border-color: rgba(59, 130, 246, 0.2);
+  color: var(--accent-blue);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+/* Kanban columns: card-like with shadows */
+[data-theme="light"] .kanban-column {
+  background: rgba(248, 249, 248, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.07);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+[data-theme="light"] .kanban-item {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.07);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+[data-theme="light"] .kanban-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
+  border-color: rgba(50, 152, 102, 0.15);
+}
+
+/* Generator panel: card with shadow */
+[data-theme="light"] .generator-panel {
+  background: rgba(252, 253, 252, 0.95);
+  border: 1px solid rgba(30, 60, 42, 0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+[data-theme="light"] .generator-input {
+  background: rgba(244, 246, 245, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.1);
+}
+[data-theme="light"] .generator-input:focus {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+[data-theme="light"] .generator-select {
+  background: rgba(244, 246, 245, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.1);
+}
+[data-theme="light"] .generated-idea-card {
+  background: rgba(246, 248, 247, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.06);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Generate button: deeper shadow */
+[data-theme="light"] .generate-btn {
+  box-shadow: 0 3px 12px rgba(255, 162, 2, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+[data-theme="light"] .generate-btn:hover {
+  box-shadow: 0 6px 20px rgba(255, 162, 2, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Modal: deeper backdrop and shadow */
+[data-theme="light"] .modal {
+  background: rgba(252, 253, 252, 0.97);
+  border: 1px solid rgba(30, 60, 42, 0.08);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Sidebar nav items: warmer active state */
+[data-theme="light"] .nav-item.active {
+  background: rgba(50, 152, 102, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(50, 152, 102, 0.15);
+}
+
+/* Topic filter items: deeper active state */
+[data-theme="light"] .topic-filter-item.active {
+  background: rgba(50, 152, 102, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(50, 152, 102, 0.12);
+}
+
+/* Badge shadows */
+[data-theme="light"] .source-badge {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+[data-theme="light"] .topic-badge {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+[data-theme="light"] .relevance-badge {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* Light theme: info-tip icons darker for visibility */
+[data-theme="light"] .info-tip {
+  color: #4A5C52;
+  opacity: 0.65;
+}
+[data-theme="light"] .info-tip:hover {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+/* Light theme: search icon */
+[data-theme="light"] .search-box .search-icon {
+  color: #4A5C52;
+}
+
+/* Tooltip */
+[data-theme="light"] .info-tip .tip-text {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18), 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Demo banner: slightly darker for contrast */
+[data-theme="light"] .demo-banner {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Idea action buttons */
+[data-theme="light"] .idea-action-btn {
+  background: rgba(248, 249, 248, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+[data-theme="light"] .idea-action-btn:hover {
+  box-shadow: 0 2px 6px rgba(50, 152, 102, 0.12);
+}
+
+/* Kanban add button */
+[data-theme="light"] .kanban-add-btn:hover {
+  box-shadow: 0 2px 8px rgba(50, 152, 102, 0.1);
+}
+
+/* ================================================================
+   DARK THEME — Specific Overrides
+   White text, black/grey surfaces, green accents by hue separation
+   ================================================================ */
+
+/* Sidebar: deep black with subtle grey border */
+[data-theme="dark"] .sidebar {
+  background: rgba(12, 12, 16, 0.92);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Sidebar nav items: brighter white text */
+[data-theme="dark"] .nav-item {
+  color: #C8C8D0;
+}
+[data-theme="dark"] .nav-item:hover {
+  color: #F5F5F7;
+  background: rgba(255, 255, 255, 0.05);
+}
+[data-theme="dark"] .nav-item.active {
+  color: #4ADE80;
+  background: rgba(74, 222, 128, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(74, 222, 128, 0.12);
+}
+
+/* Topic filter items: clean grey text → white on hover */
+[data-theme="dark"] .topic-filter-item {
+  color: #A0A0AA;
+}
+[data-theme="dark"] .topic-filter-item:hover {
+  color: #F5F5F7;
+  background: rgba(255, 255, 255, 0.04);
+}
+[data-theme="dark"] .topic-filter-item.active {
+  color: #4ADE80;
+  background: rgba(74, 222, 128, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(74, 222, 128, 0.1);
+}
+[data-theme="dark"] .topic-filter-item.active .filter-count {
+  background: #329866;
+}
+
+/* Section labels: light grey */
+[data-theme="dark"] .nav-section-label {
+  color: #62626E;
+}
+
+/* Header: clean dark glass */
+[data-theme="dark"] .main-header {
+  background: rgba(14, 14, 18, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Header title: bright white */
+[data-theme="dark"] .header-title-main {
+  color: #FFFFFF;
+}
+
+/* Stats cards: dark cards with colored accents */
+[data-theme="dark"] .stat-card {
+  background: rgba(24, 24, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .stat-value {
+  color: #FFFFFF;
+}
+[data-theme="dark"] .stat-label {
+  color: #888892;
+}
+
+/* News cards: neutral dark with subtle border */
+[data-theme="dark"] .news-card {
+  background: rgba(20, 20, 26, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .news-card:hover {
+  border-color: rgba(50, 152, 102, 0.2);
+}
+[data-theme="dark"] .news-card-title {
+  color: #FFFFFF;
+}
+[data-theme="dark"] .news-card-summary {
+  color: #C0C0C8;
+}
+
+/* AI Insight: darker purple box */
+[data-theme="dark"] .ai-insight {
+  background: rgba(139, 92, 246, 0.06);
+  border: 1px solid rgba(139, 92, 246, 0.12);
+  border-left: 3px solid var(--accent-purple);
+}
+[data-theme="dark"] .ai-insight-text {
+  color: #C8C8D0;
+}
+
+/* Content idea items */
+[data-theme="dark"] .content-idea-item {
+  background: rgba(30, 30, 38, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+[data-theme="dark"] .idea-hook {
+  color: #E0E0E6;
+}
+
+/* View tabs: dark glass */
+[data-theme="dark"] .view-tabs {
+  background: rgba(20, 20, 26, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .view-tab {
+  color: #888892;
+}
+[data-theme="dark"] .view-tab:hover {
+  color: #E0E0E6;
+  background: rgba(255, 255, 255, 0.04);
+}
+[data-theme="dark"] .view-tab.active {
+  background: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* Date nav: dark glass */
+[data-theme="dark"] .date-nav {
+  background: rgba(24, 24, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .date-nav-label {
+  color: #FFFFFF;
+}
+[data-theme="dark"] .date-nav-btn {
+  color: #A0A0AA;
+}
+[data-theme="dark"] .date-nav-btn:hover {
+  color: #4ADE80;
+  background: rgba(74, 222, 128, 0.08);
+}
+
+/* Search box */
+[data-theme="dark"] .search-box {
+  background: rgba(24, 24, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .search-box input { color: #F5F5F7; }
+[data-theme="dark"] .search-box input::placeholder { color: #62626E; }
+
+/* Theme toggle */
+[data-theme="dark"] .theme-toggle-btn {
+  background: rgba(24, 24, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #A0A0AA;
+}
+[data-theme="dark"] .theme-toggle-btn:hover {
+  color: #FFA202;
+  background: rgba(255, 162, 2, 0.08);
+  border-color: rgba(255, 162, 2, 0.2);
+}
+
+/* Glass buttons: grey glass in dark mode */
+[data-theme="dark"] .card-action-btn {
+  background: rgba(30, 30, 38, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #C0C0C8;
+}
+[data-theme="dark"] .card-action-btn:hover {
+  background: rgba(50, 152, 102, 0.1);
+  border-color: rgba(50, 152, 102, 0.2);
+  color: #4ADE80;
+}
+[data-theme="dark"] .source-link-btn {
+  background: rgba(30, 30, 38, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #C0C0C8;
+}
+[data-theme="dark"] .source-link-btn:hover {
+  color: var(--accent-blue);
+  border-color: rgba(59, 130, 246, 0.2);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+/* Kanban: neutral dark columns */
+[data-theme="dark"] .kanban-column {
+  background: rgba(18, 18, 24, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+[data-theme="dark"] .kanban-item {
+  background: rgba(26, 26, 32, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+[data-theme="dark"] .kanban-item:hover {
+  border-color: rgba(50, 152, 102, 0.15);
+}
+[data-theme="dark"] .kanban-item-title {
+  color: #F5F5F7;
+}
+[data-theme="dark"] .kanban-column-title {
+  color: #E0E0E6;
+}
+
+/* Generator panel */
+[data-theme="dark"] .generator-panel {
+  background: rgba(20, 20, 26, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .generator-title {
+  color: #FFFFFF;
+}
+[data-theme="dark"] .generator-input {
+  background: rgba(28, 28, 35, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #F5F5F7;
+}
+[data-theme="dark"] .generator-select {
+  background: rgba(28, 28, 35, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #F5F5F7;
+}
+[data-theme="dark"] .generated-idea-card {
+  background: rgba(26, 26, 32, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+[data-theme="dark"] .generated-idea-hook {
+  color: #FFFFFF;
+}
+
+/* Modal */
+[data-theme="dark"] .modal {
+  background: rgba(18, 18, 24, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+[data-theme="dark"] .modal-title {
+  color: #FFFFFF;
+}
+[data-theme="dark"] .modal-form-group label {
+  color: #E0E0E6;
+}
+[data-theme="dark"] .modal-form-group input,
+[data-theme="dark"] .modal-form-group select,
+[data-theme="dark"] .modal-form-group textarea {
+  background: rgba(28, 28, 35, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #F5F5F7;
+}
+
+/* Badges in dark mode: brighter text */
+[data-theme="dark"] .source-badge.news { background: rgba(99, 102, 241, 0.12); color: #818CF8; }
+[data-theme="dark"] .source-badge.reddit { background: rgba(245, 158, 11, 0.12); color: #FBBF24; }
+[data-theme="dark"] .source-badge.social { background: rgba(236, 72, 153, 0.12); color: #F472B6; }
+[data-theme="dark"] .topic-badge { background: rgba(74, 222, 128, 0.1); color: #4ADE80; }
+[data-theme="dark"] .relevance-badge.high { color: #4ADE80; background: rgba(74, 222, 128, 0.1); }
+
+/* Sentiment: brighter colors in dark mode */
+[data-theme="dark"] .sentiment-indicator.positiv { color: #4ADE80; }
+[data-theme="dark"] .sentiment-indicator.neutral { color: #FBBF24; }
+[data-theme="dark"] .sentiment-indicator.negativ { color: #F87171; }
+[data-theme="dark"] .sentiment-dot.positiv { background: #4ADE80; box-shadow: 0 0 8px rgba(74, 222, 128, 0.5); }
+[data-theme="dark"] .sentiment-dot.neutral { background: #FBBF24; box-shadow: 0 0 8px rgba(251, 191, 36, 0.5); }
+[data-theme="dark"] .sentiment-dot.negativ { background: #F87171; box-shadow: 0 0 8px rgba(248, 113, 113, 0.5); }
+
+/* Demo banner: stays vibrant */
+[data-theme="dark"] .demo-banner {
+  background: linear-gradient(90deg, #1A6B46, #0F766E);
+}
+
+/* Expand toggle in dark: teal green */
+[data-theme="dark"] .expand-toggle {
+  color: #2DD4BF;
+}
+[data-theme="dark"] .expand-toggle:hover {
+  color: #4ADE80;
+}
+
+/* Dark theme: info-tip icons brighter for visibility */
+[data-theme="dark"] .info-tip {
+  color: #888892;
+  opacity: 0.7;
+}
+[data-theme="dark"] .info-tip:hover {
+  color: #4ADE80;
+  opacity: 1;
+}
+
+/* Dark theme: search icon brighter */
+[data-theme="dark"] .search-box .search-icon {
+  color: #888892;
+}
+
+/* Dark theme: stat icons brighter for visibility */
+[data-theme="dark"] .stat-icon.green { background: rgba(74, 222, 128, 0.12); color: #4ADE80; }
+[data-theme="dark"] .stat-icon.blue { background: rgba(59, 130, 246, 0.15); color: #60A5FA; }
+[data-theme="dark"] .stat-icon.amber { background: rgba(245, 158, 11, 0.15); color: #FBBF24; }
+[data-theme="dark"] .stat-icon.pink { background: rgba(236, 72, 153, 0.15); color: #F472B6; }
+
+/* Tooltip background in dark */
+[data-theme="dark"] .info-tip .tip-text {
+  background: #1E1E26;
+  color: #E0E0E6;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+[data-theme="dark"] .info-tip .tip-text::after {
+  border-color: #1E1E26 transparent transparent transparent;
+}
+
+/* Refresh indicator */
+[data-theme="dark"] .refresh-indicator {
+  background: rgba(24, 24, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #888892;
+}
+
+  </style>
 </head>
 <body>
   <div id="app"></div>
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+  <script>
+// ============================================================
+// Planville News Dashboard — Kuratierte Branchennews
+// Aktuelle News, Reddit & Social Media (Q4 2025 – März 2026)
+// ============================================================
+
+const TOPICS = [
+  { id: 'photovoltaik', label: 'Photovoltaik', icon: 'sun' },
+  { id: 'waermepumpen', label: 'Wärmepumpen', icon: 'thermometer' },
+  { id: 'dachsanierung', label: 'Dach & Fenster', icon: 'home' },
+  { id: 'foerderung', label: 'Förderung & Politik', icon: 'landmark' },
+  { id: 'energiewende', label: 'Energiewende', icon: 'leaf' },
+  { id: 'mieterstrom', label: 'Mieterstrom', icon: 'building' },
+  { id: 'innovation', label: 'Innovation', icon: 'lightbulb' },
+  { id: 'handwerk', label: 'Handwerk & Qualität', icon: 'wrench' },
+  { id: 'pvpflicht', label: 'PV-Pflicht', icon: 'shield-check' },
+];
+
+const SENTIMENTS = ['positiv', 'neutral', 'negativ'];
+const SOURCES = ['news', 'reddit', 'social'];
+const SOURCE_LABELS = { news: 'Nachricht', reddit: 'Reddit', social: 'Social Media' };
+
+// Kuratierte Artikel — sortiert nach Datum (neueste zuerst)
+const DEMO_ARTICLES = [
+  // 1 — Mar 6, 2026
+  {
+    title: 'Photovoltaik erreicht 16 Prozent der deutschen Stromproduktion',
+    summary: 'Laut aktuellen Zahlen der Bundesnetzagentur hat Photovoltaik erstmals 16 Prozent der gesamten deutschen Stromproduktion erreicht. Der kontinuierliche Zubau und sinkende Modulpreise treiben die Entwicklung. Besonders Aufdach-Anlagen auf Ein- und Mehrfamilienhäusern wachsen stark.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2026/03/06/photovoltaik-erreicht-16-prozent-der-deutschen-stromproduktion/',
+    topic: 'photovoltaik',
+    sentiment: 'positiv',
+    relevance: 95,
+    dateStr: '2026-03-06',
+    aiInsight: 'Starker Aufhänger für einen Reel: "16% Deutschlands Strom kommt von der Sonne — und ein Teil davon von unseren Dächern!" Zeigt Planville-Projektbilder und feiert eure Kunden.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"16 Prozent. So viel Strom in Deutschland kommt jetzt von der Sonne. Und ein paar dieser Anlagen stehen auf Dächern unserer Kunden."', hashtags: '#Photovoltaik #Solarrekord #Planville #Energiewende #16Prozent' },
+      { type: 'Karussell', hook: 'Von 1% auf 16% — die Solar-Erfolgsgeschichte Deutschlands in 5 Slides', hashtags: '#Solar #Photovoltaik #Energiewende #Deutschland' },
+    ],
+  },
+  // 2 — Mar 3, 2026
+  {
+    title: 'TikTok-Trend: Hausbesitzer vergleichen Stromrechnungen vor und nach PV-Anlage',
+    summary: 'Unter #Photovoltaik2026 zeigen Hausbesitzer ihre Stromrechnungen im Vorher/Nachher-Vergleich. Manche berichten von über 80% Einsparung. Die Videos erreichen Millionen Views und sorgen für enormes Interesse an PV-Anlagen.',
+    source: 'social',
+    outlet: 'TikTok',
+    sourceUrl: 'https://www.tiktok.com/tag/photovoltaikanlagen',
+    topic: 'photovoltaik',
+    sentiment: 'positiv',
+    relevance: 91,
+    dateStr: '2026-03-03',
+    aiInsight: 'Unbedingt auf diesen Trend aufspringen! Fragt eure Kunden nach Vorher/Nachher-Rechnungen. Authentischer Content mit echten Zahlen wirkt stärker als jede Werbung.',
+    contentIdeas: [
+      { type: 'Reel/TikTok', hook: '"Meine Stromrechnung vorher: 280€. Nachher: 42€. Kein Witz. Danke Planville."', hashtags: '#Stromrechnung #PV #VorherNachher #Solar #Planville #Photovoltaik2026' },
+      { type: 'Story-Serie', hook: 'Kundenstory: Familie aus NRW zeigt ihre echte Stromrechnung nach 12 Monaten PV', hashtags: '#Kundenerfolg #Solar #Einsparung' },
+    ],
+  },
+  // 3 — Feb 27, 2026
+  {
+    title: 'Geleakter EEG-Entwurf: Solarförderung für Anlagen bis 25 kW vor dem Aus',
+    summary: 'Details zum geleakten EEG-Entwurf zeigen: Die Einspeisevergütung für private PV-Anlagen bis 25 Kilowatt soll komplett gestrichen werden. Die Branche reagiert geschockt. Experten warnen vor einem drastischen Einbruch beim Zubau kleiner Dachanlagen.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2026/02/27/geleakter-eeg-entwurf-abschaffung-der-solarfoerderung-fuer-photovoltaik-anlagen-bis-25-kilowatt/',
+    topic: 'photovoltaik',
+    sentiment: 'negativ',
+    relevance: 98,
+    dateStr: '2026-02-27',
+    aiInsight: 'Höchste Dringlichkeit! Informiert eure Community sofort. Positioniert Planville als Experte: "Wir ordnen ein, was der EEG-Entwurf wirklich bedeutet." Call-to-Action: Jetzt noch beraten lassen.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"Die Solarförderung für kleine Anlagen soll weg. Was heißt das für dich? Wir klären auf."', hashtags: '#EEG #Solarförderung #Photovoltaik #Energiepolitik #Planville' },
+      { type: 'Karussell', hook: '5 Fakten zum EEG-Entwurf, die jeder Hausbesitzer kennen muss', hashtags: '#EEG2026 #PV #Förderung #Solar' },
+    ],
+  },
+  // 4 — Feb 26, 2026
+  {
+    title: 'EEG-Entwurf geleakt: Komplette Streichung der Förderung privater PV-Anlagen',
+    summary: 'Ein internes Papier des Wirtschaftsministeriums sieht die komplette Abschaffung der Einspeisevergütung für private Photovoltaik-Anlagen vor. Die Solarbranche läuft Sturm gegen die Pläne. Der BSW Solar fordert eine sofortige Korrektur.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2026/02/26/eeg-entwurf-geleakt-komplette-streichung-der-foerderung-privater-photovoltaik-anlagen-vorgesehen/',
+    topic: 'foerderung',
+    sentiment: 'negativ',
+    relevance: 97,
+    dateStr: '2026-02-26',
+    aiInsight: 'Top-Relevanz! Verbindet die Nachricht mit eurem Beratungsangebot: "Gerade jetzt lohnt sich professionelle Planung. Wir zeigen dir, wie sich PV auch ohne Einspeisevergütung rechnet." Eigenverbrauch-Strategie betonen.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Der EEG-Entwurf schockiert die Branche. Aber: PV rechnet sich auch ohne Einspeisevergütung — wenn man richtig plant."', hashtags: '#EEG #Solarförderung #Photovoltaik #Eigenverbrauch #Planville' },
+      { type: 'Reel', hook: '"Keine Förderung mehr? So rechnet sich PV trotzdem — mit der richtigen Strategie."', hashtags: '#PV #Eigenverbrauch #Solaranlage #OhneSubvention' },
+    ],
+  },
+  // 5 — Feb 26, 2026
+  {
+    title: 'Wärmepumpenmarkt 2026: Stabilisierung, Innovationen und neue Marktlogik',
+    summary: 'Nach dem Einbruch 2024 stabilisiert sich der deutsche Wärmepumpenmarkt. Neue Geschäftsmodelle, verbesserte Effizienz und die wachsende Akzeptanz in der Bevölkerung sorgen für eine positive Marktentwicklung. Experten sehen den Markt auf einem neuen, nachhaltigen Wachstumspfad.',
+    source: 'news',
+    outlet: 'DEEA',
+    sourceUrl: 'https://deea.de/2026/02/26/der-waermepumpenmarkt-ab-2026-stabilisierung-innovationen-und-neue-marktlogik/',
+    topic: 'waermepumpen',
+    sentiment: 'positiv',
+    relevance: 92,
+    dateStr: '2026-02-26',
+    aiInsight: 'Comeback-Story! Positioniert Planville als stabilen Partner: "Wir haben nie aufgehört zu installieren, während andere aufgegeben haben." Zeigt installierte WP-Projekte.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Der Wärmepumpen-Markt erholt sich. Wir haben in der Zwischenzeit einfach weitergemacht — 127 Anlagen in 2025."', hashtags: '#Wärmepumpe #Markt2026 #Energiewende #Planville' },
+      { type: 'Reel', hook: '"2024 haben alle aufgehört. 2025 haben wir weiter installiert. 2026 geben uns die Zahlen recht."', hashtags: '#Wärmepumpe #Comeback #Handwerk #Planville' },
+    ],
+  },
+  // 6 — Feb 25, 2026
+  {
+    title: 'Uni Stuttgart: Perowskit-Solarzellen besser gegen Umwelteinflüsse geschützt',
+    summary: 'Forschende der Universität Stuttgart haben einen Durchbruch bei der Stabilität von Perowskit-Solarzellen erzielt. Eine neue Schutzschicht macht die Zellen deutlich widerstandsfähiger gegen Feuchtigkeit und UV-Strahlung. Dies könnte den Weg für kommerzielle Perowskit-Module ebnen.',
+    source: 'news',
+    outlet: 'Uni Stuttgart',
+    sourceUrl: 'https://www.uni-stuttgart.de/universitaet/aktuelles/meldungen/Perowskit-Solarzellen-besser-gegen-Umwelteinfluesse-schuetzen/',
+    topic: 'innovation',
+    sentiment: 'positiv',
+    relevance: 68,
+    dateStr: '2026-02-25',
+    aiInsight: 'Innovation-Content für technikaffine Follower: "Die Zukunft der Solarzelle kommt aus Deutschland." Erklärt Perowskit einfach und zeigt, was das für die Branche bedeutet.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Was ist Perowskit und warum könnte es die Solarbranche revolutionieren?" — erklärt in 5 Slides', hashtags: '#Perowskit #Innovation #Solar #Forschung #MadeInGermany' },
+    ],
+  },
+  // 7 — Feb 24, 2026
+  {
+    title: 'GMG-Eckpunkte: Heizungsgesetz wird grundlegend reformiert',
+    summary: 'Die Koalition hat die Eckpunkte für das neue Gebäude-Modernisierungsgesetz (GMG) vorgelegt. Das bisherige GEG (Heizungsgesetz) wird grundlegend überarbeitet. Statt starrer Vorgaben soll es mehr Technologieoffenheit und vereinfachte Förderverfahren geben.',
+    source: 'news',
+    outlet: 'GEG-Info',
+    sourceUrl: 'https://geg-info.de/geg_news/251211_koalitionsausschuss_bundesregierung.htm',
+    topic: 'foerderung',
+    sentiment: 'neutral',
+    relevance: 93,
+    dateStr: '2026-02-24',
+    aiInsight: 'Wichtiges Thema für eure Kunden! Viele haben wegen GEG-Unsicherheit abgewartet. Jetzt aufklären: "Das neue GMG bringt Klarheit — und wir helfen euch, die richtige Heizung zu wählen."',
+    contentIdeas: [
+      { type: 'Reel', hook: '"Das Heizungsgesetz wird abgeschafft. Was jetzt kommt, ist besser — wir erklären das GMG in 60 Sekunden."', hashtags: '#GMG #GEG #Heizungsgesetz #Wärmepumpe #Planville' },
+      { type: 'Blogartikel', hook: '"GEG vs. GMG: Was ändert sich beim Heizungstausch? Alles zum neuen Gebäude-Modernisierungsgesetz"', hashtags: '#GMG #Heizung #Förderung #Energieberatung' },
+    ],
+  },
+  // — Feb 22, 2026 (PV-Pflicht)
+  {
+    title: 'Solarpflicht NRW: Ab Januar 2026 gilt PV-Pflicht auch bei Dachsanierung im Bestand',
+    summary: 'Seit dem 1. Januar 2026 gilt in NRW die Solarpflicht auch für Bestandsgebäude bei vollständiger Dacherneuerung. Eigentümer müssen mindestens 30 Prozent der Nettodachfläche mit PV belegen. Für Ein- und Zweifamilienhäuser reicht eine 3-kWp-Anlage. Bei Verstößen drohen Bußgelder bis 25.000 Euro.',
+    source: 'news',
+    outlet: 'Verbraucherzentrale NRW',
+    sourceUrl: 'https://www.verbraucherzentrale.nrw/energie/solarpflicht-bei-dachsanierungen-in-nrw-was-kommt-auf-eigentuemerinnen-zu-energie-kompakt-114027',
+    topic: 'pvpflicht',
+    sentiment: 'neutral',
+    relevance: 96,
+    dateStr: '2026-02-22',
+    aiInsight: 'Höchste Relevanz für Planville in NRW! "Dach sanieren = PV drauf. Das ist jetzt Gesetz." Positioniert euch als Komplettanbieter: Dach + PV aus einer Hand. Sofort Hausverwaltungen und Eigentümer ansprechen.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Solarpflicht NRW 2026: Was Hausbesitzer bei der Dachsanierung jetzt wissen müssen — in 5 Slides"', hashtags: '#Solarpflicht #NRW #Dachsanierung #PV #Planville' },
+      { type: 'Reel', hook: '"Dach neu? Dann muss PV drauf. So funktioniert die Solarpflicht in NRW seit Januar."', hashtags: '#PVPflicht #NRW #Solar #Dachsanierung' },
+    ],
+  },
+  // — Feb 20, 2026
+  {
+    title: 'Neue Schallgrenzwerte ab 2026: Viele Wärmepumpen nicht mehr förderfähig',
+    summary: 'Die neuen Schallschutz-Anforderungen für Wärmepumpen machen einige beliebte Modelle ab 2026 nicht mehr förderfähig. Betroffen sind vor allem günstigere Luft-Wasser-Wärmepumpen. Hersteller müssen nachrüsten oder neue, leisere Modelle auf den Markt bringen.',
+    source: 'news',
+    outlet: 'energie-experten.org',
+    sourceUrl: 'https://www.energie-experten.org/news/neue-schall-grenzwerte-ab-2026-ist-meine-luft-waermepumpe-noch-foerderfaehig',
+    topic: 'waermepumpen',
+    sentiment: 'negativ',
+    relevance: 88,
+    dateStr: '2026-02-20',
+    aiInsight: 'Chance für Beratungs-Content! Planville kann hier Expertise zeigen: "Wir setzen nur auf Modelle, die die neuen Grenzwerte einhalten." Vertrauensaufbau durch Fachkompetenz.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Neue Schallgrenzwerte 2026: Ist deine Wärmepumpe noch förderfähig? Checkliste in 5 Slides"', hashtags: '#Wärmepumpe #Schallschutz #Förderung #2026 #Planville' },
+      { type: 'Reel', hook: '"Nicht jede Wärmepumpe bekommt 2026 noch Förderung. Worauf du achten musst."', hashtags: '#WP #Lautstärke #BAFA #Förderung' },
+    ],
+  },
+  // 9 — Feb 18, 2026
+  {
+    title: 'Instagram-Debatte: Über 1.700 Unternehmen protestieren gegen Energiepolitik',
+    summary: 'Eine virale Instagram-Kampagne vereint über 1.700 Unternehmen aus der Solar- und Energiebranche, die gegen die geplante Streichung der PV-Förderung protestieren. Die Kampagne erreicht Millionen Nutzer und wird in den Medien breit aufgegriffen.',
+    source: 'social',
+    outlet: 'Instagram',
+    sourceUrl: 'https://www.energiezukunft.eu/buergerenergie/influencer-zeigen-die-dezentrale-energiewende-auf-instagram',
+    topic: 'energiewende',
+    sentiment: 'negativ',
+    relevance: 86,
+    dateStr: '2026-02-18',
+    aiInsight: 'Positionierung zeigen! "Auch Planville steht für eine bezahlbare Energiewende." Solidarität mit der Branche zeigen und gleichzeitig Lösungen anbieten.',
+    contentIdeas: [
+      { type: 'Story-Serie', hook: '"1.700 Unternehmen, eine Stimme. Auch wir stehen für bezahlbare Solarenergie. Hier ist unsere Position."', hashtags: '#Energiewende #Solar #Branche #Protest #Planville' },
+      { type: 'Reel', hook: '"Energiewende nur für Reiche? Nein. Hier sind 3 Wege, wie auch Mieter profitieren."', hashtags: '#Energiewende #Mieterstrom #Gerechtigkeit #Solar' },
+    ],
+  },
+  // 10 — Feb 15, 2026
+  {
+    title: 'Stromspeicher-Inspektion 2026: Effizienzrekorde und neue Benchmarks',
+    summary: 'Die jährliche Stromspeicher-Inspektion der HTW Berlin zeigt neue Effizienzrekorde bei Photovoltaik-Heimspeichern. Die besten Systeme erreichen einen System Performance Index von über 95%. Gleichzeitig werden neue Benchmarks für die Bewertung von Speichersystemen eingeführt.',
+    source: 'news',
+    outlet: 'IWR',
+    sourceUrl: 'https://www.iwr.de/news/stromspeicher-inspektion-2026-effizienzrekorde-und-neue-benchmarks-fuer-photovoltaik-heimspeicher-news39559',
+    topic: 'innovation',
+    sentiment: 'positiv',
+    relevance: 76,
+    dateStr: '2026-02-15',
+    aiInsight: 'Speicher-Content mit Daten! Zeigt, welche Speicher Planville verbaut und warum. "Wir empfehlen nur Speicher mit Top-Effizienz" — unterstützt mit den Testergebnissen.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"95% Effizienz. So gut sind die besten Heimspeicher 2026. Und welchen wir verbauen."', hashtags: '#Batteriespeicher #Effizienz #HTWBerlin #Planville #PV' },
+      { type: 'Karussell', hook: 'Stromspeicher-Test 2026: Die Top 5 Heimspeicher im Vergleich', hashtags: '#Speicher #Solar #Test #Photovoltaik' },
+    ],
+  },
+  // 11 — Feb 12, 2026
+  {
+    title: 'Energy Sharing ab Juni 2026: Neue Chancen für Mieterstrommodelle',
+    summary: 'Ab Juni 2026 wird Energy Sharing in Deutschland rechtlich möglich. Damit können Verbraucher gemeinsam erzeugten Strom über das öffentliche Netz teilen. Für Mieterstrom-Projekte eröffnen sich völlig neue Geschäftsmodelle und Abrechnungsmöglichkeiten.',
+    source: 'news',
+    outlet: 'Wattmacher NRW',
+    sourceUrl: 'https://www.metergrid.de/blog/solarspitzen-gesetz-2025---neue-regelungen-fur-photovoltaik-und-ihre-auswirkungen-auf-mieterstrommodelle',
+    topic: 'mieterstrom',
+    sentiment: 'positiv',
+    relevance: 96,
+    dateStr: '2026-02-12',
+    aiInsight: 'Höchste Relevanz für Planville-Mieterstrom! "Energy Sharing macht unser Kerngeschäft noch attraktiver." Erklärt das Konzept einfach und zeigt, wie Planville davon profitiert.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Energy Sharing kommt im Juni. Für Mieterstrom ändert sich alles — und wir bei Planville sind vorbereitet."', hashtags: '#EnergySharing #Mieterstrom #Planville #Solar #Wohnungswirtschaft' },
+      { type: 'Reel', hook: '"Strom teilen wie Netflix? Ab Juni 2026 geht das. So funktioniert Energy Sharing."', hashtags: '#EnergySharing #Mieterstrom #Solar #Mieter' },
+    ],
+  },
+  // 12 — Feb 10, 2026
+  {
+    title: 'Niedrigere Netzentgelte: Strompreise sinken 2026 spürbar',
+    summary: 'Die Bundesnetzagentur hat niedrigere Netzentgelte für 2026 festgelegt. In Kombination mit dem wachsenden Anteil erneuerbarer Energien sinken die Strompreise für Verbraucher um durchschnittlich 7 Prozent. Experten sehen den Trend als nachhaltig.',
+    source: 'news',
+    outlet: 'Bundesregierung',
+    sourceUrl: 'https://www.bundesregierung.de/breg-de/aktuelles/niedrigere-netzentgelte-2382396',
+    topic: 'energiewende',
+    sentiment: 'positiv',
+    relevance: 78,
+    dateStr: '2026-02-10',
+    aiInsight: 'Positiv-Story! "Strom wird billiger — und wer eigenen Strom produziert, profitiert doppelt." Verbindet die Nachricht mit dem Eigenverbrauch-Vorteil einer PV-Anlage.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"7% weniger Stromkosten. Aber wer PV auf dem Dach hat, spart noch viel mehr."', hashtags: '#Strompreis #Netzentgelte #Solarenergie #Eigenverbrauch' },
+    ],
+  },
+  // 13 — Feb 9, 2026
+  {
+    title: 'Netzpaket-Entwurf rüttelt am Einspeisevorrang für Erneuerbare',
+    summary: 'Ein neuer Gesetzesentwurf zum Netzpaket sieht Einschränkungen beim Anschluss- und Einspeisevorrang für erneuerbare Energien vor. Netzbetreiber sollen mehr Flexibilität bei der Steuerung von Einspeisungen bekommen. Die Solarbranche warnt vor negativen Folgen für Kleinanlagen.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2026/02/09/netzpaket-entwurf-ruettelt-am-anschluss-und-einspeisevorrang-fuer-erneuerbare/',
+    topic: 'photovoltaik',
+    sentiment: 'negativ',
+    relevance: 82,
+    dateStr: '2026-02-09',
+    aiInsight: 'Einordnung gefragt! Viele Kunden fragen sich, ob sich PV noch lohnt. Antwortet klar: "Eigenverbrauch bleibt rentabel — und mit Speicher sogar noch mehr." Beratungstermin anbieten.',
+    contentIdeas: [
+      { type: 'Blogartikel', hook: '"Netzpaket 2026: Was bedeutet der neue Entwurf für deine PV-Anlage?"', hashtags: '#Netzpaket #Einspeisung #PV #Solaranlage #Planville' },
+    ],
+  },
+  // 14 — Feb 5, 2026
+  {
+    title: 'Forum: "Luft-Wasser-WP bei -15°C im Februar — mein Erfahrungsbericht"',
+    summary: 'Ein Nutzer im Bauexpertenforum berichtet detailliert über die Leistung seiner Luft-Wasser-Wärmepumpe bei extremer Kälte im Februar 2026. Trotz -15°C liefert die Anlage stabile 45°C Vorlauftemperatur. Die Diskussion zeigt, dass moderne WP auch bei Extremkälte zuverlässig arbeiten.',
+    source: 'reddit',
+    outlet: 'Bauexpertenforum',
+    sourceUrl: 'https://www.bauexpertenforum.de/threads/luft-wasser-waermepumpe-bei-aktueller-arktischer-kaelte.62945/',
+    topic: 'waermepumpen',
+    sentiment: 'neutral',
+    relevance: 85,
+    dateStr: '2026-02-05',
+    aiInsight: 'Perfekt gegen WP-Angst! Zeigt echte Monitoring-Daten einer Planville-Installation bei Kälte. "Unsere Wärmepumpe bei -15°C: Das zeigen die echten Daten."',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Unsere Wärmepumpe bei -15°C: So sehen die echten Daten aus" — mit Screenshots vom Monitoring', hashtags: '#Wärmepumpe #Winter #Kälte #Faktencheck #Planville' },
+      { type: 'Reel', hook: '"-15 Grad draußen. 22 Grad drinnen. Und der Heizstab läuft NICHT. So funktioniert eine gut geplante Wärmepumpe."', hashtags: '#WP #Heizung #Winter #Planville' },
+    ],
+  },
+  // 15 — Feb 3, 2026
+  {
+    title: 'NRW startet neue Solarförderung für Mehrfamilienhäuser',
+    summary: 'Das Land Nordrhein-Westfalen legt ein neues Förderprogramm für Photovoltaik auf Mehrfamilienhäusern auf. Vermieter und Wohnungsbaugesellschaften erhalten bis zu 30% Zuschuss für PV-Anlagen mit Mieterstrommodell. Das Budget beträgt 50 Millionen Euro.',
+    source: 'news',
+    outlet: 'Wirtschaft.NRW',
+    sourceUrl: 'https://www.wirtschaft.nrw/nordrhein-westfalen-liefert-mehr-solarstrom-fuer-alle-neue-foerderung-fuer-photovoltaik-auf',
+    topic: 'dachsanierung',
+    sentiment: 'positiv',
+    relevance: 94,
+    dateStr: '2026-02-03',
+    aiInsight: 'Direkte Relevanz für Planville in NRW! "30% Zuschuss für PV auf Mehrfamilienhäusern — wir planen und realisieren diese Projekte." Sofort an Hausverwaltungen kommunizieren.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"NRW fördert Solar auf Mietshäusern mit 30% Zuschuss. Wir helfen Vermietern, das Förderprogramm optimal zu nutzen."', hashtags: '#NRW #Solar #Mieterstrom #Förderung #Planville #Mehrfamilienhaus' },
+      { type: 'Reel', hook: '"30% Zuschuss für Solar auf deinem Mietshaus. NRW macht es möglich. So gehts."', hashtags: '#NRW #Solarförderung #Vermieter #PV' },
+    ],
+  },
+  // — Jan 30, 2026 (PV-Pflicht)
+  {
+    title: 'EU-Gebäuderichtlinie: Bundesweite Solarpflicht rückt bis Mai 2026 näher',
+    summary: 'Die EU-Gebäuderichtlinie (EPBD) muss bis Ende Mai 2026 in nationales Recht umgesetzt werden. Sie sieht eine schrittweise Solarpflicht für Neubauten und Bestandsgebäude vor. Experten erwarten, dass Deutschland die Landesregelungen vereinheitlichen und verschärfen wird. Auch Wohngebäude ab 2029 betroffen.',
+    source: 'news',
+    outlet: 'immowelt.de',
+    sourceUrl: 'https://www.immowelt.de/ratgeber/news/eu-gebaeuderichtlinie-2026-bringt-neue-pflichten-fuer-eigentuemer',
+    topic: 'pvpflicht',
+    sentiment: 'neutral',
+    relevance: 88,
+    dateStr: '2026-01-30',
+    aiInsight: 'Wichtig für Aufklärung! Viele Kunden wissen nicht, dass die EU-Pflicht kommt. "Die Solarpflicht wird bundesweit — wer jetzt plant, ist vorbereitet." Beratungstermin-CTA.',
+    contentIdeas: [
+      { type: 'Blogartikel', hook: '"EU-Solarpflicht kommt 2026: Was Hausbesitzer in Deutschland jetzt wissen müssen"', hashtags: '#EPBD #Solarpflicht #EU #Photovoltaik #Planville' },
+      { type: 'Reel', hook: '"Die EU macht PV auf dem Dach zur Pflicht. In welchem Bundesland gilt sie schon? Check in 60 Sekunden."', hashtags: '#Solarpflicht #EU #PVPflicht #Bundesländer' },
+    ],
+  },
+  // — Jan 28, 2026
+  {
+    title: 'Fachkräftemangel erreicht Höchststand: 250.000 Stellen im Handwerk unbesetzt',
+    summary: 'Der Zentralverband des Deutschen Handwerks meldet einen neuen Negativrekord: 250.000 Stellen können nicht besetzt werden. Besonders betroffen sind Elektriker, SHK-Installateure und Dachdecker. Die Energiewende droht am Fachkräftemangel zu scheitern.',
+    source: 'news',
+    outlet: 'handwerk.com',
+    sourceUrl: 'https://www.handwerk.com/fachkraeftemangel-erreicht-hoechststand',
+    topic: 'handwerk',
+    sentiment: 'negativ',
+    relevance: 72,
+    dateStr: '2026-01-28',
+    aiInsight: 'Employer-Branding-Chance! Zeigt, wie Planville als Arbeitgeber dagegenhält: faire Bezahlung, moderne Ausstattung, Weiterbildung. "Bei uns sind die Stellen besetzt."',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"250.000 offene Stellen im Handwerk. Bei uns sind sie besetzt — und das hat Gründe."', hashtags: '#Handwerk #Fachkräfte #Ausbildung #Planville #Arbeitgeber' },
+      { type: 'Reel', hook: '"Warum unsere Monteure gerne bei uns arbeiten — ein Tag auf der Planville-Baustelle"', hashtags: '#Handwerk #TeamPlanville #Karriere #Energiewende' },
+    ],
+  },
+  // 17 — Jan 24, 2026
+  {
+    title: 'SHK+E Messe Essen 2026: Von der Wärmewende bis zur Digitalisierung',
+    summary: 'Die SHK+E Messe Essen zeigt die neuesten Trends in Sanitär, Heizung, Klima und Elektrotechnik. Schwerpunkte sind effizientere Wärmepumpen, Smart-Home-Integration und digitale Planungstools. Über 400 Aussteller präsentieren innovative Lösungen für die Energiewende.',
+    source: 'news',
+    outlet: 'SI SHK',
+    sourceUrl: 'https://www.si-shk.de/shke-essen-2026-von-der-waermewende-bis-zur-digitalisierung-244646/',
+    topic: 'handwerk',
+    sentiment: 'positiv',
+    relevance: 70,
+    dateStr: '2026-01-24',
+    aiInsight: 'Messe-Content! Wenn Planville auf der SHK+E war: Fotos, Eindrücke, Neuheiten zeigen. Wenn nicht: die spannendsten Produkte vorstellen und kommentieren.',
+    contentIdeas: [
+      { type: 'Story-Serie', hook: '"Die 3 spannendsten Neuheiten von der SHK+E Essen 2026 — unser Messe-Rundgang"', hashtags: '#SHKE #Messe #Essen #Wärmepumpe #Innovation #Handwerk' },
+    ],
+  },
+  // — Jan 18, 2026 (PV-Pflicht)
+  {
+    title: 'Solarpflicht 2026: Neue Herausforderungen für Dachdecker und Sachverständige',
+    summary: 'Die ausgeweitete Solarpflicht in mehreren Bundesländern stellt Dachdecker und Sachverständige vor neue Aufgaben. PV-Montage wird dem Dachdeckerhandwerk zugeordnet — nur Meisterbetriebe dürfen installieren. Gleichzeitig steigt die Komplexität bei Wirtschaftlichkeitsprüfungen und Befreiungsanträgen.',
+    source: 'news',
+    outlet: 'DDH (Das Dachdecker-Handwerk)',
+    sourceUrl: 'https://www.ddh.de/neue-solarpflicht-ab-2026-17112025',
+    topic: 'pvpflicht',
+    sentiment: 'neutral',
+    relevance: 82,
+    dateStr: '2026-01-18',
+    aiInsight: 'Chance für Planville als Meisterbetrieb! "PV-Montage darf nur der Meister — und das sind wir." Vertrauen aufbauen durch Qualifikation. Auch Kooperationen mit Dachdeckern ansprechen.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Solarpflicht heißt Meisterpflicht. PV-Montage gehört jetzt offiziell zum Dachdeckerhandwerk. Was das für die Qualität bedeutet."', hashtags: '#Solarpflicht #Meisterbetrieb #Dachdecker #PV #Qualität #Planville' },
+      { type: 'Reel', hook: '"Wusstest du, dass seit 2026 nur noch Meisterbetriebe PV aufs Dach dürfen? Was das für dich bedeutet."', hashtags: '#PVPflicht #Meisterpflicht #Handwerk #Solar' },
+    ],
+  },
+  // — Jan 20, 2026
+  {
+    title: 'BAFA BEG-Einzelmaßnahmen 2026: Neue Anforderungen und verschärfte Prüfungen',
+    summary: 'Die BAFA hat die Anforderungen für BEG-Einzelmaßnahmen 2026 aktualisiert. Energieberater müssen strengere Nachweise führen, und die Prüftiefe bei Anträgen steigt. Gleichzeitig werden neue Boni für besonders effiziente Dämmmaßnahmen eingeführt.',
+    source: 'news',
+    outlet: 'BAFA',
+    sourceUrl: 'https://www.bafa.de/DE/Energie/Effiziente_Gebaeude/Sanierung_Wohngebaeude/Gebaeudehuelle/gebaeudehuelle_node.html',
+    topic: 'dachsanierung',
+    sentiment: 'neutral',
+    relevance: 84,
+    dateStr: '2026-01-20',
+    aiInsight: 'Service-Content: "Förderchaos? Nicht mit uns." Erklärt die neuen BAFA-Anforderungen und zeigt, dass Planville den kompletten Förderprozess übernimmt. Vertrauen durch Expertise.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"BAFA 2026: Was hat sich bei der Förderung für Dach & Dämmung geändert? Die 5 wichtigsten Neuerungen"', hashtags: '#BAFA #BEG #Förderung #Dachsanierung #Dämmung #Planville' },
+      { type: 'Reel', hook: '"5 Fehler, die deinen BAFA-Antrag killen — und wie du sie vermeidest"', hashtags: '#BAFA #Förderung #Fehler #Energieberatung' },
+    ],
+  },
+  // 19 — Jan 15, 2026
+  {
+    title: 'CO₂-Preis steigt auf 55 Euro — Entlastungen für Verbraucher beschlossen',
+    summary: 'Der CO₂-Preis steigt 2026 planmäßig auf 55 Euro pro Tonne. Die Bundesregierung hat gleichzeitig Entlastungsmaßnahmen beschlossen, darunter höhere Pendlerpauschalen und einen Klimabonus. Für Haushalte mit fossiler Heizung steigen die Kosten dennoch spürbar.',
+    source: 'news',
+    outlet: 'Bundesumweltministerium',
+    sourceUrl: 'https://www.bundesumweltministerium.de/pressemitteilung/ab-2026-entlastungen-fuer-verbraucherinnen-und-verbraucher-trotz-steigendem-co2-preis',
+    topic: 'foerderung',
+    sentiment: 'neutral',
+    relevance: 80,
+    dateStr: '2026-01-15',
+    aiInsight: 'Perfekter Trigger für Heizungstausch-Content: "55€ pro Tonne CO₂ — wer jetzt noch Gas oder Öl verbrennt, zahlt drauf." Call-to-Action: Wärmepumpen-Beratung.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"55€ pro Tonne CO₂. Was bedeutet das für deine Gasrechnung? Spoiler: Es wird teuer."', hashtags: '#CO2Preis #Heizkosten #Wärmepumpe #Energiewende #Planville' },
+      { type: 'Karussell', hook: 'CO₂-Preis 2026: Was du pro Monat mehr zahlst — je nach Heizung (Gas vs. Öl vs. Wärmepumpe)', hashtags: '#CO2 #Heizung #Vergleich #Kosten' },
+    ],
+  },
+  // 20 — Jan 10, 2026
+  {
+    title: 'YouTube: Energieberater warnt vor falsch dimensionierten Wärmepumpen',
+    summary: 'Ein bekannter Energieberater auf YouTube warnt in einem viralen Video davor, dass viele Wärmepumpen zu groß oder zu klein dimensioniert werden. Das führt zu höheren Kosten, schlechterer Effizienz und unzufriedenen Kunden. Das Video erreicht über 500.000 Aufrufe.',
+    source: 'social',
+    outlet: 'YouTube',
+    sourceUrl: 'https://www.verbraucherzentrale-saarland.de/pressemeldungen/energie/falsche-dimensionierung-von-waermepumpen-kann-teuer-werden-111074',
+    topic: 'waermepumpen',
+    sentiment: 'negativ',
+    relevance: 81,
+    dateStr: '2026-01-10',
+    aiInsight: 'Qualitäts-Content Gold! Zeigt, wie Planville die Dimensionierung macht: Heizlastberechnung, Gebäudeanalyse, keine Pauschalangebote. "Die richtige Größe entscheidet alles."',
+    contentIdeas: [
+      { type: 'Reel', hook: '"Die richtige Größe entscheidet alles. So berechnen wir deine Wärmepumpe — Schritt für Schritt."', hashtags: '#Wärmepumpe #Dimensionierung #Energieberatung #Planville #Qualität' },
+      { type: 'Karussell', hook: '"Zu groß? Zu klein? 3 Zeichen, dass deine Wärmepumpe falsch dimensioniert ist"', hashtags: '#WP #Heizung #Fehler #Checkliste' },
+    ],
+  },
+
+  // ========== Q4 2025 — Oktober bis Dezember 2025 ==========
+
+  // — Dec 24, 2025
+  {
+    title: 'Gemeinschaftliche Gebäudeversorgung: Berliner Pilotprojekt zeigt softwarebasiertes Messkonzept',
+    summary: 'Eine Berliner Wohnungseigentümergemeinschaft hat ihre PV-Anlage erfolgreich auf gemeinschaftliche Gebäudeversorgung (GGV) umgestellt. Alle neun Eigentümer beteiligten sich an der 14,2-kWp-Anlage. Stromnetz Berlin begleitet das Projekt als Pilotversuch — ein wichtiger Schritt für Mieterstrom in Mehrfamilienhäusern.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2025/12/24/messkonzept-fuer-gemeinschaftliche-gebaeudeversorgung-softwarebasiert-umgesetzt/',
+    topic: 'mieterstrom',
+    sentiment: 'positiv',
+    relevance: 90,
+    dateStr: '2025-12-24',
+    aiInsight: 'Mieterstrom-Content Gold! Planville kann dieses Berliner Modell als Referenz nutzen: "So funktioniert Solarstrom im Mehrfamilienhaus — ganz ohne Bürokratie-Monster." Zeigt, dass GGV in der Praxis ankommt.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Solarstrom teilen im Mehrfamilienhaus? Berlin macht es vor — mit Software statt Papierkram."', hashtags: '#GGV #Mieterstrom #Photovoltaik #Berlin #Planville' },
+      { type: 'Karussell', hook: 'Gemeinschaftliche Gebäudeversorgung erklärt: So funktioniert Solarstrom im Mietshaus in 5 Slides', hashtags: '#Mieterstrom #GGV #Solar #Mehrfamilienhaus' },
+    ],
+  },
+  // — Dec 10, 2025
+  {
+    title: 'Erneuerbare Energien erzeugen 2025 fast 56 Prozent des Stromverbrauchs in Deutschland',
+    summary: 'Erneuerbare Energien haben 2025 fast 56 Prozent des Brutto-Stromverbrauchs gedeckt. Die Photovoltaik-Erzeugung stieg um knapp ein Fünftel gegenüber dem Vorjahr. Trotz unterdurchschnittlicher Windbedingungen konnten neue PV-Anlagen die Rückgänge bei Wind und Wasser mehr als ausgleichen.',
+    source: 'news',
+    outlet: 'Solarserver',
+    sourceUrl: 'https://www.solarserver.de/2025/12/10/stromverbrauch-in-deutschland-2025-erneuerbare-energien-erzeugen-fast-56-prozent',
+    topic: 'energiewende',
+    sentiment: 'positiv',
+    relevance: 82,
+    dateStr: '2025-12-10',
+    aiInsight: 'Starke Zahl für Jahresrückblick-Content: "56% — mehr als die Hälfte unseres Stroms ist grün. Und jedes Dach mit PV bringt uns weiter." Planville als Teil der Energiewende positionieren.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"56 Prozent. So viel Strom in Deutschland kommt jetzt aus erneuerbaren Quellen. Und wir helfen dabei — Dach für Dach."', hashtags: '#Energiewende #Erneuerbare #56Prozent #Solar #Planville' },
+      { type: 'Karussell', hook: 'Jahresrückblick Energiewende 2025: Die 5 wichtigsten Meilensteine', hashtags: '#Energiewende #2025 #Rückblick #Erneuerbare' },
+    ],
+  },
+  // — Dec 4, 2025
+  {
+    title: 'Bundestag verabschiedet Geothermie-Beschleunigungsgesetz — Wärmepumpen profitieren',
+    summary: 'Der Bundestag hat das Geothermie-Beschleunigungsgesetz beschlossen. Es vereinfacht Genehmigungsverfahren für Geothermie, Wärmepumpen und Wärmespeicher. Errichtung und Betrieb liegen bis 2045 im "überragenden öffentlichen Interesse". Das Gesetz tritt am 1. Januar 2026 in Kraft.',
+    source: 'news',
+    outlet: 'Bundestag',
+    sourceUrl: 'https://www.bundestag.de/dokumente/textarchiv/2025/kw49-de-geothermie-1032870',
+    topic: 'innovation',
+    sentiment: 'positiv',
+    relevance: 79,
+    dateStr: '2025-12-04',
+    aiInsight: 'Wichtig für die Branche! Schnellere Genehmigungen = mehr Projekte. "Das neue Gesetz macht unsere Arbeit einfacher — Wärmepumpen haben jetzt Vorfahrt." Zeigt Planville als Profiteur der neuen Regelung.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"Wärmepumpen haben jetzt Vorfahrt. Das neue Geothermie-Beschleunigungsgesetz macht Installation einfacher. Was das für Hausbesitzer bedeutet."', hashtags: '#GeoBG #Wärmepumpe #Geothermie #Genehmigung #Planville' },
+    ],
+  },
+  // — Dec 1, 2025
+  {
+    title: 'BWP hebt Wärmepumpen-Prognose für 2026 deutlich auf 410.000 Geräte an',
+    summary: 'Der Bundesverband Wärmepumpe (BWP) korrigiert seine Absatzprognose für 2026 deutlich nach oben — von 350.000 auf 410.000 Geräte. Im ambitionierten Szenario könnten es sogar über 530.000 werden. Grund ist der starke Absatz im Herbst 2025 mit über 30.000 Geräten pro Monat.',
+    source: 'news',
+    outlet: 'Solarserver',
+    sourceUrl: 'https://www.solarserver.de/2025/12/01/bundesverband-hebt-prognose-fuer-absatz-von-waermepumpen-an',
+    topic: 'waermepumpen',
+    sentiment: 'positiv',
+    relevance: 87,
+    dateStr: '2025-12-01',
+    aiInsight: 'Optimismus-Story! "Die Wärmepumpe kommt zurück — stärker als je zuvor. Und Planville ist bereit." Zeigt eure Kapazitäten und nutzt den positiven Trend für Auftragsgewinnung.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"410.000 Wärmepumpen in 2026 — das erwartet die Branche. Und wir installieren mit."', hashtags: '#Wärmepumpe #BWP #Prognose2026 #Planville #Energiewende' },
+      { type: 'LinkedIn-Post', hook: '"Der Markt boomt wieder. Die BWP-Prognose zeigt: Wärmepumpen sind gekommen, um zu bleiben."', hashtags: '#BWP #Wärmepumpe #Markt #Prognose #Planville' },
+    ],
+  },
+  // — Nov 18, 2025
+  {
+    title: 'Neue PV-Anlagen: Nulleinspeisung in immer mehr Netzregionen zur Pflicht',
+    summary: 'In immer mehr deutschen Netzregionen dürfen neue Photovoltaikanlagen nur noch mit Nulleinspeisung in Betrieb gehen. Die Netzbetreiber begründen dies mit Netzengpässen. Für Anlagenbetreiber bedeutet das: Ohne Speicher ist der Eigenverbrauch begrenzt. Fachanwälte sehen rechtliche Probleme.',
+    source: 'news',
+    outlet: 'pv magazine',
+    sourceUrl: 'https://www.pv-magazine.de/2025/11/18/nulleinspeisung-fuer-neue-photovoltaikanlagen/',
+    topic: 'photovoltaik',
+    sentiment: 'negativ',
+    relevance: 88,
+    dateStr: '2025-11-18',
+    aiInsight: 'Beratungs-Chance! Kunden fragen sich: Lohnt sich PV noch ohne Einspeisung? Antwort: "Mit Speicher auf jeden Fall. Wir planen Anlagen, die sich auch ohne Netzeinspeisung rechnen."',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Nulleinspeisung: Darf mein Netzbetreiber das? Was es bedeutet und wie du trotzdem profitierst — in 5 Slides"', hashtags: '#Nulleinspeisung #PV #Speicher #Eigenverbrauch #Planville' },
+      { type: 'Reel', hook: '"Dein Netzbetreiber will keine Einspeisung mehr? Kein Problem — mit der richtigen Speicher-Strategie."', hashtags: '#Photovoltaik #Nulleinspeisung #Batteriespeicher #Solar' },
+    ],
+  },
+  // — Nov 5, 2025
+  {
+    title: 'Wärmepumpen-Absatz durchbricht 30.000er-Marke im September und Oktober',
+    summary: 'Der Bundesverband Wärmepumpe meldet Rekordabsätze: Im September und Oktober 2025 wurden jeweils über 30.000 Wärmepumpen verkauft — ein Plus von 57 Prozent gegenüber dem Vorjahr. Knapp die Hälfte aller verkauften Heizungen sind jetzt Wärmepumpen. Luft-Wasser-Systeme dominieren mit 95% Marktanteil.',
+    source: 'news',
+    outlet: 'BWP / waermepumpe.de',
+    sourceUrl: 'https://www.waermepumpe.de/presse/news/details/ueber-50-prozent-im-plus-waermepumpen-absatz-steigt-2025-deutlich/',
+    topic: 'waermepumpen',
+    sentiment: 'positiv',
+    relevance: 86,
+    dateStr: '2025-11-05',
+    aiInsight: 'Comeback-Content! "30.000 Wärmepumpen in einem Monat. Die Nachfrage explodiert — und wir liefern." Zeigt eure aktuellen Projekte und Kapazitäten. Wartelisten-Content als Dringlichkeits-Trigger.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"30.000 Wärmepumpen in einem Monat. Der Markt boomt wie nie. Und wir sind mittendrin."', hashtags: '#Wärmepumpe #30000 #Rekord #BWP #Planville' },
+      { type: 'Story-Serie', hook: 'Hinter den Kulissen: So viele WP-Projekte hat Planville gerade gleichzeitig laufen', hashtags: '#TeamPlanville #Wärmepumpe #Handwerk #BehindTheScenes' },
+    ],
+  },
+  // — Oct 24, 2025
+  {
+    title: 'KfW-Heizungsförderung September: 30.000 Anträge bewilligt — 90 Prozent für Wärmepumpen',
+    summary: 'Die KfW hat im September 2025 über 30.000 BEG-Förderanträge für den Heizungstausch bewilligt. Der Wärmepumpen-Anteil kletterte auf 90 Prozent — ein neuer Höchstwert. Im gesamten ersten Halbjahr lag der Anteil noch bei 82 Prozent. Solarthermie und Wärmenetze spielen weiterhin eine untergeordnete Rolle.',
+    source: 'news',
+    outlet: 'Solarserver',
+    sourceUrl: 'https://www.solarserver.de/2025/10/24/beg-heizungsfoerderung-der-kfw-anteil-der-waermepumpen-weiter-gestiegen',
+    topic: 'foerderung',
+    sentiment: 'positiv',
+    relevance: 85,
+    dateStr: '2025-10-24',
+    aiInsight: 'Förderungs-Content! "90% aller Förderanträge gehen an Wärmepumpen. Wir helfen dir beim Antrag — von der Planung bis zur Auszahlung." KfW-Prozess als Service von Planville positionieren.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"KfW-Förderung für Wärmepumpen: So bekommst du bis zu 70% Zuschuss — Schritt-für-Schritt in 5 Slides"', hashtags: '#KfW #BEG #Förderung #Wärmepumpe #Planville' },
+      { type: 'Reel', hook: '"90% aller KfW-Förderanträge gehen an Wärmepumpen. Hast du deinen schon eingereicht?"', hashtags: '#Förderung #KfW #Heizungstausch #Wärmepumpe' },
+    ],
+  },
+  // — Oct 21, 2025
+  {
+    title: 'Bertelsmann-Studie: Fachkräfte wandern aus Handwerk und Pflege in andere Branchen ab',
+    summary: 'Eine Studie der Bertelsmann Stiftung zeigt: Beschäftigte in Engpassberufen kehren ihrem Job häufiger den Rücken als andere. Nettoverlust: 24.000 Fachkräfte pro Jahr allein aus Pflege, Handwerk und IT. Schlechte Arbeitsbedingungen und niedrige Löhne sind Hauptgründe für den Wechsel.',
+    source: 'news',
+    outlet: 'Bertelsmann Stiftung',
+    sourceUrl: 'https://www.bertelsmann-stiftung.de/de/themen/aktuelle-meldungen/2025/pflege-handwerk-it-weil-beschaeftigte-sich-abwenden-verschaerft-sich-der-fachkraeftemangel',
+    topic: 'handwerk',
+    sentiment: 'negativ',
+    relevance: 75,
+    dateStr: '2025-10-21',
+    aiInsight: 'Employer-Branding-Pflicht! "24.000 Fachkräfte verlassen das Handwerk pro Jahr. Bei Planville nicht." Zeigt was euch als Arbeitgeber ausmacht: faire Löhne, modernes Equipment, Weiterbildung.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '"24.000 Fachkräfte verlassen das Handwerk jedes Jahr. Wir investieren in die, die bleiben — und in die, die zu uns kommen."', hashtags: '#Fachkräftemangel #Handwerk #Arbeitgeber #Planville #Karriere' },
+      { type: 'Reel', hook: '"Warum verlassen Fachkräfte das Handwerk? Und was wir bei Planville anders machen."', hashtags: '#Handwerk #Fachkräfte #TeamPlanville #Karriere' },
+    ],
+  },
+  // — Oct 17, 2025
+  {
+    title: 'PV-Markt 2025: Systempreise so günstig wie nie — beste Bedingungen für Kaufinteressierte',
+    summary: 'Laut einer Marktanalyse des Großhändlers EWS sind die Bedingungen für PV-Kaufinteressierte so günstig wie lange nicht. Sinkende Modulpreise, freie Handwerkskapazitäten und hohe Speichereffizienz machen 2025 zum idealen Einstiegsjahr. Der Privatkundenmarkt ist jedoch um 25% eingebrochen.',
+    source: 'news',
+    outlet: 'Solarserver',
+    sourceUrl: 'https://www.solarserver.de/2025/10/17/photovoltaik-markt-2025-guenstige-preise-fuer-kaufinteressierte',
+    topic: 'photovoltaik',
+    sentiment: 'positiv',
+    relevance: 92,
+    dateStr: '2025-10-17',
+    aiInsight: 'Verkaufs-Argument Nummer 1! "Die Preise sind unten, die Kapazitäten da — wer jetzt nicht bestellt, verpasst das beste Fenster." Dringlichkeits-Marketing mit echten Marktzahlen.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"PV-Preise so niedrig wie nie. Handwerker haben Kapazitäten. Wenn nicht jetzt — wann dann?"', hashtags: '#Photovoltaik #Preise2025 #Solar #Eigenheim #Planville' },
+      { type: 'Blogartikel', hook: '"Warum 2025 das beste Jahr für eine PV-Anlage ist — Preisvergleich, Förderung und Timing"', hashtags: '#PV #Solaranlage #Kaufberatung #Planville' },
+    ],
+  },
+  // — Oct 7, 2025
+  {
+    title: 'Reddit-Diskussion: "Solarpflicht bei Dachsanierung — lohnt sich das wirklich?"',
+    summary: 'Im Bauexpertenforum diskutieren Eigenheimbesitzer kontrovers über die Solarpflicht bei Dachsanierungen. Viele berichten von positiven Erfahrungen: Die PV-Anlage amortisiert sich schneller als erwartet. Andere kritisieren den Mehraufwand und die Bürokratie. Besonders die Wirtschaftlichkeitsprüfung sorgt für Verwirrung.',
+    source: 'reddit',
+    outlet: 'Bauexpertenforum',
+    sourceUrl: 'https://www.bauexpertenforum.de/threads/solarpflicht-dachsanierung-erfahrungen.63201/',
+    topic: 'pvpflicht',
+    sentiment: 'neutral',
+    relevance: 80,
+    dateStr: '2025-10-07',
+    aiInsight: 'Community-Fragen aufgreifen! Viele Eigentümer sind unsicher bei der Solarpflicht. "Du musst dein Dach sanieren und PV drauf? Wir machen beides aus einer Hand." FAQ-Content erstellen.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '"Solarpflicht bei Dachsanierung: Die 5 häufigsten Fragen aus der Community — beantwortet von unseren Experten"', hashtags: '#Solarpflicht #Dachsanierung #FAQ #PVPflicht #Planville' },
+      { type: 'Reel', hook: '"Musst du bei der Dachsanierung PV drauf? Kommt drauf an — wir klären in 60 Sekunden."', hashtags: '#PVPflicht #Dachsanierung #Solar #Eigenheim' },
+    ],
+  },
+];
+
+// Kanban board initial data (empty — user fills via "Zum Board" from news articles)
+const DEMO_KANBAN_ITEMS = [];
+
+const KANBAN_COLUMNS = [
+  { id: 'new', label: 'Neu', icon: 'sparkles', color: '#329866' },
+  { id: 'planned', label: 'Geplant', icon: 'calendar', color: '#6366F1' },
+  { id: 'in_progress', label: 'In Arbeit', icon: 'pen-tool', color: '#F59E0B' },
+  { id: 'review', label: 'Review', icon: 'eye', color: '#EC4899' },
+  { id: 'published', label: 'Veröffentlicht', icon: 'check-circle', color: '#16A34A' },
+];
+
+// Generate articles with fixed dates (already ordered newest first)
+function generateDemoArticles() {
+  return DEMO_ARTICLES.map((article, i) => {
+    const date = new Date(article.dateStr + 'T09:00:00+01:00');
+    return {
+      ...article,
+      id: `article-${i}`,
+      date: date.toISOString(),
+      timestamp: date.getTime(),
+      readTime: Math.floor(Math.random() * 5) + 2,
+      engagement: Math.floor(Math.random() * 500) + 50,
+    };
+  });
+}
+
+function generateKanbanItems() {
+  const now = new Date();
+  return DEMO_KANBAN_ITEMS.map((item, i) => ({
+    ...item,
+    createdAt: new Date(now.getTime() - (i * 24 + Math.random() * 24) * 60 * 60 * 1000).toISOString(),
+  }));
+}
+
+// Trending stats
+const DEMO_STATS = {
+  totalArticles: 847,
+  todayArticles: 23,
+  avgSentiment: 68,
+  topTopic: 'Photovoltaik',
+  contentIdeasGenerated: 156,
+  publishedThisWeek: 8,
+};
+
+  </script>
+  <script>
+// ============================================================
+// Planville News Dashboard — Main Application (v2)
+// ============================================================
+
+(function () {
+  'use strict';
+
+  // === TOOLTIP DEFINITIONS ===
+  const TIPS = {
+    newsFeed: 'Automatisch gesammelte Nachrichten, Reddit-Posts und Social-Media-Trends aus der Energiebranche.',
+    contentBoard: 'Verwalte Content-Ideen vom ersten Entwurf bis zur Veröffentlichung per Drag & Drop.',
+    ideenGenerator: 'KI-gestützte Content-Vorschläge basierend auf aktuellen Trends — Hooks, Talking Points und Hashtags inklusive.',
+    statsArticles: 'Anzahl der Artikel, die den aktuellen Filtern entsprechen.',
+    statsSentiment: 'Anteil positiver Artikel an der Gesamtzahl — zeigt die Branchenstimmung.',
+    statsIdeas: 'Summe aller vorgeschlagenen Content-Ideen aus den angezeigten Artikeln.',
+    statsPublished: 'Anzahl der Inhalte, die im Content-Board als „Veröffentlicht" markiert sind.',
+    relevance: 'KI-Bewertung der Relevanz für Planville (0–100%). Je höher, desto wichtiger für euer Marketing.',
+    sentiment: 'Stimmungsanalyse: Positiv, Neutral oder Negativ — zeigt den Grundton des Artikels.',
+    aiInsight: 'KI-generierte Einschätzung, warum dieser Artikel für euer Marketing relevant ist und was ihr damit machen könnt.',
+    contentIdeas: 'Konkrete Vorschläge für Posts, Reels, Blogs etc. mit fertigen Hooks und Hashtags.',
+    addToBoard: 'Fügt diese Idee als neue Karte in das Content-Board ein.',
+    sourceLink: 'Öffnet die Originalquelle in einem neuen Tab.',
+    dateNav: 'Navigiere zwischen Tagen, um ältere Artikel zu sehen — ideal für den Montag-Morgen-Rückblick.',
+    searchBox: 'Durchsucht Titel, Zusammenfassungen und Quellen nach Stichwörtern.',
+    refreshIndicator: 'Im Live-Betrieb werden alle 30 Minuten automatisch neue Artikel abgerufen.',
+    topicFilter: 'Filtere Artikel nach Planville-Geschäftsbereichen.',
+    sourceFilter: 'Filtere nach Nachrichtentyp: Presse, Reddit-Diskussionen oder Social-Media-Posts.',
+    themeToggle: 'Zwischen hellem und dunklem Design wechseln.',
+    kanbanDrag: 'Ziehe Karten per Drag & Drop zwischen den Spalten.',
+    generatorTopic: 'Gib ein Thema ein, zu dem du Content-Ideen haben möchtest.',
+    generatorFormat: 'Wähle das gewünschte Format: Reel, Karussell, Story, LinkedIn oder Blog.',
+    generatorTone: 'Bestimme den Tonfall: informativ, emotional, provokant oder humorvoll.',
+  };
+
+  function tip(key, className = '') {
+    const text = TIPS[key] || key;
+    return `<span class="info-tip ${className}" aria-label="${text}"><i data-lucide="info" width="14" height="14"></i><span class="tip-text">${text}</span></span>`;
+  }
+
+  // === STATE ===
+  const state = {
+    currentView: 'feed',
+    theme: localStorage.getItem('pv-theme') || 'dark',
+    selectedDate: new Date(),
+    activeTopic: null,
+    activeSource: null,
+    searchQuery: '',
+    articles: [],
+    kanbanItems: [],
+    sidebarOpen: false,
+    expandedCards: new Set(),
+    lastRefresh: new Date(),
+    generatorLoading: false,
+    generatedIdeas: [],
+  };
+
+  // === INIT ===
+  function init() {
+    document.documentElement.setAttribute('data-theme', state.theme);
+    state.articles = generateDemoArticles();
+    // Clear old demo kanban data (one-time migration)
+    const savedKanban = JSON.parse(localStorage.getItem('pv-kanban') || '[]');
+    const hasDemoIds = savedKanban.some(i => /^k\d+$/.test(i.id));
+    state.kanbanItems = hasDemoIds ? [] : savedKanban;
+    if (hasDemoIds) localStorage.removeItem('pv-kanban');
+    render();
+    setupAutoRefresh();
+    if (typeof lucide !== 'undefined') { try { lucide.createIcons(); } catch(e) {} }
+  }
+
+  // === HELPERS ===
+  function $(sel, ctx = document) { return ctx.querySelector(sel); }
+  function $$(sel, ctx = document) { return [...ctx.querySelectorAll(sel)]; }
+
+  function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now - d;
+    const diffH = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffMin = Math.floor(diffMs / (1000 * 60));
+    if (diffMin < 60) return `vor ${diffMin} Min.`;
+    if (diffH < 24) return `vor ${diffH} Std.`;
+    if (diffH < 48) return 'Gestern';
+    return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
+  function formatDateLabel(date) {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const target = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const diffDays = Math.floor((today - target) / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) return 'Heute';
+    if (diffDays === 1) return 'Gestern';
+    if (diffDays < 7) return `Vor ${diffDays} Tagen`;
+    return date.toLocaleDateString('de-DE', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function getTopicLabel(id) { const t = TOPICS.find(t => t.id === id); return t ? t.label : id; }
+  function getTopicIcon(id) { const t = TOPICS.find(t => t.id === id); return t ? t.icon : 'tag'; }
+
+  function getFilteredArticles() {
+    let articles = [...state.articles];
+    const selectedDay = new Date(state.selectedDate);
+    selectedDay.setHours(0, 0, 0, 0);
+    const nextDay = new Date(selectedDay);
+    nextDay.setDate(nextDay.getDate() + 1);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const isToday = selectedDay.getTime() === today.getTime();
+    if (!isToday) {
+      articles = articles.filter(a => { const ad = new Date(a.date); return ad >= selectedDay && ad < nextDay; });
+    }
+    if (state.activeTopic) articles = articles.filter(a => a.topic === state.activeTopic);
+    if (state.activeSource) articles = articles.filter(a => a.source === state.activeSource);
+    if (state.searchQuery) {
+      const q = state.searchQuery.toLowerCase();
+      articles = articles.filter(a => a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q) || a.outlet.toLowerCase().includes(q));
+    }
+    return articles;
+  }
+
+  function saveKanban() { localStorage.setItem('pv-kanban', JSON.stringify(state.kanbanItems)); }
+
+  function scrollToTop() {
+    const main = $('.main-content');
+    if (main) main.scrollTo({ top: 0, behavior: 'smooth' });
+    const area = $('.content-area');
+    if (area) area.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // === RENDER ===
+  function render() {
+    const app = $('#app');
+    app.innerHTML = renderApp();
+    bindEvents();
+    if (typeof lucide !== 'undefined') { try { lucide.createIcons(); } catch(e) {} }
+  }
+
+  function renderApp() {
+    return `
+      <div class="demo-banner">
+        <i data-lucide="newspaper" width="16" height="16"></i>
+        <span>Kuratierte Branchennews — Manuell gepflegt von Planville</span>
+      </div>
+      <div class="app-layout">
+        <div class="sidebar-overlay ${state.sidebarOpen ? 'active' : ''}" id="sidebarOverlay"></div>
+        ${renderSidebar()}
+        <div class="main-content">
+          ${renderMainHeader()}
+          ${state.currentView === 'feed' ? renderStatsBar() : ''}
+          ${renderViewTabs()}
+          <div class="content-area">
+            ${state.currentView === 'feed' ? renderNewsFeed() : ''}
+            ${state.currentView === 'kanban' ? renderKanban() : ''}
+            ${state.currentView === 'generator' ? renderGenerator() : ''}
+          </div>
+        </div>
+      </div>
+      ${renderModal()}
+    `;
+  }
+
+  // --- SIDEBAR ---
+  function renderSidebar() {
+    // Count articles per topic
+    const topicCounts = {};
+    state.articles.forEach(a => { topicCounts[a.topic] = (topicCounts[a.topic] || 0) + 1; });
+
+    // Count articles per source
+    const sourceCounts = {};
+    state.articles.forEach(a => { sourceCounts[a.source] = (sourceCounts[a.source] || 0) + 1; });
+
+    return `
+      <aside class="sidebar ${state.sidebarOpen ? 'open' : ''}">
+        <div class="sidebar-header">
+          <div class="header-logo sidebar-logo-large" id="sidebarLogo" title="Zurück nach oben">
+            <img src="data:image/png;base64,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" alt="Planville" class="logo-dark">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQkAAAEdCAYAAACv9uFrAAAACXBIWXMAAAsSAAALEgHS3X78AAAgAElEQVR4nO3dP2ykSXrf8e8eVoDvEvKyOyfsg5Q4Gm6mYC32wnAoDC86OZpeSKGB5cKJAgHTE0mAg+HmkuedRDhFy4EUGTC2KZ0BBQaWzHXYZmRlSya6QAePg+oWmz3dZP+peqvqfb8fgJid2WG9D4fNt9/3eX9V9dH79++R9vAL4D8DDfCrvKVIkiRJkiRpFx/ZJNSOjoAL4Hj2+/fAO+Dn2SqSJEmSJEnSTn6QuwBV6Qz4J+4bhAAfAafA98CnOYqSJEmSJEnSbkwSahvL6cF1TBVKkiRJkiRVxCShNrUqPbiOqUJJkiRJkqSKmCTUUzZND65jqlCSJEmSJKlwJgn1mG3Sg+uYKpQkSZIkSSqcSUKtsm96cB1ThZIkSZIkSQUySahlMdKD65gqlCRJkiRJKpBJQs2lSg+uY6pQkiRJkiSpECYJBWnTg+sspgqPWjyuJEmSJEmSltgk7Lcj4FvgNfBxphoOge+AP890fEmSJEmSpN5zunF/nQH/nXzNwVX+Gfh94CZ3IZIkSZIkSX1ikrB/SkgPrvMTTBVKkiRJkiS1ziRhv5SYHlzHVKEkSZIkSVJLTBL2Q8npwXVMFUqSJEmSJLXEJGH31ZQeXMdUoSRJkiRJUkImCburxvTgOqYKJUmSJEmSEjJJ2E1dSA+uY6pQkiRJkiQpMpOE3dKl9OA6pgolSZIkSZIiM0nYHV1OD65jqlCSJEmSJCkCk4TdMKHb6cF1TBVKkiRJkiRFYJKwbr8A3gA/zF1IAUwVSpIkSZIk7cgkYb0mwC+xQThnqlCSJEmSJGlHJgnrY3rwaaYKJUmSJEmStmCSsC4TTA9uwlShJEmSJEnSFkwS1sH04O5MFUqSJEmSJD3BJGH5Jpge3IepQkmSJEmSpCeYJCyX6cH4TBVKkiRJkiStYJKwTBNMD6ZgqlCSJEmSJGkFk4RlMT3YHlOFkiRJkiRJMyYJyzHB9GCbTBVKkiRJkiTNmCTMz/RgfqYKJUmSJElSr5kkzGuC6cES/AT4J+AsdyGSJEmSJEk5mCTMw/Rgua6AU0wVSpIkSZKkHjFJ2L4JpgdLdoypQkmSJEmS1DMmCdtjerA+pgolSZIkSVIvmCRsxwTTgzUyVShJkiRJknrBJGFapge7w1ShJEmSJEnqLJOE6UwwPdglpgolSZIkSVJnmSSMz/Rg95kqlCRJkiRJnWKSMK4Jpgf7wFShJEmSJEnqFJOEcZge7C9ThZIkSZIkqXomCff3NaYH+8xUoSRJkiRJqp5Jwt19CvwtcJi7EBXDVKEkSZIkSaqSScLdfA38PTYI9ZCpQkmSJEmSVCWThNsxPahNmSqUJEmSJEnVsEm4nX/BtQe1uUtgmLsISZIkSZKkp9gk3NwRMM1dhKryG+BHuYuQJEmSJEl6imsSbu73cxeg6vy73AVIkiRJkiRtwiThdr7H9Qi1OacbS5IkSZKkKpgk3M6r3AWoGu+BF7mLkCRJkiRJ2oRJwu39K/Bx7iJUPFOEkiRJkiSpGiYJt/c2dwEqnilCSZIkSZJUFZOEuzFNqMeYIpQkSZIkSVUxSbgb04R6zJ/lLkCSJEmSJGkbJgl3Z5pQq/wa+L3cRUiSJEmSJG3DJOHuTBNqlVHuAiRJkiRJkrZlknA/pgm1yBShJEmSJEmqkknC/fzv3AWoKKPcBUiSJEmSJO3CJOF+joDvgI9yF6LsTBFKkiRJkqRqdTVJeAqcAYeJj3MD/H3iY6gOoxaOMQDGs18lSZIkSZKi6VqScAA0wMns9zfAEJgmPKZpQt0CP058jFPCa/tg9vtXhIahJEmSJEnS3rqUJDwDrrhvEEJo4I0TH9c0oV61cIxz7huEAC8Jr/fjFo4tSZIkSZI6rgtJwgEP04Or/JiQ9krFNGF/tZEiHAFvHvn/pgolSZIkSdJeak8SrkoPrvt7Kd0A14mPoTK1kSIcP/H/TRVKkiRJkqS91JokHPB0enDR3exzUqYJPwX+IeH4Kk8bKcIh8M0Wf99UoSRJkiRJ2lqNScJN04OLDkifJvwV8OvExyjNbwmNsvnHb/OW07oSUoTLTBVKkiRJkqSt1dQkHAAT4DUPN3DY1BlwGLGeVUaJxy/Fr4E/An6HkKSbf/wO8B/pR7P0N4TNRFIasl0zfO4Z8C0mCiVJkiRJ0oZqaRLukh5cZppwf78hNAd/D/ibNX/nV7P//0ezv99Vf93CMcZ7fr6pQkmSJEmStJHS1yQ8JKw9+DzSeK5NuLtLQrJtWxP2a+6W6LeE1GRKQ7Zbi/AprlUoSZIkSZLWKjlJeApMidcghJAmPI043ipdSxP+lpAKHO74+UO6lyp828IxxpHHM1UoSZIkSZLWKjFJGDs9uOyGkCZM6RfALxMfow1XhKbqTYSxjoAL6m9StZEiPCasKZiKqUJJkiRJkvRAaUnCFOnBZUek32Dkb0g7pTm13wJfAp8Qp0HIbJxPZuPWvAtyGynC1GtnmiqUJEmSJEkPlJIkTJ0eXNZGmvCMsBNzbX4N/CfiNQdXOQL+F/C7CY+RQhspwgHwXeJjLDJVKEmSJEmSikgStpEeXNZGmvCcutKE74G/IOxMnLJByGz835sdr4gu9Yb+roVjjFs4xiJThZIkSZIkKWuSsO304DLThPf+Gfh90jcHVzkC/hH4SYZjb+M98DPS/hsNaDdFuMxUoSRJkiRJPZUrSZgjPbjMNOF9evCn5GkQMjvuT4G/ouxU4d+T/t9onHj8p5gqlCRJkiSpp9pOEuZODy67BIaJj1FqmvAW+EPgV7kLWfAp8LeE10lJ+pAiXGaqUJIkSZKkHmmzSXhKaBAetHXADX0GTBIf41+AHyY+xqbeA++An+cu5BFfExrJH+UuZKaNZnIDvEh8jG1dE9K2V5nrkCRJkiRJibUx3fgQuCA0fkprEEI7aam/buEYm/gN8AeU3SCEUN9/IdSb23vSN+8OCU300jwDvsVEoSRJkiRJnZe6SVjC2oNPOSF9SuxPgN8mPsZTLoEfUdb04sf8DaHey8x1tLEW4RllNtDnXKtQkiRJkqSOS9UkLD09uGzcwjHetnCMVX4D/BHpG6GpDAn150oV/lni8Q8JTcLSmSqUJEmSJKnDUqxJWOrag09pY23CfwU+TnyMRW2spdemb2k3zfZr4PcSH2NMSOrVxLUKJUmSJEnqmJhJwtrSg8vGLRyjrTThb4Ev6VaDEOATwtfV1tTtUeLxa0kRLjNVKEmSJElSx8RKEtaaHlz2M8IaiimlThNeEb4fqdfRy+mI0JBOmSo0RbgZU4WSJEmSJHXAvknC2tODy8YtHOPvEo07Tw9+QrcbhBC+vk+AvyDsPpzCKNG4i2pMES4zVShJkiRJUgfskyTsSnpwWeo04RHwHfBRxDH/Gfh9ut8cXOUI+EfgJxHHbCNFOALeJD5G20wVSpIkSZJUqV2ShF1LDy4bJx7/Bvj7SGO9J6Tpfko/G4QQvu6fEjdVOIo0zmPGLRyjbaYKJUmSJEmq1LZJwq6mB5fVkCbsc3pwnU+BvyU0snd1C/w4TjlrjeheinCZqUJJkiRJkiqyaZPwkNAcfJ60mnK8JX2abAKc7PB574H/AfxJ1Gq65WvCa3WXJuyXwHnccj4wJTSK++AVJgsl5XPOh5tcXREeCKUy5cMHjav+TJIkSSrKJk3CvqQHl5WYJrwF/hD4VZKKuuVT4H8CP9zic0wRpmGqUFIuE3Z7IBebD0wkSbUZEHoBp4QHbov9gBvCtf0FoVcgqSMeW5Ow62sPPmWUePxt1iZ8T/he/BgbhJv6FfAj4HKLz3mVqJZF4xaOURrXKpQkSZLqMCA0/r4DXhMeti33A44IM7feEIIWZ+2VJymldU3CU0KKri/Ti1c5Y7+17TbxAvjNE3/nN8AfAD9PXEtXDYE/4ul/578i/TTjU/ozzXiVl4QnjstT/yRJkiTlNyJcr7/Y4nMOCM3ECenvnyUlttwk7Ht6cNEB6Z+I3AD/gdXTMN8TUnA/osz04CEhGTZZ+BhT5hvD33CfKlyeX/9bws7Ibazx6BM2U4WS2lXie5IkSSUaEZKBu/YBTrBRKFVvcU3Cvq49+Jg7Qtw65QLnc0c8TAumTrXt47HXyh3hDeaixXq2NW/W/R/aa8AOgW9aOlYtXKtQUmob7c7WAtcklCSVbES8ddOvKWfm0DFxmpZT3IBMPTFvEjZsFynuEy/s722zy/U7wptNGw3WGkwoY/H8En2OCx4rjRHhQQ+Ec1HKhnTq8bUbm4SSJD1uQLiGiRkW+ooyZlFNibPcU0nv4+fEacJeUcb3SIX56P3790NMOD2mzTRhyXZJmt7NPm+SoJ6aDPFn7DH+jCmVCd1qzm+yEdMV9z9L8/9e/LO+sUkoSdLjJqS5XvoZ+dN3sa4DSnofnxDn+3VJuE+VHvgYXxhPOSCkUUqe/pvSfO3BL3b43ANCc+yr2Rh9vUkd5y6gcAeEp2GTzHVIpdvkgvCxv3NJuFi/mn1M9i9JkiRV7Jh0D1THhPtoSRVZt7uxHuprDHdIuJHcpUG46IvZOMM9x6nRkG4lmSTV64SwtMhrwgOc99xvOlXK2kGSJKk9o4RjnyYcW1IiNgk3c0S/noIcEpKT3xBnDQdm43xD/1J1o9wFSNIjToCXhF3Hp8Rb50aSJJVvmHDsg8TjS0rAJuHmxrkLaMl82ue+6cF1XhJShX24CR3ghkCS6nFEOPfPG4ZnxNkRUJIklelZ4vEHiceXFJlNws31IU04Jtwcpn6zeDY7zjjxcXIb5y5AknZ0RJiW/D1h06pBzmIkSVJ0bTwIHLRwDEkR2STczjh3AYkcE9J9L1s+7ktCanHQ8nHbMMAUoaRueAF8h81CSZK6pA8zuyRtySbhdrqYJjyjnfTgOieEBmXXNocZ5y5AkiKbNwvHOA1ZkqTaTXMXIKk8Ngm315Vm1oCQ4nudtwwgLGr7mlBPF248B5gilNRd87Vl3bVQkqR6TTtyDEkR2STc3jPq36XpjHCDd5K7kCUnhDeS2m88x7kLkKTEjoCvgQu68XBHkqQ+ukk8/lXi8SVFZpNwN7WmCQ8JN3SvCem9Eh1Q/41n7U1OSdrUc/qzY70kSV1zkXDsO2wSStWxSbibGptXp4SU3vPMdWzqOaHeYd4ytnZIuQ1YSUrhiLC27ShzHZIkaTtNwrFTNiAlJWKTsPvm6cGvqa95dQB8A5xTT2P2NncBkpTJG8L5WpIk1eEKuEw09jjRuJISskm4m1oaQUPqSg+u8wXhDWyYuY5N3eUuQJIy+YK0qQRJkhRXiqW0vsJNS6Qq2STcTZO7gCccEtIc31BfenCdI8LXM85cxyaM1kvqsxeU/z4pSZKCK+DziONdU+8a/n0yzV2AymSTcHvvKLsJNCSc6L/IXEcqLyl/kfwzTBNK6jcbhZIk1aMhTqPwmnpmf/XdNHcBKpNNwu28peyF2efpwaPchST2jLBI/jhzHevcEt4crzPXIfVdLWuZdtULyn7PlCRJ9xpCo3DXsMMl4R6olqW5JK1gk3Azd8DPCTc7JZ70jul2enCdl8AEGOQtY6V52vFV7kKkHnuWuwDxBhMF4NN6SVIdGsI9zDabmdwBX2KDUOoEm4RPe0doQpU6xXhMSNX19Wb4hNCQK3XdizHwCXCTuQ5JyuUCU53T3AVIkrShKaHh9zNC4OGSD9OFN4T75M8J98rnrVUnKamPcxdQsDtCg6fUE94x4UlPX5uDiw6A18Dp7KO0J1jzVOGY/qU9JemA8H51mrkOSZK0uSnlLu/UtqvcBSw4yV2Aus0k4WqXhKZOqQ3CM8I0WxuED50Q3sxKvBG9JXzfPsNUoaT+eY7rE0qSpDqVFkKRkrFJ+NDiegrTrJWsNiA0B18Tkhn60AHwNeVOb5sQGtDvMtchSW07p8zzsiRJkiRsEi6ab9decnrwCuPFm3rO/XoapbklpB1/zu67h0lSbQ5od/3YYYvHkiRJkqpnkzB4xf0OwaU5JKTiTA9u7wD4hnLTKxeEdKipQkl98ZIyd6SXJEndUuL9n1S8vjcJrwk7z44z17HOKSEN9zxzHbX7gtAAHmauY5V5qvBzTBVK6odx7gIkSVLnHecuQKpRn5uEX1F+evBrTA/GckRIFY4z17FOQ3g9XmauQ5JSe4FP9yVJkqTi9LFJeEPYYbbNdZG2McT0YEovCY3hEp8sTQnf/y8xVSip20p9D5YkSZJ6q29Nwnl6cJK5jlUOCWvnfYPpwdSeAd9SbqrwnPA6vc5diKQobggp4XUffTTKXYAkSZKkhz7OXUBL7gjrvk0y17HOkDDd9ChvGb3zkvBvPyKk+EoyJTQKx4Q6JdWrIf5DiUPCOWL+63D2ay0PmY4I78sXuQuRJEmSFPShSfiO0AS6zVzHOueEjTWUxwlh+vGY8L0ozZhwE90QEpCSBOE9bTL778VG2+ns40XbBe3AJmH3DWYfw6XfP+aK8Pqezj7mv5ckSVJiXW4S3hGag6XegBxj46cUB8Br7m+uS7sZma+hOMZUoaTHXcw+xrOPkpuFp7kLUFSHhGbgkPCedbLjOKs+747QFL8ivL5L3HROkiSpel1tEl5SZrNnbozNnhKdEFILI8psLo8JN0kNTk2X9Lgp4VzWUO4544DQUJrkLUN7OOT+AVvKDdcOZuM/J1w/3XHfEI/1fj0i7lqZt+zezBxHrGMTA1YnPLua4hzMPuZLNiz+2aLl7+HVwp918d9FkqTONQnvKHfaKISLjwtMD5bsAPiacqepT7hPFTpNXdJTJtxv2FXie88Qm4Q1OiW8R6ZsDD7mgJCSfUHYGKiZfUz3GHPA7unHdXb99xnHLGIDI/I8vL7hw+/ZMPIx9k24rvse3hGahZOFD0mSqtel3Y0vCW/+pTYIzwgXEyXepOlDzwkXrsO8Zax0S3g9fUa4wJakx9wSzmUl7pg+zF2AtjIivDd+Tb4G4bIjQoPrO0KjcJCzGG3liNC0W/yIYcD9dff3hNfrFxHHh9CoPiG89r4B3hOCACPu04mSJFWnK03CLwk3GtO8Zaw0IDxdfE09u04qOCBc+J1T5gXfhNAYf5e5DknluyXcvN5lrmNZ7OSW0hgRrrHeUObU9bkXhGbhmDLft5XWiHBt9B3hurvtB/PPCT8j3xMahq67KkmqThemG39OeHJcohGhwWRzsG5fcD+1apK1kg/dEmprKHuDAkn5zXdyf525jmXHuBFFqYaUu6blY14SkmQjylxjWPEcEr7XZ5R1vT1fQ/OGcN5tchazgTPiNjXHlHfNLEnaQO1Nwi8p8033kFBXKVNxtL8jQqrwFe2vFbSJEWnWU5K0v2nuAhacE24GS2r62CQsTxeuY0pfY1j7OyNck5XUHFx2REgXjgn1ltq0nhD3AdIIm4Rzh4R06TqXW453RXgtxTZktyVAVm3kM9mzFql0wxV/ts+GZUWpuUl4TZnrD85TXSVfsGh3L7lPFZZ2EhgRpthIKss0dwFLxoSb1lIMchegB7p2HbO4xnBp79vazZD6Eq5HhKb1JffT90tyRUg9xvo3dar1vaf+LbZ9wN/sWMdThsTbwOijSONIOQwJD7DnG18x+/2210XzzbnmzcPp7Nfir0VqbhKW1iDswlN3beYZ8C3lpQqnwFucdizpcReU1SQ8zl2A/s05YYmNrjkgvG+XvESNnnZIuO6q+TV6wv3SD6Xdy5wTL014QGiOlZqcbFPM1N8d/psqHhP24UH1kPvGYMy1bI+4f/Cy3CO6JLwXTGYfRX0vat64pMldwIIh4Ztsg7BfXhJ+qAd5y3igyV2ApOLdUtaGR24wkd8h4Tqm5ubLJt5QXmNGm5kvS9CF1+gBoRl3QVnnv9jNp1Hk8Wo0IG7T4YLCmgmqWvGJtkSOCdcCV4RZeG8IIZs2N7s6IbyffU1YjmBCeKAwaLGGtWptEm67dkMqh4QX2DfUNeVB8cyfCKdYG2QXk9wFSIUo6carRCVdGA5yF9Bzx4Qkets7webyBT5Qq82IcH3TtWvt54Svq5Q09ZS4D5Ce43tx7PsDH3JIuxkQEtxTwsyCLyjruueE8PDoO8L7woiM589am4TT3AVwnx7swhNN7Wf+RHiCF0NSKUq56SrVJHcBC7p2479KqcmPY8JroSvrD27qBTYKa3FGSHl09TX6jLIahU3k8fq+NmHMr/+ash7wSTUYEs5r3xFmAdZwzXlCeN+bEh4MDNouwCbhbsaYHtSHTgivzb5fEEkq3zR3AT1T4o1dXxuEcy9wOmTpGuLuuFuqA8ppFF4Q1r2LZRRxrNqcEvde0RShtLkh4bz6DfWu139ACKR9R3g/HLR14FqbhLnM10OJtfOTuueAsLZAaevMSNKiae4ClFXfG4Rzb7jfuVBlOafeG7tdlNQobCKOdUJ/l5SIGRq4w/RzbtPcBcyUcI4o2fz65hu23zm8ZC8IzcIxLfQYbBJubkyYv17S3HWV6znhzWSYtwxJkh6wQfjQBf1tYpRqRD+X8ymlUdhEHq+PM2wOidvkbiKOpd1McxcwYwhltUPCz8m3dKs5uOwl4bU4SnkQm4RPG2B6ULs5IDzFOMcTuiQpv0NsEC47wBvwkgwJCc++mjcKc143XhHWv4tlFHGsWsRujDrVWFrvlNA460v6/IDwPjkh0UNOm4SPOyO8UZoe1D6+ILyOhpnrkKQ+yZ3GKdEEG4SrnNDPRkaJLnIXUIB5ozCnJuJYz+jf+TjmrsaXlJNik0pySHjP+Jp+XtucEHoMo9gD2yRcbf6Ce00/X3CK74iQKhxlrkOS+sIE90Pn+NDzMaVsRhczwVUjr7uDZ+RNjzWRxxtFHq9kx8Q91zYRx5K6Yr5XxPPchWQ2TxU2RLzutUm42gW+4JTGG8L6lpKUU99SHX13Sj/XeKvRbe4CVIwvyDcL5RZ4G3G8Pq1LOIo4Vo0blpT0oGOYuwAlMSKsPVjKw70SvCDi9GObhB8a0e3FLpWf61tKym2QuwC1ZkB9N5mSgoZ8qeiYU7+P6E/DZhRxrCbiWG3xQYdSGtPvdWsf84yQrtw7CGCT8EN9etKlfIa5C5DUayUlCUtKHXRRg1M4pVodkW8GygVwE3G8UcSxSnVK3POtG5ZI9xoM2zxlvqbtcJ9BbBJ+yDWM1IZh7gIk9dowdwELTB2kc4qzI/Q0r33L9gX50t8x04R9CGKMIo7lhiXSvYb+7F68rwP23Avh42ilSJKkGhxSVuNomruAjjqkzqlqal9JyWKtdk6eJts58dYzPSB8DV3dwfqQuGvaNxHH2oQPC1SqhvwNwjvCVN7b2a/rDGe/HpN/FscbwjX2ZNtPtEkoSVK/jHIXsGSau4COOiP/BaqkOJ4Tbj4nLR93Ski0xXqwNKK7TcJRxLFybFjiwwKV6Jw8DcJLwvl2wn1zcFuHhJ+r4ewjxwP6i9mxH2tsfsAmoSRJ/XKWu4Alk9wFdNAA1+2RumZEnvNlQ7yb2+eEG+cuLjMxijiWaxFK4WcqVpJ5E5eE890Fcc5Rt9w3GudOFz7aeJA7X6PwmC0eyrsmoSRJ/TEmLIRfkq2ebmoj49wFSIruBXnWJrwgJNti6eLahMeEnUVjaSKOJdXomPZ2MX4L/IyQuGtI+xDjgtD8HACf087mfQez4268pIBNQkmS+uGY8tJlN3QzUZLTgPxr90hKI0cS/Ja4U4RHEccqRczvyztchkP9dkg7qem3wI8J56RpC8dbdEtoSB4DnxFSjCk9Y4uEsk1CSZK675Ay14Ga5C6gg8a5C5CUzCjTcZuIY52Qb7fmVGKmI5uIY0k1uiDtVNxL4BPC+bSEB9UTQorx54SH56m8YMNzlU1CSZK6bf5EtrRpxmCTMLYBpgilLpvvENy2CXFvXrs05XhEvIbGDWU+0JPackbaDT6+ZIeNPFpyQUgWfpXwGA0bPKRx4xJJkrprSPonsvvwZiiuUe4CIrgjXLxPFv5sQrioHcx+fzz775hrgEm1OCXPufMceB1prBHd2ZzDFKEUx4B0syFuCD+rJTYHF90SGqUTwvkg9vX7AeHc++h5yyahJElp5ZjKMCBcaJWcKrumjGkeXTLKXcCOrrnfUXC6xecdEhrhbe4UqDJdE26qrgivofnH3CGhuQzhNXM8+7XG10yuFN4F8ZqEzwjfg9Jv2J8yIOzYHEsTcSypNg1pzsnXhPN9Tdec81ThBfEfiD7niYdNNgklSUqrzZugebOk5ObgXFdSJKU4pcwp5Y95S2hmT3f8/PmGCvNd+04pcwdvpXFDOI9s0ly+5T6dOln48yGhuV5Tk/mAPA22KWFTjVhNsRF5NmKJKWbD1g1L1GenpJlm/JZwnqmpQTg3JbxHTYjfKJy/d65kk1CSpLSGW/79W56++ZuPOZh9DEm7hksKTjWOa5S7gC1cEn83wflOgQ3hhmBMPU0fbeeG8P1tIow1mX0cEl43pe0Av06uaXMXxGsSnlJ/kzBm/U3EsaTapHhw/Ja6ro1WuSVNo/CI8D46XvU/bRJKkpTWN7kLKNBb6nyqW6pD4k55S+WOcFPdJD7O/Al5Q33Ncz3uFWnWrLrlvvGYYnpXbMNMx20IP18xGvBH3N/81uiYeKllNyxRDpPcBcycEX8GwPxhZBekahSeEc7nH1yPu7uxJElqW5O7gI6pYafQ+ZpATUvHm86O96ql4ymtO+Az0i1qPzclNH/eJj7OvnI2v5uIY40ijtU2U4TS/g6Jf16/po7rom3cEr6mu4hjHrDmPGaTUJLURcPcBWitS8p5et0VpV8MzxuEOaZHjoHPMxxX8dzRfuJsRPmvm+On/0oSTcSxSj93rTNfAzWWJuJYUk1GxF0a5G42Zhdnq0yJ/2DljHA+e8AmoSRJatM4dwEtu2zhGMMWjrGrEnYVbCi/4aPV5g3CHA3mBvgyw3E3latJeEX4uY7hgDobhTE3unmLG5aov2KvS3pG/bumP+YC+CrieCvPwTYJJZmMMh8AABcqSURBVElSW0wRxjek3A06SmgQzjXYKKxRrg065s4pd+rxIOOxm4hjjSKO1ZZRxLGaiGMpjZhTPPc1yF1ARCPirkX4jn78PI0J65jGHO8Bm4SSJKktte9kWaJh7gLWmCfASmgQzjXEfQKvtF5RxkOFM+LekMWSK0kIcW/En7NiulvBBsRbE/KGMl7jelxJybRB7gIiGkUca74xWh/cEvdrPWLp/cQmoSRJasNXlHWh3RXD3AWscUpZDcK5M+JNlVQ6N5SzNMEtZabdcjbWbgmpnVhqmnI8ijjWecSxpJoMiLsB0zn9mrZ/QdzlbB40HW0SSpKk1HLc8A9aPl4uOdNE63xF2emYmhoSfTXOXcCSCe2sL7qNnDscQ3+nHI8ijtVEHEuqScwk3B39bLiPI4714LrIJqEkSUptRPupskHLx8vhmPLWI7yjvAbPsilhKmuJprkLKMANZTZPxrkLKMwF8aZhn1DHOXtIvDXU3lJm2lpqQ8yHdef082dpQrxz8IMNTGwSSpKklEpPldVskLuAFWq5WD+nrMXo56a5CyjAOHcBa0wob6r6IPPxLyKOVUPCdxRxrCbiWCWZ5i5gQYlJe4XvS8wNS/qYIpwbRxxrOP8Pm4SSJCmVS/qzkHQOpd0A1TTl55Z6au2bmI2n2JrcBSwZZD5+zJ+hUcSxUjgkXiOzyxuWTHMXsKCmDXH6JOYDgb4ncpM8qLFJKEmSUrimjmRIzYa5C1hyQV0X603uAvSBd5T9Giq5gZnDlHjpymeU9+Bj0SnxlnfwAYX6LOa1YRNxrBrF3ETqiNmDJ5uEkiQptjtCA6vkm/0uKC0lUduN75S4O7Rqf5PcBTxhSnlTjnPrS5pwFHGsJuJYUk0OCQ8EYuhyIncbk4hjDcEmoSRJissGYXtiXWjHcANc5S5iBybD8u+Su6iG11ANNbbpgnjre5aaPh8Q7+ek79Mj1W/DiGNNIo5Vs0nEsY7BJqEkSYrnmnCB4U10/0xyF7CjSe4C9MAkdwEb8Pz20C3xmu1HlLeMAsRdW7eJOFZMJT0sUHcNI47lQ77gingPamwSSpKkaK4JF3/TvGX0xjB3AUsmuQvY0ZSQglR+tXwfbBJ+qIk41ijiWLHESjheU++5Uooh5rqjk4hj1S7W+9IJhCZhQ7zOoyRt6xJP8lLt3hIu/JxC1V+T3AXswaZPGaa5C9iQ57kPTYjX5C1tyvEpIeEYQ23rtkqxxUqsXuO5eFHM65jBDwhvyKe4CK+k9l1S3sWgpM3dAZ9TZvKj60rbtGSau4A92CQsQy03fL5eVmsijXNAWdeGsWq5w+mR6reYKULPww/FfP8czKcbTwjftB8DnwGvCDfvkhTLHWEXyS8J55mPcHMDqWaXhGuHJnMdfRXzYntftV8zTnIXIMCbvto1EccqpUl4CLyINNYFXvOq3wYRx/L94qGY/x7HHy/9wS3hQmmy+JcIN/LD2X/HiltL6rb5uitXs1+nGWuRFM8dMMZpU5Kke1PCw+DnEcZ6QdgsJHdTLWaz0vdM9Z1JwnRinisPl5uEq1zNPuYntgEPG4fPIhYkqV7ztQUnhHNG7gs7SfG9pYwbN5Wl9ov12uuXSnFBnCYhhAZdE2msXcXa1fgazzPSIOJY/jylM9ikSbhsOvtYXFNhyMO04cFeZUnaxyXxFoVd54aHKUFP1FK3XRJulvxZ1yq1N41rr18qRUMIlsS4F8zdJBwQLwxjilCK2yT0fTudnZqEq0z4cIryYtow9hRlb1Kk9abEbxLOpw5PCD9/08jjSyrTW8LNje+7kqRNXBBnHb/nhKbCNMJYu4iVInTDEimIueHa+zV/fkPac8Y08fi37HbNHXWd6lhNwmXzKcrN7PeHPEwa7tPAuMYTrfSYMftdnN3xMCU42bcgSVW5Ibx/N/hAQJK0nXPibfZxSr4U3ijSOG5YIgVtLFN3RNo9NFLP1itCqibhslvCCXJ5ivJi2nCTWPod8U7YUldNgc+BNxv+/fnU4Qn3DX5J/XJDeI9u8BwgSdrdFSHUEaMhMCJPk/CUeMtnOdVYJbrOXYDK1VaTcJXJ7GNxQ5Qh983D5TeWt4SE1DR5ZVL9GsLPyjkf/ixd8jAl6NNNqX9uuD8PXOB7qyQpngZ4HWGcZ+SZcjyKNI4blqhU3v9prZxNwmVT7qc3zQ1nv7pTajrzdTJyJsjma1jGfGqncPN/TLi4GrD7GgdSjaKuzVGx+dos848JvqdKktJqiNMkhLA2YKz1ATdxSLwdmk0RSoHX5RUpqUm4yiR3AR12TUhmlrC+42Thv0eEulKuJdA3U0wJqX9iLo68j2vi3Nwcs/5rWvUAYBLhmIqjDw9nBrkL2NMwdwFSx9wC74jTbDul3SbhKNI4d+TdnVkqSSnX5dpA6U1CpfEl5T7ZamYfY+BlzkIkKYJb4jTsYoyhPPqQ2hzkLkBScRriNAmPCA/K2nrgMoo0ThNpHOVX0vu4zTYl94PcBahVd8AnlNsgXDQGPiPULEmSyjXIXcCenAYlxXdBvOv4tpKEq9bF31UN91vaTEkzAny/UnI2CfvjjjCdpqST3FMmOAVIkqRVJrkLWFD7EiGD3AVIHdVEGuc00jhPGUUa5xKX+pFUKZuE/XFGXQ3CuSvC9GhJkrYxyF1AzwxzF7AHkxlSGrHSdAe00ygcRRqniTSOJLXOJmE/vKPuN6tzwhM5SZI2VXu6rTY1N9pOchewoKS1r9rW56+9q6aEDbxiSN0kHBGakftywxJJNbu1SdgPbe4Ilso4dwGSJBVkkruAJcPcBeyorWmMm6px1kcsff7auyxWmvAFaTdtiHUuaCKNU6uSmv2D3AVIFbqySdh9XVkTY0K8J5GSJCmu59S56+IwdwFSx11EHCtVU39AnJ2YwQ1LSmr2O6NA2oFNwu6L+cacW5e+FkmS9lXaUhylpfI2UWPNUk1ugbeRxkr18xpr3K6EM6TYJrkL0MacbtwDk9wFRDTJXYAkSQWZ5i5gSW3Lm5xi0kRqQxNpnOekmUIa69zVRBpHknK5+jh3BUqupMj3vrr0tUiStK9p7gKWPCNM353kLWNjtTU1UxjmLqBCg9wFVGgC3BCnKX9K3Cm9x8Sp6wabhFIbXhH2Kzgm7TInqccfkPb95JBwXbY1m4SqSUkL4UqSlNsEeJm7iCVj6mg8DSlrV2PVY5C7gAWT3AVsoSHO+WpE3CahKcK6d6dXPa7ZsWm1ZP56TR0gmiQev1hON5YkSapTiQn7E+poEo5zFyD1TBNpnGfEbdS6q3Gdm06pPrECP75eE1tsEg7xKYKk9pwBv8hdhCRV7JYwxa00DWVfxJ9hilBq25R4my3FSv+NgIMI47yjvOUfpNJMI41T8vVFJ8ybhA3wDfAt4YLzgnDyHWapSlLXHAF/Tohtfw+8B14DvwT+Ml9ZklS9Se4CVjii3KTeMeXWJnVdE2mcWOk/U4RSe6aRxokxZVmP+AGhGfhi4c8OCDtHvSY0Dt8TLkDHhKahnVtJT/mU0Pz7FvgXwpvCnxKSG8vnkD/GRKEk7WqSu4A1viCkdEpySLiZj5EckrS9BriLMM4R+8+AGxDuefd1QwjYSHrcJOJYg4hjackP2Kzpd0JYaPYbQgroirBg7Cl+gySFJt9fAv8E/CvwD4Tm3zHwww0+/6fpSpOkTpvkLuARbyhrKZsGEwhSbrEaavtOOR7FKAJThNKmphHHKunaonN23bjkGeEJ8dfAd4RveEM42foNk7rvjPDz/3+B/0eYNvzHwO/irumS1KYpZa5LODehjGvDhjipIUn7ibUz8b5ThUcxisAmobSpKXGSxFDGdUVnxdrd+IgwZfkNrmsodc0R4Wd5wsP1BE+BnwAfZatMkgRlT3U7ILx/xFr7a1uHs+O/eOLvSWrHFXEebByw+3llSLi+3ZcblkjbuYo0zjDSOFohVpNw2VPrGkoq16eETUYW1xN8zer1BCU9bpK7APVCk7uAJxwQ0ufjlo97TPgZdCdjqSy504SjSMdvIo0j9cUk0ji+ryeUqkm4yuK6hu95uK6hjQcpn1XrCf4pm68nKEnKK1YyJ7WXhBuEQQvHmifgXYNQKk8TaZwXbH8feUicZLMblkjbm0QcK9cMhc5rs0m4bHFdw+95uK7hIFNNUh/8AtcTlKSuqeVm9YTQ1ByT5iHxcDb+a9zFWCrVLWGqbgzbNgpOiXNuaCKMIeUSa9rvtiYRx7JJmEjOJuGyxXUNv+PhuoYuTCntbnk9wV/ieoKS1DWxpu+14YCQKpwSmoWDCGOOCO9132B6UKpBE2mcbRsFo0jHremcKy27zXjsXA8ItKGSmoTLFtc1/JZwIWmzUNrc14SkoOsJqo98v1DfTIHL3EVsad4s/I77dOFww889JtzsN4SbnTe4RpFUkwvi7HT6nM0fNAyIc554S94mi1SzSaRxDojX9NeCmqYWHhGahZ/hQvDSU77FJon6zWmGKsW0xWM11Nsoezb7eDn7/R2rp0MdYlJQ6oqGsPzUvk7ZLNk3inAscKqxtI8LQoglhhH9/XkcsP1MjFs2mGpeU5Nw7oLwj+HTG2k1p+hLUjmmLR6rIaTxjlo8ZioH1NvwlLSZc+I0CUe01yS8wcCK8unCzLApcE2cB34nhBkIkwhj1aYh7nXSz5mtb13ydON1DnD+ufSY/5q7AElSNuPcBUjShqaEZsG+nvF0ouaUOA9QXIuwfya5C1jQlSR9zJ+jccSxajEgboPwjoUN8GpsEoK7H0uP+fe5C5AkZdMQki6SVINYzYKzJ/5/rJBJE2kcqc8unv4rG5unCftkHHm8B9+PWpuEktb7Ye4CJCmzLkzH2cc4dwGStKFYzYLHmoCHwIsIx3DDEimOW8LPUyx9SvgOiHM+W2STUJIkdVrf12VtME1YKxsQ6ptYzYIj1p/7TRFK5YnZ2HvG02nirhhHHu/BVGOwSShJktRFo9wFaCdP7jrYYZPcBSibWGnCdU2CGM0DNyzZTCkPOga5C9CTroDLiOO9pvsPiYfETxE2y39gk1CSJKl7JsC73EVI0gYuiJN+XpUYHBBns4c+TWfcRykPOga5C9BGxpHHa+j2kjMpzkMfjGmTUJIkqZvOCNNIJKl0TYQxDviwURhrCmITaRxJ9ybETRM+o7s/q+fE3936LWGX+QdsEkqSJHXTFDcxkVSHJtI4y03CGOsRumGJlM448njP6V6jcAR8kWDc8ao/tEkoSZLUXefEfUqvbun6+k0pdHkqW05T4pyrXnD/PTolbGiyL6caS+lMiLvTMYTzQBN5zFyOSXMOWpkiBJuEkiRJXXeK0461mg2v7ZXSWL3OXUACTaRx5unBUYSxrilnnb1USnlNq7/GxL9O6UKj8JjQRD1IMPZ43f+wSShJktRtt8SZciepHF2c/npBnEbBKaEB/jzCWH1IEfqwQLlNSfOz9oLQZKvxNZ6yQfiKNSlCsEkoSZLUBxPg89xFSNIjbgmNwn09J846Z3fEqUfS08akSUifENLANSVmR6RrEN7wREPWJqEkSVI/NMRf96d2N8BXuYuQ9G9ipYliLPJ/QTcTm1KpRqRZHuUI+JZ4u52ndA68IU2DEMK/8aPnNZuEkiRJ/THCRuGiU2wCSCW5IjTvS9CHqcZSSa6Iv9vxoteEhF6JqcJjwtefYhfjua8IX/+jbBJKkiT1ywgbhRCmX3d9QwKpRiU05/qwYYlUonPgXcLxTwipwgYYJDzOpg4JX/O3wLOEx7lmwwasTUJJkqT+GdHvRuFX1L/rodRVJawDWEKjUuqrEel3cH8BfEe4FsiRLDwkNO2mpE0PQpjCPWLDmRM2CSVJkvppRD8bhW+pY10iqa+mpE0SPcUNS6S8bgnLgaRYn3DZC0KK74pwbTBIfLxTQmPye+Al6dYeXDRii2S0TUJJktJxqpJKNwJe5S6iRW8JX7OksjUZj+2GJVJ+U2BIO41CCFN9XxPShfO1EU8Jib99HBOaj/PzyteExmRbPmfLhx4fJypEkiR5k6E6jAkXxA3tPNHO5UucQijV4oLQHMhxTvI8IZXhitAo/Lbl4z7j4fqAd7NaprOPxxwSGoOHpF1jcBNv2eGBi01CSZIkXRAuai/If1Eb23wtHqcPSnVpSL9W17JLnAWg7pvmLmALV4Q03Dn5HmQeEDY8Ocl0/F3sPHPC6caSJEmCcNNwTLemH19z3/yUVJemJ8eU2jbNXcCWGtqdely7vZZWsUkoSeqaQe4CpMqNgU8IiZqavSI0CKeZ65C0myvS73C66A6bhFKp5lOPbRQ+7kv2XHvZJqEkqWsGuQuQFkxzF7Cj+cX458BN3lK2dgn8jNDslFS3NtcHbFo8lqTtXRGu89t8eFCT+bTsvdgklCRJSmeau4A9NYQL8hqahTfAZ4Tm5jRrJZJiaXOpADcskcp3S3iff5u5jpLcEWaANDEGc+MSSVLXXBEaBdsaED+FOI08npRLM/sYAWeUtbnJJff1SeqWW0Iz4EXi41zie7ZWK2Ujm2HuAgpyy/2GZA35NjQpwSVwSvg3icImoSSpa26BSe4ilNWU1ZtvHAOHCY87AI4Sjl+CZvZxTLhAH5Hn4vyOcHNwTjk3cJLSuCB9k7BJPL7qFa35ouguCNcjDXXtPBzDHWFZlegJaJuEkiSpa6a4Hl1qV4RE4Rkh3XA6+zVlwvCGcEMwwd2KpT65IPz8p3oI44YlUr2m3F+HNPQjVXhJeEg7TTG4TUJJkiTtY8J9eveQ8FR/yP0U/mO2v2i/JKQ3rmYfE9KlOcZs3lQe0K3NkabE38W6b2kOteMC+CLR2E2icSW154Lw/jx/gNnFZuEN4XqlSXkQm4SSJEmKZT7df7Li/80biOtMKX9NsCnl17iNBhsk25rs+fkD4jSa+zbN/px0TUI3LOmelEuLqFy33DfRxqRfpqAtd4Tz1LiNg9kklCRJUhtcL1RdMMHXcQ5T4EviNH8W16ed0q3Gf06xU8n7eOyBlLpvyv1GazUnC+fJwQtaXBvTJqEkSZIkqXQm/tJoeNj4fir1vc40Qi1STPNk4Zj7zdZqWBLjHeHnMsv6yzYJJUmSJEnqpykfNvhq3xxqTPc2MJsCryKO1TfN7GNA2ORkRNrN1rb1jvBz12pqcBWbhJIkSZIkSeWa0r3GZw5TQir5nJCaHS58tNk0vOR+Y7YJmRuDi2wSSpIkSZIkqU9uuU/vzQ0J0+0H3K9fuk/zcL5W54T71O5kj/GSs0koSZIkSZKkvpuwvok3YLPd6dd9fhVsEkqSJEmSJEnrTenBeo4/yF2AJEmSJEmSpLxsEkqSJEmSJEk9Z5NQkiRJkiRJ6jmbhJIkSZIkSVLP2SSUJEmSJEmSes4moSRJkiRJktRzNgklSZIkSZKknrNJKEmSJEmSJPWcTUJJkiRJkiSp52wSSpIkSZIkST1nk1CSJEmSJEnqOZuEkiRJkiRJUs/ZJJQkSZIkSZJ6ziahJEmSJEmS1HM2CSVJkiRJkqSes0koSZIkSZIk9ZxNQkmSJEmSJKnnbBJKkiRJkiRJPWeTUJIkSZIkSeo5m4SSJEmSJElSz9kklCRJkiRJknrOJqEkSZIkSZLUczYJJUmSJEmSpJ6zSShJkiRJkiT1nE1CSZIkSZIkqedsEkqSJEmSJEk9Z5NQkiRJkiRJ6jmbhJIkSZIkSVLP2SSUJEmSJEmSes4moSRJkiRJktRzNgklSZIkSZKknrNJKEmSJEmSJPWcTUJJkiRJkiSp534ATHMXsYPb3AVIe0r5Gq7x5+Pr3AVIkiRJktRnPwAa4DpzHdu4JtScyhlwl3B8KfVr+BXwPuH4sV0BN7mLkCRJkiSpzz56//7fegkjYJCtks3cEporqZNSA+AUOEx8nDaMcxcQ2Th3AXuaAhekfw1/Cvw34MeJj7OvC+A8dxGSJEmSJPXd/wfpeUA++MJPxwAAAABJRU5ErkJggg==" alt="Planville" class="logo-light">
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <div class="nav-section-label">Dashboard</div>
+          <div class="nav-item ${state.currentView === 'feed' ? 'active' : ''}" data-view="feed">
+            <i data-lucide="newspaper" class="nav-icon" width="20" height="20"></i>
+            News-Feed
+            ${tip('newsFeed')}
+            <span class="nav-badge">${state.articles.length}</span>
+          </div>
+          <div class="nav-item ${state.currentView === 'kanban' ? 'active' : ''}" data-view="kanban">
+            <i data-lucide="pin" class="nav-icon" width="20" height="20"></i>
+            Content-Board
+            ${tip('contentBoard')}
+            <span class="nav-badge">${state.kanbanItems.length}</span>
+          </div>
+          <div class="nav-item ${state.currentView === 'generator' ? 'active' : ''}" data-view="generator">
+            <i data-lucide="sparkles" class="nav-icon" width="20" height="20"></i>
+            Ideen-Generator
+            ${tip('ideenGenerator')}
+          </div>
+
+          <div class="nav-section-label" style="margin-top: var(--space-4);">Themen ${tip('topicFilter')}</div>
+          <div class="topic-filters-vertical">
+            <div class="topic-filter-item ${!state.activeTopic ? 'active' : ''}" data-topic="">
+              <i data-lucide="layers" class="filter-icon" width="18" height="18"></i>
+              Alle Themen
+              <span class="filter-count">${state.articles.length}</span>
+            </div>
+            ${TOPICS.map(t => `
+              <div class="topic-filter-item ${state.activeTopic === t.id ? 'active' : ''}" data-topic="${t.id}">
+                <i data-lucide="${t.icon}" class="filter-icon" width="18" height="18"></i>
+                ${t.label}
+                <span class="filter-count">${topicCounts[t.id] || 0}</span>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="nav-section-label" style="margin-top: var(--space-2);">Quellen ${tip('sourceFilter')}</div>
+          <div class="topic-filters-vertical">
+            <div class="topic-filter-item ${!state.activeSource ? 'active' : ''}" data-source="">
+              <i data-lucide="layers" class="filter-icon" width="18" height="18"></i>
+              Alle Quellen
+              <span class="filter-count">${state.articles.length}</span>
+            </div>
+            <div class="topic-filter-item ${state.activeSource === 'news' ? 'active' : ''}" data-source="news">
+              <i data-lucide="globe" class="filter-icon" width="18" height="18"></i>
+              Nachrichten
+              <span class="filter-count">${sourceCounts['news'] || 0}</span>
+            </div>
+            <div class="topic-filter-item ${state.activeSource === 'reddit' ? 'active' : ''}" data-source="reddit">
+              <i data-lucide="message-circle" class="filter-icon" width="18" height="18"></i>
+              Reddit
+              <span class="filter-count">${sourceCounts['reddit'] || 0}</span>
+            </div>
+            <div class="topic-filter-item ${state.activeSource === 'social' ? 'active' : ''}" data-source="social">
+              <i data-lucide="share-2" class="filter-icon" width="18" height="18"></i>
+              Social Media
+              <span class="filter-count">${sourceCounts['social'] || 0}</span>
+            </div>
+          </div>
+        </nav>
+      </aside>
+    `;
+  }
+
+  // --- MAIN HEADER ---
+  function renderMainHeader() {
+    return `
+      <header class="main-header">
+        <div class="main-header-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i data-lucide="menu" width="24" height="24"></i>
+          </button>
+          <div class="header-title-text">
+            <span class="header-title-main">Planville's Automatic Curated News & Trends</span>
+          </div>
+        </div>
+        <div class="header-actions">
+          <div class="date-nav">
+            <button class="date-nav-btn" id="datePrev" title="Vorheriger Tag"><i data-lucide="chevron-left" width="16" height="16"></i></button>
+            <span class="date-nav-label" id="dateLabel">${formatDateLabel(state.selectedDate)}</span>
+            <button class="date-nav-btn" id="dateNext" title="Nächster Tag"><i data-lucide="chevron-right" width="16" height="16"></i></button>
+            <button class="date-nav-btn" id="dateToday" title="Heute"><i data-lucide="calendar" width="16" height="16"></i></button>
+            ${tip('dateNav')}
+          </div>
+          <div class="search-box">
+            <i data-lucide="search" class="search-icon" width="16" height="16"></i>
+            <input type="text" placeholder="Suchen..." id="searchInput" value="${state.searchQuery}">
+            ${tip('searchBox')}
+          </div>
+          <div class="refresh-indicator">
+            <span class="refresh-dot"></span>
+            <span>Live</span>
+            ${tip('refreshIndicator')}
+          </div>
+          <button class="theme-toggle-btn" id="themeToggleBtn" title="${state.theme === 'dark' ? 'Zum hellen Modus wechseln' : 'Zum dunklen Modus wechseln'}">
+            <i data-lucide="${state.theme === 'dark' ? 'sun' : 'moon'}" width="18" height="18"></i>
+          </button>
+        </div>
+      </header>
+    `;
+  }
+
+  // --- VIEW TABS ---
+  function renderViewTabs() {
+    return `
+      <div style="padding: var(--space-4) var(--space-6) 0; background: var(--bg-primary); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3);">
+        <div class="view-tabs">
+          <button class="view-tab ${state.currentView === 'feed' ? 'active' : ''}" data-view="feed">
+            <i data-lucide="newspaper" width="14" height="14" style="vertical-align: -2px; margin-right: 4px;"></i> News-Feed
+          </button>
+          <button class="view-tab ${state.currentView === 'kanban' ? 'active' : ''}" data-view="kanban">
+            <i data-lucide="pin" width="14" height="14" style="vertical-align: -2px; margin-right: 4px;"></i> Content-Board
+          </button>
+          <button class="view-tab ${state.currentView === 'generator' ? 'active' : ''}" data-view="generator">
+            <i data-lucide="sparkles" width="14" height="14" style="vertical-align: -2px; margin-right: 4px;"></i> Ideen-Generator
+          </button>
+        </div>
+        <div class="refresh-indicator" style="font-size: 12px;">
+          Zuletzt aktualisiert: ${state.lastRefresh.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr
+          &nbsp;&middot;&nbsp; Nächstes Update in 30 Min.
+        </div>
+      </div>
+    `;
+  }
+
+  // --- STATS BAR ---
+  function renderStatsBar() {
+    const articles = getFilteredArticles();
+    const positiveCount = articles.filter(a => a.sentiment === 'positiv').length;
+    const sentimentPct = articles.length ? Math.round((positiveCount / articles.length) * 100) : 0;
+    const totalIdeas = articles.reduce((sum, a) => sum + (a.contentIdeas?.length || 0), 0);
+
+    return `
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-icon green"><i data-lucide="newspaper" width="20" height="20"></i></div>
+          <div>
+            <div class="stat-value">${articles.length}</div>
+            <div class="stat-label">Artikel gefunden ${tip('statsArticles')}</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue"><i data-lucide="trending-up" width="20" height="20"></i></div>
+          <div>
+            <div class="stat-value">${sentimentPct}%</div>
+            <div class="stat-label">Positives Sentiment ${tip('statsSentiment')}</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber"><i data-lucide="lightbulb" width="20" height="20"></i></div>
+          <div>
+            <div class="stat-value">${totalIdeas}</div>
+            <div class="stat-label">Content-Ideen ${tip('statsIdeas')}</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon pink"><i data-lucide="check-circle" width="20" height="20"></i></div>
+          <div>
+            <div class="stat-value">${state.kanbanItems.filter(i => i.status === 'published').length}</div>
+            <div class="stat-label">Veröffentlicht ${tip('statsPublished')}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // --- NEWS FEED ---
+  function renderNewsFeed() {
+    const articles = getFilteredArticles();
+    if (articles.length === 0) {
+      return `
+        <div class="empty-state">
+          <div class="empty-state-icon"><i data-lucide="search" width="28" height="28"></i></div>
+          <div class="empty-state-title">Keine Artikel gefunden</div>
+          <div class="empty-state-text">Versuche einen anderen Filter, ein anderes Datum oder passe deine Suchbegriffe an.</div>
+        </div>
+      `;
+    }
+    return `<div class="news-feed">${articles.map(a => renderNewsCard(a)).join('')}</div>`;
+  }
+
+  function renderNewsCard(article) {
+    const isExpanded = state.expandedCards.has(article.id);
+    const relevanceClass = article.relevance >= 85 ? 'high' : article.relevance >= 70 ? 'medium' : 'low';
+
+    return `
+      <article class="news-card" data-id="${article.id}">
+        <div class="news-card-header">
+          <div class="news-card-meta">
+            <span class="source-badge ${article.source}">
+              <i data-lucide="${article.source === 'news' ? 'globe' : article.source === 'reddit' ? 'message-circle' : 'share-2'}" width="12" height="12"></i>
+              ${SOURCE_LABELS[article.source]}
+            </span>
+            <span class="topic-badge">
+              <i data-lucide="${getTopicIcon(article.topic)}" width="12" height="12"></i>
+              ${getTopicLabel(article.topic)}
+            </span>
+            <span class="time-badge">${formatDate(article.date)}</span>
+          </div>
+          <span class="relevance-badge ${relevanceClass}">
+            <i data-lucide="target" width="12" height="12"></i>
+            ${article.relevance}% Relevanz
+            ${tip('relevance')}
+          </span>
+        </div>
+
+        <h3 class="news-card-title">${article.title}</h3>
+        <div class="news-card-outlet">${article.outlet} &middot; ${article.readTime} Min. Lesezeit</div>
+        <p class="news-card-summary">${article.summary}</p>
+
+        <div class="sentiment-bar">
+          <span class="sentiment-indicator ${article.sentiment}">
+            <span class="sentiment-dot ${article.sentiment}"></span>
+            Sentiment: ${article.sentiment.charAt(0).toUpperCase() + article.sentiment.slice(1)}
+          </span>
+          ${tip('sentiment')}
+        </div>
+
+        <div class="ai-insight">
+          <div class="ai-insight-header">
+            <i data-lucide="sparkles" width="14" height="14"></i>
+            KI-Einschätzung für Planville Marketing
+            ${tip('aiInsight')}
+          </div>
+          <div class="ai-insight-text">${article.aiInsight}</div>
+        </div>
+
+        <button class="expand-toggle" data-toggle="${article.id}">
+          <i data-lucide="${isExpanded ? 'chevron-up' : 'chevron-down'}" width="16" height="16"></i>
+          ${isExpanded ? 'Content-Ideen ausblenden' : `${article.contentIdeas.length} Content-Ideen anzeigen`}
+          ${tip('contentIdeas')}
+        </button>
+
+        <div class="collapsible ${isExpanded ? '' : 'collapsed'}" id="ideas-${article.id}">
+          <div class="content-ideas-list" style="margin-top: var(--space-3);">
+            ${article.contentIdeas.map((idea, idx) => `
+              <div class="content-idea-item">
+                <span class="idea-type-badge">${idea.type}</span>
+                <div style="flex: 1; min-width: 0;">
+                  <div class="idea-hook">${idea.hook}</div>
+                  <div class="idea-hashtags">${idea.hashtags}</div>
+                </div>
+                <div class="idea-actions">
+                  <button class="idea-action-btn" title="Zum Board hinzufügen" data-add-kanban="${article.id}-${idx}">
+                    <i data-lucide="plus" width="14" height="14"></i>
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="news-card-footer">
+          <div class="card-actions">
+            <button class="card-action-btn" data-add-all-kanban="${article.id}">
+              <i data-lucide="pin" width="14" height="14"></i>
+              Zum Board
+              ${tip('addToBoard')}
+            </button>
+            <a class="source-link-btn" href="${article.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer">
+              <i data-lucide="external-link" width="14" height="14"></i>
+              Quelle öffnen
+            </a>
+          </div>
+          <div class="engagement-info">
+            <span><i data-lucide="bar-chart-3" width="12" height="12" style="vertical-align: -2px;"></i> ${article.engagement} Interaktionen</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  // --- KANBAN BOARD ---
+  function renderKanban() {
+    return `
+      <div style="margin-bottom: var(--space-4); display: flex; align-items: center; gap: var(--space-2);">
+        <span style="font-size: 13px; color: var(--text-muted);">
+          <i data-lucide="grip-horizontal" width="14" height="14" style="vertical-align: -2px;"></i>
+          Ziehe Karten zwischen Spalten per Drag & Drop
+        </span>
+        ${tip('kanbanDrag')}
+      </div>
+      <div class="kanban-board">
+        ${KANBAN_COLUMNS.map(col => {
+          const items = state.kanbanItems.filter(i => i.status === col.id);
+          return `
+            <div class="kanban-column" data-column="${col.id}">
+              <div class="kanban-column-header">
+                <div class="kanban-column-title" style="color: ${col.color};">
+                  <i data-lucide="${col.icon}" width="16" height="16"></i>
+                  ${col.label}
+                </div>
+                <span class="kanban-column-count">${items.length}</span>
+              </div>
+              <div class="kanban-items" data-status="${col.id}">
+                ${items.map(item => renderKanbanItem(item)).join('')}
+              </div>
+              <button class="kanban-add-btn" data-add-col="${col.id}">
+                <i data-lucide="plus" width="16" height="16"></i>
+                Hinzufügen
+              </button>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  function renderKanbanItem(item) {
+    return `
+      <div class="kanban-item" draggable="true" data-kanban-id="${item.id}">
+        <div class="kanban-item-title">${item.title}</div>
+        <div class="kanban-item-meta">
+          <span class="kanban-type-badge">${item.type}</span>
+          <span class="priority-dot ${item.priority}" title="Priorität: ${item.priority === 'high' ? 'Hoch' : item.priority === 'medium' ? 'Mittel' : 'Niedrig'}"></span>
+          <span class="kanban-item-date">${item.createdAt ? formatDate(item.createdAt) : ''}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  // --- CONTENT GENERATOR ---
+  function renderGenerator() {
+    return `
+      <div class="generator-panel">
+        <div class="generator-header">
+          <div class="generator-icon">
+            <i data-lucide="sparkles" width="22" height="22"></i>
+          </div>
+          <div>
+            <div class="generator-title">KI Content-Ideen Generator ${tip('ideenGenerator')}</div>
+            <div class="generator-subtitle">Basierend auf aktuellen Trends, generiert mit Claude AI</div>
+          </div>
+        </div>
+
+        <div class="generator-input-row">
+          <input class="generator-input" type="text" id="generatorTopic" placeholder="Thema eingeben, z.B. 'Wärmepumpe im Altbau'" value="">
+          <select class="generator-select" id="generatorFormat">
+            <option value="">Format wählen...</option>
+            <option value="reel">Reel / TikTok</option>
+            <option value="karussell">Karussell-Post</option>
+            <option value="story">Story-Serie</option>
+            <option value="linkedin">LinkedIn-Post</option>
+            <option value="blog">Blogartikel</option>
+            <option value="all">Alle Formate</option>
+          </select>
+          <select class="generator-select" id="generatorTone">
+            <option value="informativ">Informativ</option>
+            <option value="emotional">Emotional</option>
+            <option value="provokant">Provokant</option>
+            <option value="humorvoll">Humorvoll</option>
+          </select>
+          <button class="generate-btn ${state.generatorLoading ? 'loading' : ''}" id="generateBtn">
+            <i data-lucide="${state.generatorLoading ? 'loader-2' : 'wand-2'}" width="18" height="18" ${state.generatorLoading ? 'class="spin"' : ''}></i>
+            ${state.generatorLoading ? 'Generiere...' : 'Generieren'}
+          </button>
+        </div>
+
+        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: var(--space-4); display: flex; align-items: flex-start; gap: 6px;">
+          <i data-lucide="lightbulb" width="14" height="14" style="flex-shrink: 0; margin-top: 2px; color: var(--color-primary);"></i>
+          <span><strong>Tipp:</strong> Wähle ein Thema aus dem News-Feed oder gib ein eigenes ein. Die KI generiert maßgeschneiderte Content-Ideen mit Hooks, Talking Points und Hashtags — alles auf Deutsch.</span>
+        </div>
+
+        ${state.generatedIdeas.length > 0 ? `
+          <div class="generated-ideas">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-4);">
+              <h3 style="font-size: 16px; font-weight: 600;">Generierte Ideen</h3>
+              <span style="font-size: 12px; color: var(--text-muted);">${state.generatedIdeas.length} Ideen</span>
+            </div>
+            ${state.generatedIdeas.map((idea, i) => renderGeneratedIdea(idea, i)).join('')}
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  function renderGeneratedIdea(idea, index) {
+    return `
+      <div class="generated-idea-card">
+        <div class="generated-idea-header">
+          <span class="generated-idea-type">${idea.format}</span>
+          <div class="card-actions">
+            <button class="card-action-btn" data-gen-to-kanban="${index}">
+              <i data-lucide="pin" width="14" height="14"></i>
+              Zum Board
+            </button>
+          </div>
+        </div>
+        <div class="generated-idea-hook">${idea.hook}</div>
+        <div class="generated-idea-body">${idea.body}</div>
+        <div class="generated-idea-section-title">Talking Points</div>
+        <ul class="generated-talking-points">
+          ${idea.talkingPoints.map(tp => `<li>${tp}</li>`).join('')}
+        </ul>
+        <div class="generated-idea-section-title">Hashtags</div>
+        <div class="generated-hashtags">${idea.hashtags}</div>
+      </div>
+    `;
+  }
+
+  // --- MODAL ---
+  function renderModal() {
+    return `<div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>`;
+  }
+
+  function showAddKanbanModal(prefillTitle = '', prefillType = '', prefillTopic = '') {
+    const overlay = $('#modalOverlay');
+    const content = $('#modalContent');
+    content.innerHTML = `
+      <div class="modal-header">
+        <div class="modal-title">Content-Idee hinzufügen</div>
+        <button class="modal-close" id="modalClose"><i data-lucide="x" width="18" height="18"></i></button>
+      </div>
+      <div class="modal-form-group">
+        <label>Titel</label>
+        <input type="text" id="kanbanTitle" value="${prefillTitle}" placeholder="z.B. Reel: Stromrechnung vorher/nachher">
+      </div>
+      <div class="modal-form-group">
+        <label>Format</label>
+        <select id="kanbanType">
+          <option value="Reel" ${prefillType === 'Reel' || prefillType === 'Reel/TikTok' ? 'selected' : ''}>Reel / TikTok</option>
+          <option value="Karussell" ${prefillType === 'Karussell' ? 'selected' : ''}>Karussell</option>
+          <option value="Story-Serie" ${prefillType === 'Story-Serie' ? 'selected' : ''}>Story-Serie</option>
+          <option value="LinkedIn-Post" ${prefillType === 'LinkedIn-Post' ? 'selected' : ''}>LinkedIn-Post</option>
+          <option value="Blogartikel" ${prefillType === 'Blogartikel' ? 'selected' : ''}>Blogartikel</option>
+        </select>
+      </div>
+      <div class="modal-form-group">
+        <label>Thema</label>
+        <select id="kanbanTopicSelect">
+          ${TOPICS.map(t => `<option value="${t.id}" ${prefillTopic === t.id ? 'selected' : ''}>${t.label}</option>`).join('')}
+        </select>
+      </div>
+      <div class="modal-form-group">
+        <label>Priorität</label>
+        <select id="kanbanPriority">
+          <option value="high">Hoch</option>
+          <option value="medium" selected>Mittel</option>
+          <option value="low">Niedrig</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="card-action-btn" id="modalCancel">Abbrechen</button>
+        <button class="card-action-btn primary" id="modalSave"><i data-lucide="plus" width="14" height="14"></i> Hinzufügen</button>
+      </div>
+    `;
+    overlay.classList.add('active');
+    if (typeof lucide !== 'undefined') { try { lucide.createIcons(); } catch(e) {} }
+    $('#modalClose').addEventListener('click', closeModal);
+    $('#modalCancel').addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+    $('#modalSave').addEventListener('click', () => {
+      const title = $('#kanbanTitle').value.trim();
+      if (!title) return;
+      state.kanbanItems.push({
+        id: 'k' + Date.now(),
+        title, type: $('#kanbanType').value, topic: $('#kanbanTopicSelect').value,
+        status: 'new', priority: $('#kanbanPriority').value, createdAt: new Date().toISOString(),
+      });
+      saveKanban(); closeModal(); render();
+    });
+  }
+
+  function closeModal() { $('#modalOverlay').classList.remove('active'); }
+
+  // === DEMO CONTENT GENERATOR ===
+  const GENERATED_TEMPLATES = [
+    {
+      format: 'Reel',
+      hook: '"${topic} — was die meisten nicht wissen" (Attention Grabber)',
+      body: 'Erstelle ein kurzes Reel (15-30 Sek.), das mit einem überraschenden Fakt zum Thema startet. Zeige Planville-Projekte als Beweis. Schließe mit einem klaren Call-to-Action zur Beratung.',
+      talkingPoints: ['Überraschende Statistik als Einstieg verwenden', 'Planville-Projektbilder zeigen (vorher/nachher)', 'Lokalen Bezug zu Aachen/NRW herstellen', 'CTA: "Link in Bio für kostenlose Beratung"'],
+      hashtags: '#Planville #${topicHash} #Energiewende #NRW #Aachen',
+    },
+    {
+      format: 'Karussell-Post',
+      hook: '"5 Dinge, die du über ${topic} wissen musst" (Swipe-Through Education)',
+      body: 'Ein informativer Karussell-Post mit 5-7 Slides. Jede Slide behandelt einen Aspekt. Starke erste Slide als Hook, letzte Slide mit CTA. Design im Planville-Branding (Grün/Weiß).',
+      talkingPoints: ['Slide 1: Hook-Statement mit Zahl oder Frage', 'Slides 2-6: Je ein Fakt/Tipp mit kurzer Erklärung', 'Letzte Slide: CTA + Planville-Kontaktinfo', 'Caption mit ausführlicher Erklärung und Hashtags'],
+      hashtags: '#${topicHash} #Planville #Energietipps #Eigenheim #Wissen',
+    },
+    {
+      format: 'LinkedIn-Post',
+      hook: '"Warum ${topic} die Zukunft gehört — eine ehrliche Einschätzung aus der Praxis" (Thought Leadership)',
+      body: 'Ein längerer LinkedIn-Text (800-1200 Zeichen) im Storytelling-Stil. Startet mit einer persönlichen Erfahrung oder Beobachtung, bringt Daten, und schließt mit einer Vision. Professionell aber authentisch.',
+      talkingPoints: ['Mit persönlicher Anekdote oder Kundenstory starten', 'Aktuelle Marktzahlen und Trends einbauen', 'Position von Planville als Branchenexperte stärken', 'Zum Dialog auffordern: "Was ist eure Erfahrung?"'],
+      hashtags: '#${topicHash} #Energiewende #Handwerk #GreenEnergy #Nachhaltigkeit',
+    },
+    {
+      format: 'Story-Serie',
+      hook: '"Behind the Scenes: So installiert Planville ${topic}" (Authentischer Einblick)',
+      body: 'Eine 5-7 teilige Story-Serie, die einen Planville-Arbeitstag zeigt. Nahbar und authentisch. Mitarbeiter zu Wort kommen lassen. Zeigt Expertise und Teamgeist gleichzeitig.',
+      talkingPoints: ['Morgens: Team-Vorbereitung, Material-Check', 'Auf der Baustelle: Installation dokumentieren', 'Mitarbeiter-Interview: "Warum mache ich diesen Job?"', 'Ergebnis zeigen: Fertiges Projekt, zufriedener Kunde', 'Poll/Frage als letzte Story für Engagement'],
+      hashtags: '#TeamPlanville #BehindTheScenes #${topicHash} #Handwerk #Energiewende',
+    },
+    {
+      format: 'Blogartikel',
+      hook: '"Alles, was du über ${topic} in 2026 wissen musst — der ultimative Guide" (SEO-Content)',
+      body: 'Ein umfassender Blogartikel (1500-2500 Wörter) mit SEO-Optimierung. Strukturiert mit Zwischenüberschriften, FAQ-Abschnitt, und internen Links. Ziel: Google-Ranking für relevante Suchbegriffe.',
+      talkingPoints: ['H1: Hauptkeyword + Jahreszahl für Aktualität', 'Abschnitte: Was, Warum, Wie, Kosten, Förderung, FAQ', 'Interne Verlinkung zu Planville-Leistungsseiten', 'FAQ-Schema-Markup für Google Rich Results', 'CTA-Buttons in jedem Abschnitt einbauen'],
+      hashtags: '#${topicHash} #Ratgeber #Planville #Energieberatung #Eigenheim',
+    },
+  ];
+
+  function simulateGeneration(topic, format, tone) {
+    const topicHash = topic.replace(/\s+/g, '').replace(/[^a-zA-ZäöüÄÖÜß]/g, '');
+    let templates = [...GENERATED_TEMPLATES];
+    if (format && format !== 'all') {
+      const formatMap = { reel: 'Reel', karussell: 'Karussell-Post', story: 'Story-Serie', linkedin: 'LinkedIn-Post', blog: 'Blogartikel' };
+      templates = templates.filter(t => t.format === formatMap[format]);
+      if (templates.length === 0) templates = [GENERATED_TEMPLATES[0]];
+    }
+    const count = format === 'all' ? 4 : Math.min(templates.length, 2);
+    const shuffled = templates.sort(() => Math.random() - 0.5).slice(0, count);
+    return shuffled.map(t => ({
+      format: t.format,
+      hook: t.hook.replace(/\$\{topic\}/g, topic).replace(/\$\{topicHash\}/g, topicHash),
+      body: t.body.replace(/\$\{topic\}/g, topic).replace(/\$\{topicHash\}/g, topicHash),
+      talkingPoints: t.talkingPoints,
+      hashtags: t.hashtags.replace(/\$\{topicHash\}/g, topicHash),
+    }));
+  }
+
+  // === AUTO REFRESH ===
+  function setupAutoRefresh() {
+    setInterval(() => { state.lastRefresh = new Date(); }, 30000);
+  }
+
+  // === EVENT BINDING ===
+  function bindEvents() {
+    // View navigation
+    $$('[data-view]').forEach(el => {
+      el.addEventListener('click', () => { state.currentView = el.dataset.view; state.sidebarOpen = false; render(); });
+    });
+
+    // Topic filters (vertical) — always switch to feed view
+    $$('[data-topic]').forEach(el => {
+      el.addEventListener('click', () => { state.activeTopic = el.dataset.topic || null; state.currentView = 'feed'; render(); });
+    });
+
+    // Source filters (vertical) — always switch to feed view
+    $$('[data-source]').forEach(el => {
+      el.addEventListener('click', () => { state.activeSource = el.dataset.source || null; state.currentView = 'feed'; render(); });
+    });
+
+    // Theme toggle button in header
+    const themeBtn = $('#themeToggleBtn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        state.theme = state.theme === 'light' ? 'dark' : 'light';
+        localStorage.setItem('pv-theme', state.theme);
+        document.documentElement.setAttribute('data-theme', state.theme);
+        render();
+      });
+    }
+
+    // Logo click → scroll to top & reset all filters
+    $$('.header-logo').forEach(logo => {
+      logo.addEventListener('click', () => {
+        state.activeTopic = null;
+        state.activeSource = null;
+        state.searchQuery = '';
+        state.currentView = 'feed';
+        state.selectedDate = new Date();
+        render();
+        setTimeout(() => scrollToTop(), 50);
+      });
+    });
+
+    // Date navigation
+    const datePrev = $('#datePrev');
+    const dateNext = $('#dateNext');
+    const dateToday = $('#dateToday');
+    if (datePrev) datePrev.addEventListener('click', () => { state.selectedDate = new Date(state.selectedDate.getTime() - 86400000); render(); });
+    if (dateNext) {
+      dateNext.addEventListener('click', () => {
+        const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+        const next = new Date(state.selectedDate.getTime() + 86400000);
+        if (next <= tomorrow) { state.selectedDate = next; render(); }
+      });
+    }
+    if (dateToday) dateToday.addEventListener('click', () => { state.selectedDate = new Date(); render(); });
+
+    // Search
+    const searchInput = $('#searchInput');
+    if (searchInput) {
+      let debounce;
+      searchInput.addEventListener('input', (e) => {
+        clearTimeout(debounce);
+        debounce = setTimeout(() => {
+          state.searchQuery = e.target.value;
+          render();
+          const newInput = $('#searchInput');
+          if (newInput) { newInput.focus(); newInput.setSelectionRange(newInput.value.length, newInput.value.length); }
+        }, 300);
+      });
+    }
+
+    // Mobile menu
+    const mobileBtn = $('#mobileMenuBtn');
+    if (mobileBtn) mobileBtn.addEventListener('click', () => { state.sidebarOpen = !state.sidebarOpen; render(); });
+    const sidebarOverlay = $('#sidebarOverlay');
+    if (sidebarOverlay) sidebarOverlay.addEventListener('click', () => { state.sidebarOpen = false; render(); });
+
+    // Expand/collapse content ideas
+    $$('[data-toggle]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.toggle;
+        if (state.expandedCards.has(id)) state.expandedCards.delete(id);
+        else state.expandedCards.add(id);
+        render();
+      });
+    });
+
+    // Add single idea to kanban
+    $$('[data-add-kanban]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const raw = btn.dataset.addKanban;
+        const lastDash = raw.lastIndexOf('-');
+        const articleId = raw.substring(0, lastDash);
+        const ideaIdx = raw.substring(lastDash + 1);
+        const article = state.articles.find(a => a.id === articleId);
+        if (article && article.contentIdeas[ideaIdx]) {
+          const idea = article.contentIdeas[ideaIdx];
+          showAddKanbanModal(`${idea.type}: ${idea.hook.replace(/"/g, '').substring(0, 60)}...`, idea.type, article.topic);
+        }
+      });
+    });
+
+    // Add all ideas from article to kanban
+    $$('[data-add-all-kanban]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const article = state.articles.find(a => a.id === btn.dataset.addAllKanban);
+        if (article) showAddKanbanModal('', '', article.topic);
+      });
+    });
+
+    // Generator
+    const generateBtn = $('#generateBtn');
+    if (generateBtn) {
+      generateBtn.addEventListener('click', () => {
+        const topic = ($('#generatorTopic')?.value || '').trim();
+        const format = $('#generatorFormat')?.value || 'all';
+        const tone = $('#generatorTone')?.value || 'informativ';
+        if (!topic) { $('#generatorTopic').focus(); $('#generatorTopic').style.borderColor = 'var(--color-error)'; setTimeout(() => { $('#generatorTopic').style.borderColor = ''; }, 2000); return; }
+        state.generatorLoading = true; render();
+        setTimeout(() => { state.generatedIdeas = simulateGeneration(topic, format, tone); state.generatorLoading = false; render(); }, 1500 + Math.random() * 1000);
+      });
+    }
+
+    // Generated idea to kanban
+    $$('[data-gen-to-kanban]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idea = state.generatedIdeas[parseInt(btn.dataset.genToKanban)];
+        if (idea) showAddKanbanModal(`${idea.format}: ${idea.hook.replace(/"/g, '').substring(0, 60)}...`, idea.format, '');
+      });
+    });
+
+    // Kanban add buttons
+    $$('[data-add-col]').forEach(btn => { btn.addEventListener('click', () => { showAddKanbanModal(); }); });
+
+    // Kanban drag & drop
+    setupDragAndDrop();
+  }
+
+  // === DRAG & DROP ===
+  function setupDragAndDrop() {
+    let draggedItem = null;
+    $$('.kanban-item[draggable]').forEach(el => {
+      el.addEventListener('dragstart', (e) => { draggedItem = el.dataset.kanbanId; el.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
+      el.addEventListener('dragend', () => { el.classList.remove('dragging'); draggedItem = null; $$('.kanban-items').forEach(col => col.style.background = ''); });
+    });
+    $$('.kanban-items').forEach(col => {
+      col.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; col.style.background = 'var(--color-primary-light)'; col.style.borderRadius = 'var(--radius-md)'; });
+      col.addEventListener('dragleave', () => { col.style.background = ''; });
+      col.addEventListener('drop', (e) => {
+        e.preventDefault(); col.style.background = '';
+        if (draggedItem) {
+          const item = state.kanbanItems.find(i => i.id === draggedItem);
+          if (item) { item.status = col.dataset.status; saveKanban(); render(); }
+        }
+      });
+    });
+  }
+
+  // === START ===
+  document.addEventListener('DOMContentLoaded', init);
+})();
+
+  </script>
   <script src="https://unpkg.com/lucide@latest" onload="if(typeof lucide!=='undefined'){try{lucide.createIcons();}catch(e){}}" async></script>
 </body>
 </html>
