@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Planville — Branchen-News &amp; Trends Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2943,6 +2947,17 @@ const DEMO_STATS = {
 (function () {
   'use strict';
 
+  // === SECURITY: HTML ESCAPING ===
+  const ESC_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  function esc(str) {
+    if (typeof str !== 'string') return str;
+    return str.replace(/[&<>"']/g, c => ESC_MAP[c]);
+  }
+  function escAttr(str) {
+    if (typeof str !== 'string') return '';
+    return str.replace(/[&<>"'`]/g, c => ESC_MAP[c] || '&#96;');
+  }
+
   // === TOOLTIP DEFINITIONS ===
   const TIPS = {
     newsFeed: 'Automatisch gesammelte Nachrichten, Reddit-Posts und Social-Media-Trends aus der Energiebranche.',
@@ -2997,7 +3012,14 @@ const DEMO_STATS = {
     document.documentElement.setAttribute('data-theme', state.theme);
     state.articles = generateDemoArticles();
     // Clear old demo kanban data (one-time migration)
-    const savedKanban = JSON.parse(localStorage.getItem('pv-kanban') || '[]');
+    let savedKanban = [];
+    try {
+      const raw = JSON.parse(localStorage.getItem('pv-kanban') || '[]');
+      if (Array.isArray(raw)) {
+        savedKanban = raw.filter(i => i && typeof i.id === 'string' && typeof i.title === 'string')
+          .map(i => ({ id: String(i.id), title: String(i.title), type: String(i.type || ''), topic: String(i.topic || ''), status: String(i.status || 'new'), priority: String(i.priority || 'medium'), createdAt: String(i.createdAt || '') }));
+      }
+    } catch (e) { savedKanban = []; }
     const hasDemoIds = savedKanban.some(i => /^k\d+$/.test(i.id));
     state.kanbanItems = hasDemoIds ? [] : savedKanban;
     if (hasDemoIds) localStorage.removeItem('pv-kanban');
@@ -3227,7 +3249,7 @@ const DEMO_STATS = {
           </div>
           <div class="search-box">
             <i data-lucide="search" class="search-icon" width="16" height="16"></i>
-            <input type="text" placeholder="Suchen..." id="searchInput" value="${state.searchQuery}">
+            <input type="text" placeholder="Suchen..." id="searchInput" value="${escAttr(state.searchQuery)}">
             ${tip('searchBox')}
           </div>
           <div class="refresh-indicator">
@@ -3347,9 +3369,9 @@ const DEMO_STATS = {
           </span>
         </div>
 
-        <h3 class="news-card-title">${article.title}</h3>
-        <div class="news-card-outlet">${article.outlet} &middot; ${article.readTime} Min. Lesezeit</div>
-        <p class="news-card-summary">${article.summary}</p>
+        <h3 class="news-card-title">${esc(article.title)}</h3>
+        <div class="news-card-outlet">${esc(article.outlet)} &middot; ${esc(String(article.readTime))} Min. Lesezeit</div>
+        <p class="news-card-summary">${esc(article.summary)}</p>
 
         <div class="sentiment-bar">
           <span class="sentiment-indicator ${article.sentiment}">
@@ -3365,7 +3387,7 @@ const DEMO_STATS = {
             KI-Einschätzung für Planville Marketing
             ${tip('aiInsight')}
           </div>
-          <div class="ai-insight-text">${article.aiInsight}</div>
+          <div class="ai-insight-text">${esc(article.aiInsight)}</div>
         </div>
 
         <button class="expand-toggle" data-toggle="${article.id}">
@@ -3378,10 +3400,10 @@ const DEMO_STATS = {
           <div class="content-ideas-list" style="margin-top: var(--space-3);">
             ${article.contentIdeas.map((idea, idx) => `
               <div class="content-idea-item">
-                <span class="idea-type-badge">${idea.type}</span>
+                <span class="idea-type-badge">${esc(idea.type)}</span>
                 <div style="flex: 1; min-width: 0;">
-                  <div class="idea-hook">${idea.hook}</div>
-                  <div class="idea-hashtags">${idea.hashtags}</div>
+                  <div class="idea-hook">${esc(idea.hook)}</div>
+                  <div class="idea-hashtags">${esc(idea.hashtags)}</div>
                 </div>
                 <div class="idea-actions">
                   <button class="idea-action-btn" title="Zum Board hinzufügen" data-add-kanban="${article.id}-${idx}">
@@ -3400,7 +3422,7 @@ const DEMO_STATS = {
               Zum Board
               ${tip('addToBoard')}
             </button>
-            <a class="source-link-btn" href="${article.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer">
+            <a class="source-link-btn" href="${escAttr(article.sourceUrl || '#')}" target="_blank" rel="noopener noreferrer">
               <i data-lucide="external-link" width="14" height="14"></i>
               Quelle öffnen
             </a>
@@ -3451,11 +3473,11 @@ const DEMO_STATS = {
 
   function renderKanbanItem(item) {
     return `
-      <div class="kanban-item" draggable="true" data-kanban-id="${item.id}">
-        <div class="kanban-item-title">${item.title}</div>
+      <div class="kanban-item" draggable="true" data-kanban-id="${escAttr(item.id)}">
+        <div class="kanban-item-title">${esc(item.title)}</div>
         <div class="kanban-item-meta">
-          <span class="kanban-type-badge">${item.type}</span>
-          <span class="priority-dot ${item.priority}" title="Priorität: ${item.priority === 'high' ? 'Hoch' : item.priority === 'medium' ? 'Mittel' : 'Niedrig'}"></span>
+          <span class="kanban-type-badge">${esc(item.type)}</span>
+          <span class="priority-dot ${escAttr(item.priority)}" title="Priorität: ${item.priority === 'high' ? 'Hoch' : item.priority === 'medium' ? 'Mittel' : 'Niedrig'}"></span>
           <span class="kanban-item-date">${item.createdAt ? formatDate(item.createdAt) : ''}</span>
         </div>
       </div>
@@ -3521,7 +3543,7 @@ const DEMO_STATS = {
     return `
       <div class="generated-idea-card">
         <div class="generated-idea-header">
-          <span class="generated-idea-type">${idea.format}</span>
+          <span class="generated-idea-type">${esc(idea.format)}</span>
           <div class="card-actions">
             <button class="card-action-btn" data-gen-to-kanban="${index}">
               <i data-lucide="pin" width="14" height="14"></i>
@@ -3529,14 +3551,14 @@ const DEMO_STATS = {
             </button>
           </div>
         </div>
-        <div class="generated-idea-hook">${idea.hook}</div>
-        <div class="generated-idea-body">${idea.body}</div>
+        <div class="generated-idea-hook">${esc(idea.hook)}</div>
+        <div class="generated-idea-body">${esc(idea.body)}</div>
         <div class="generated-idea-section-title">Talking Points</div>
         <ul class="generated-talking-points">
-          ${idea.talkingPoints.map(tp => `<li>${tp}</li>`).join('')}
+          ${idea.talkingPoints.map(tp => `<li>${esc(tp)}</li>`).join('')}
         </ul>
         <div class="generated-idea-section-title">Hashtags</div>
-        <div class="generated-hashtags">${idea.hashtags}</div>
+        <div class="generated-hashtags">${esc(idea.hashtags)}</div>
       </div>
     `;
   }
@@ -3556,7 +3578,7 @@ const DEMO_STATS = {
       </div>
       <div class="modal-form-group">
         <label>Titel</label>
-        <input type="text" id="kanbanTitle" value="${prefillTitle}" placeholder="z.B. Reel: Stromrechnung vorher/nachher">
+        <input type="text" id="kanbanTitle" value="${escAttr(prefillTitle)}" placeholder="z.B. Reel: Stromrechnung vorher/nachher">
       </div>
       <div class="modal-form-group">
         <label>Format</label>
@@ -3840,6 +3862,9 @@ const DEMO_STATS = {
 })();
 
   </script>
-  <script src="https://unpkg.com/lucide@latest" onload="if(typeof lucide!=='undefined'){try{lucide.createIcons();}catch(e){}}" async></script>
+  <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"
+          integrity="sha384-tTkFttkBclaU1cloKwOi9xk3pbao3VZxTjLNBt8iFABWDBQibbAbWpVmO28zMuxq"
+          crossorigin="anonymous"
+          onload="if(typeof lucide!=='undefined'){try{lucide.createIcons();}catch(e){}}" async></script>
 </body>
 </html>
