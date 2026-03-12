@@ -2320,6 +2320,10 @@ const TOPICS = [
   { id: 'innovation', label: 'Innovation', icon: 'lightbulb' },
   { id: 'handwerk', label: 'Handwerk & Qualität', icon: 'wrench' },
   { id: 'pvpflicht', label: 'PV-Pflicht', icon: 'shield-check' },
+  { id: 'eauto', label: 'E-Auto/E-Lifestyle', icon: 'zap' },
+  { id: 'smarthome', label: 'Immobilien (Smart-Home)', icon: 'wifi' },
+  { id: 'energiekrise', label: 'Energie Krise', icon: 'alert-triangle' },
+  { id: 'umwelt', label: 'Umwelt', icon: 'trees' },
 ];
 
 const SENTIMENTS = ['positiv', 'neutral', 'negativ'];
@@ -2890,6 +2894,214 @@ const DEMO_ARTICLES = [
     contentIdeas: [
       { type: 'Karussell', hook: 'Die 5 echten Fragen aus dem Bauexpertenforum: 1) Gilt die Pflicht bei Teilsanierung? 2) Wer prüft die Wirtschaftlichkeit? 3) Was zählt als Befreiungsgrund? 4) Denkmalschutz = automatisch befreit? 5) Reicht auch Solarthermie? — Expertenbewertung pro Slide', hashtags: '#ForumFragen #SolarpflichtFAQ #Wirtschaftlichkeitsprüfung #Befreiung #Denkmalschutz' },
       { type: 'Reel', hook: '"Ich lese Forumsbeiträge zur Solarpflicht. Aussage: Die Pflicht ist Abzocke. Meine Gegenrechnung: Dachsanierung 35.000€. PV extra: 8.000€. Jährlicher Ertrag: 1.400€. Amortisation: 5,7 Jahre. Abzocke?"', hashtags: '#SolarpflichtAbzocke #Gegenrechnung #Amortisation5Jahre #FaktenStattMeinung' },
+    ],
+  },
+  // === E-AUTO / E-LIFESTYLE ===
+  // E-Auto 1 — Mar 5, 2026
+  {
+    title: 'Wallbox-Pflicht ab 2027: Was Eigenheimbesitzer jetzt wissen muessen',
+    summary: 'Die Bundesregierung plant eine Wallbox-Vorruest-Pflicht fuer Neubauten ab 2027. Jeder Stellplatz soll kuenftig mit Leerrohren fuer Ladeinfrastruktur ausgestattet werden. Fuer Bestandsgebaeude gibt es grosszuegige Foerderungen. Experten rechnen mit einem Kosten-Aufwand von 500-1.500 Euro pro Stellplatz.',
+    source: 'news',
+    outlet: 'electrive.net',
+    sourceUrl: 'https://www.electrive.net/2026/03/05/wallbox-pflicht-ab-2027/',
+    topic: 'eauto',
+    sentiment: 'neutral',
+    relevance: 88,
+    dateStr: '2026-03-05',
+    aiInsight: 'Planville-Chance: Wallbox-Installation direkt mit PV-Anlage kombinieren! "Dein Dach produziert den Strom, deine Wallbox tankt ihn" — perfektes Cross-Selling-Argument fuer Eigenheimbesitzer.',
+    contentIdeas: [
+      { type: 'Karussell', hook: 'Wallbox-Pflicht kommt 2027 — aber die smarten Eigenheimbesitzer ruesten schon jetzt auf. 5 Gruende, warum Wallbox + PV zusammen 40% guenstiger sind als einzeln.', hashtags: '#Wallbox #EAuto #PVundWallbox #Ladeinfrastruktur #Eigenheim' },
+      { type: 'Reel', hook: '"Mein E-Auto laed mit Sonnenstrom vom eigenen Dach. Stromkosten: 4 Cent pro kWh statt 42 Cent an der Ladesaeule. Hier ist meine Rechnung."', hashtags: '#EAutoLaden #Sonnenstrom #WallboxZuhause #4CentProKWh #PlanvilleEnergie' },
+    ],
+  },
+  // E-Auto 2 — Feb 20, 2026
+  {
+    title: 'E-Auto als Hausspeicher: Vehicle-to-Home wird Realitaet',
+    summary: 'Immer mehr E-Autos unterstuetzen bidirektionales Laden. Mit Vehicle-to-Home (V2H) kann die Autobatterie als Hausspeicher genutzt werden — besonders attraktiv in Kombination mit einer PV-Anlage. Erste Pilotprojekte in NRW zeigen Einsparungen von bis zu 60% bei den Stromkosten.',
+    source: 'news',
+    outlet: 'Handelsblatt',
+    sourceUrl: 'https://www.handelsblatt.com/technik/v2h-vehicle-to-home-2026/',
+    topic: 'eauto',
+    sentiment: 'positiv',
+    relevance: 91,
+    dateStr: '2026-02-20',
+    aiInsight: 'Zukunftsthema fuer Planville! V2H macht PV-Anlagen noch attraktiver. "Dein E-Auto wird zum Hausspeicher — und Planville installiert die Technik." Technologie-Vorreiter-Image aufbauen.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"Mein E-Auto ist gleichzeitig mein Hausspeicher. Tags laed die PV-Anlage das Auto, abends versorgt das Auto mein Haus. Willkommen in 2026."', hashtags: '#V2H #VehicleToHome #EAutoSpeicher #Bidirektional #PlanvilleZukunft' },
+      { type: 'LinkedIn-Post', hook: 'Vehicle-to-Home aendert alles: Warum PV-Installateure jetzt V2H-Kompetenz aufbauen muessen und wie Planville den Markt vorbereitet.', hashtags: '#V2H #ElektromobilitaetMeetsSolar #PlanvilleInnovation #Energiewende' },
+    ],
+  },
+  // E-Auto 3 — Jan 12, 2026
+  {
+    title: 'TikTok-Trend: E-Auto-Besitzer zeigen ihre Stromrechnungen nach PV-Installation',
+    summary: 'Auf TikTok teilen E-Auto-Fahrer stolz ihre drastisch gesunkenen Stromrechnungen nach der Installation einer PV-Anlage. Videos mit dem Hashtag #SonnenstromTanken erreichen Millionen Views. Besonders beliebt: Vorher-Nachher-Vergleiche der monatlichen Kosten.',
+    source: 'social',
+    outlet: 'TikTok @energiefakten',
+    sourceUrl: 'https://www.tiktok.com/@energiefakten/video/sonnenstromtanken',
+    topic: 'eauto',
+    sentiment: 'positiv',
+    relevance: 85,
+    dateStr: '2026-01-12',
+    aiInsight: 'Trend-Jacking-Chance! Eigene Version dieses TikTok-Formats erstellen mit echten Planville-Kunden-Rechnungen. Authentischer Content mit viralem Potenzial.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"Vorher: 380 Euro Strom + 120 Euro Tanken. Nachher: 45 Euro. Alles dank 10 kWp auf dem Dach und einer Wallbox in der Garage. Hier sind die echten Zahlen."', hashtags: '#SonnenstromTanken #VorherNachher #Stromrechnung #EAutoSolar #PlanvilleKunden' },
+      { type: 'Story-Serie', hook: '24h mit Sonnenstrom: Morgens Auto laed, mittags Waermepumpe laeuft, abends Speicher versorgt alles. So sieht ein Tag mit PV-Komplettsystem aus.', hashtags: '#24hSonnenstrom #PVKomplett #EAutoLifestyle #PlanvilleAlltag' },
+    ],
+  },
+  // === IMMOBILIEN (SMART-HOME) ===
+  // Smart-Home 1 — Mar 4, 2026
+  {
+    title: 'Smart-Home-Integration steigert Immobilienwert um bis zu 8 Prozent',
+    summary: 'Eine aktuelle Studie des IW Koeln zeigt: Immobilien mit intelligenter Haustechnik erzielen beim Verkauf durchschnittlich 5-8% hoehere Preise. Besonders gefragt sind integrierte Energiemanagementsysteme, die PV-Anlage, Waermepumpe und Speicher intelligent steuern.',
+    source: 'news',
+    outlet: 'Immobilien Zeitung',
+    sourceUrl: 'https://www.iz.de/smart-home-immobilienwert-studie-2026/',
+    topic: 'smarthome',
+    sentiment: 'positiv',
+    relevance: 87,
+    dateStr: '2026-03-04',
+    aiInsight: 'Starkes Verkaufsargument: "Dein Haus wird nicht nur energieeffizient, sondern auch 8% mehr wert." Planville als Wertsteigerungs-Partner positionieren, nicht nur als Installatuer.',
+    contentIdeas: [
+      { type: 'Karussell', hook: '5 Smart-Home-Upgrades, die deinen Immobilienwert sofort steigern: 1) PV + Energiemanagement 2) Intelligente Heizungssteuerung 3) Wallbox mit App 4) Smarte Verschattung 5) Monitoring-Dashboard', hashtags: '#SmartHome #Immobilienwert #Wertsteigerung #EnergieManagement #PlanvilleSmartHome' },
+      { type: 'LinkedIn-Post', hook: 'IW-Studie: +8% Immobilienwert durch Smart-Home. Warum Energieberater jetzt auch Immobilien-Experten sein muessen — und wie Planville beides verbindet.', hashtags: '#SmartHome #Immobilien #IWStudie #PropTech #PlanvilleInnovation' },
+    ],
+  },
+  // Smart-Home 2 — Feb 15, 2026
+  {
+    title: 'Home Energy Management Systeme im Test: Diese 5 Loesungen ueberzeugen',
+    summary: 'Stiftung Warentest hat erstmals Home Energy Management Systeme (HEMS) getestet. Die besten Systeme optimieren den Eigenverbrauch von PV-Anlagen um bis zu 30%. Testsieger verbinden PV-Anlage, Waermepumpe, Speicher und Wallbox zu einem intelligenten Gesamtsystem.',
+    source: 'news',
+    outlet: 'Stiftung Warentest',
+    sourceUrl: 'https://www.test.de/hems-energiemanagement-test-2026/',
+    topic: 'smarthome',
+    sentiment: 'positiv',
+    relevance: 90,
+    dateStr: '2026-02-15',
+    aiInsight: 'Test-Ergebnisse als Vertrauens-Content nutzen! "Stiftung Warentest sagt: HEMS spart 30% — wir installieren den Testsieger." Perfekt fuer Karussell mit Testergebnissen.',
+    contentIdeas: [
+      { type: 'Karussell', hook: 'Stiftung Warentest hat Energiemanagement-Systeme getestet. Die Top 5 im Vergleich — und warum der Testsieger perfekt zu Planville-Anlagen passt.', hashtags: '#StiftungWarentest #HEMS #Testsieger #Eigenverbrauch #PlanvilleSmart' },
+      { type: 'Reel', hook: '"30% mehr Eigenverbrauch durch ein smartes System. Meine PV-Anlage produziert gleich viel — aber ich spare 30% mehr. So funktioniert ein HEMS."', hashtags: '#HEMS #30ProzentMehr #Eigenverbrauch #SmartEnergy #PlanvilleTechnik' },
+    ],
+  },
+  // Smart-Home 3 — Dec 18, 2025
+  {
+    title: 'Reddit: "Welches Smart-Home-System fuer PV-Anlage + Waermepumpe?"',
+    summary: 'Im r/smarthome_de Subreddit fragen immer mehr Nutzer nach der besten Integration von PV-Anlage und Waermepumpe in ihr Smart-Home. Die Community empfiehlt offene Systeme wie Home Assistant, waehrend Hersteller-Loesungen oft als zu eingeschraenkt kritisiert werden.',
+    source: 'reddit',
+    outlet: 'r/smarthome_de',
+    sourceUrl: 'https://www.reddit.com/r/smarthome_de/comments/smart-home-pv-waermepumpe/',
+    topic: 'smarthome',
+    sentiment: 'neutral',
+    relevance: 78,
+    dateStr: '2025-12-18',
+    aiInsight: 'Community-Beduerfnis aufgreifen: Viele wollen alles smart vernetzen, wissen aber nicht wie. Planville kann als "Alles-aus-einer-Hand-Integrator" auftreten.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"Reddit fragt: Welches System verbindet PV + Waermepumpe + Wallbox? Die Antwort: Ein professionelles HEMS. Und so sieht das in der Praxis aus."', hashtags: '#RedditFragt #SmartHomePV #HEMS #AllesAusEinerHand #PlanvilleIntegration' },
+      { type: 'Blogartikel', hook: 'Der ultimative Guide: PV-Anlage, Waermepumpe und Wallbox smart vernetzen — welche Systeme funktionieren wirklich zusammen und was kostet die Integration?', hashtags: '#SmartHomeGuide #PVIntegration #WaermepumpeVernetzt #PlanvilleExperte' },
+    ],
+  },
+  // === ENERGIE KRISE ===
+  // Energie Krise 1 — Mar 3, 2026
+  {
+    title: 'Netzentgelte steigen 2026 um durchschnittlich 25 Prozent',
+    summary: 'Die Bundesnetzagentur bestaetigt: Die Netzentgelte steigen 2026 im Schnitt um 25%. Fuer einen durchschnittlichen Haushalt bedeutet das Mehrkosten von 150-200 Euro pro Jahr. Experten sehen darin einen weiteren Treiber fuer PV-Anlagen mit Eigenverbrauch.',
+    source: 'news',
+    outlet: 'Tagesspiegel',
+    sourceUrl: 'https://www.tagesspiegel.de/wirtschaft/netzentgelte-steigen-2026/',
+    topic: 'energiekrise',
+    sentiment: 'negativ',
+    relevance: 93,
+    dateStr: '2026-03-03',
+    aiInsight: 'Perfekter Angst-zu-Loesung-Content: "Die Netzentgelte explodieren — aber mit eigener PV bist du davon kaum betroffen." Dringlichkeit erzeugen mit konkreten Euro-Zahlen.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"Netzentgelte +25%. Strompreis-Prognose 2027: 48 Cent. Dein Sonnenstrom: 8 Cent. Hier ist der Moment, in dem du aufhoerst zu warten."', hashtags: '#Netzentgelte #Strompreis2027 #8CentSonnenstrom #JetztHandeln #PlanvilleRechnet' },
+      { type: 'Karussell', hook: 'Strompreis-Anatomie 2026: So setzt sich dein Preis zusammen — und welchen Teil du mit PV komplett eliminierst. Slide fuer Slide erklaert.', hashtags: '#StrompreisAnatomie #Netzentgelte #PVSpart #Energiekosten #PlanvilleErklaert' },
+    ],
+  },
+  // Energie Krise 2 — Feb 8, 2026
+  {
+    title: 'Gaspreise ziehen wieder an: Heizkosten-Schock droht im Winter 2026/27',
+    summary: 'Nach einer Phase relativer Entspannung steigen die Gaspreise wieder deutlich. Analysten warnen vor einem erneuten Heizkosten-Schock im kommenden Winter. Besonders Eigenheimbesitzer mit alten Gasheizungen sind betroffen. Der Umstieg auf Waermepumpe wird wirtschaftlich immer attraktiver.',
+    source: 'news',
+    outlet: 'FOCUS Online',
+    sourceUrl: 'https://www.focus.de/finanzen/gaspreise-anstieg-winter-2026-27/',
+    topic: 'energiekrise',
+    sentiment: 'negativ',
+    relevance: 89,
+    dateStr: '2026-02-08',
+    aiInsight: 'Waermepumpen-Push mit aktuellem Anlass! "Die Gaspreise steigen wieder — wer jetzt auf Waermepumpe umsteigt, spart ab Tag 1." Kombination aus News-Aktualitaet und Planville-Loesung.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"Gasheizung 2026: 3.200 Euro. Waermepumpe mit PV: 800 Euro. Die Rechnung, die dein Installateur dir nicht zeigt — weil er nur Gas kann. Wir koennen beides."', hashtags: '#GasVsWaermepumpe #Heizkosten #WaermepumpeRechnet #PlanvilleBeides #EnergieKrise' },
+      { type: 'Story-Serie', hook: 'Gaspreis-Ticker: Wir tracken die Entwicklung und zeigen jeden Montag, wie viel ein Planville-Kunde mit Waermepumpe + PV gegenueber Gas spart. Live-Vergleich.', hashtags: '#GaspreisTicker #LiveVergleich #MontagsSpar #WaermepumpeGewinnt' },
+    ],
+  },
+  // Energie Krise 3 — Nov 25, 2025
+  {
+    title: 'Energiearmut in Deutschland: 4,3 Millionen Haushalte koennen Stromrechnung kaum bezahlen',
+    summary: 'Die Verbraucherzentrale warnt: Immer mehr deutsche Haushalte rutschen in die Energiearmut. Besonders betroffen sind Mieter ohne Zugang zu erneuerbaren Energien. Mieterstrom-Modelle und gemeinschaftliche PV-Anlagen koennten Abhilfe schaffen, werden aber noch zu selten umgesetzt.',
+    source: 'news',
+    outlet: 'Verbraucherzentrale',
+    sourceUrl: 'https://www.verbraucherzentrale.de/energiearmut-deutschland-2025/',
+    topic: 'energiekrise',
+    sentiment: 'negativ',
+    relevance: 82,
+    dateStr: '2025-11-25',
+    aiInsight: 'Emotionaler Content mit Haltung: Planville als Unternehmen positionieren, das bezahlbare Energie fuer alle will. Mieterstrom-Angebote hervorheben. Soziale Verantwortung zeigen.',
+    contentIdeas: [
+      { type: 'LinkedIn-Post', hook: '4,3 Millionen Haushalte in Energiearmut. Als PV-Unternehmen tragen wir Verantwortung: Warum Planville Mieterstrom-Projekte vorantreibt und wie wir bezahlbare Energie fuer alle ermoeglichen.', hashtags: '#Energiearmut #Mieterstrom #SozialeVerantwortung #BezahlbareEnergie #PlanvilleMission' },
+      { type: 'Karussell', hook: 'Was ist Energiearmut? Wer ist betroffen? Und was kann PV dagegen tun? 5 Fakten und 3 konkrete Loesungen — von Mieterstrom bis Balkonkraftwerk.', hashtags: '#Energiearmut #Fakten #Mieterstrom #Balkonkraftwerk #PlanvilleErklaert' },
+    ],
+  },
+  // === UMWELT ===
+  // Umwelt 1 — Mar 2, 2026
+  {
+    title: 'CO2-Preis steigt auf 55 Euro: Fossile Energie wird deutlich teurer',
+    summary: 'Zum Jahresbeginn 2026 ist der CO2-Preis auf 55 Euro pro Tonne gestiegen. Das verteuert Heizoel um ca. 17 Cent und Erdgas um ca. 1,1 Cent pro kWh. Fuer einen durchschnittlichen Haushalt mit Gasheizung bedeutet das rund 220 Euro Mehrkosten. Erneuerbare Energien profitieren davon direkt.',
+    source: 'news',
+    outlet: 'tagesschau.de',
+    sourceUrl: 'https://www.tagesschau.de/wirtschaft/co2-preis-55-euro-2026/',
+    topic: 'umwelt',
+    sentiment: 'neutral',
+    relevance: 90,
+    dateStr: '2026-03-02',
+    aiInsight: 'CO2-Preis als Verkaufsargument: "Jede Tonne CO2 kostet jetzt 55 Euro — dein Sonnenstrom ist CO2-frei." Konkrete Einsparungen in Euro und kg CO2 berechnen fuer Planville-Kunden.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"55 Euro pro Tonne CO2. Deine Gasheizung: 5 Tonnen pro Jahr = 275 Euro CO2-Steuer. Deine PV-Anlage: 0 Euro. Die Rechnung ist einfach."', hashtags: '#CO2Preis #55EuroProTonne #PVistCO2frei #Klimaschutz #PlanvilleRechnet' },
+      { type: 'Karussell', hook: 'CO2-Preis-Fahrplan bis 2030: So teuer wird fossile Energie noch. Und warum jedes Jahr warten dich echtes Geld kostet. Timeline mit konkreten Euro-Betraegen.', hashtags: '#CO2Fahrplan #FossilWirdTeuer #JedesJahrTeurer #PlanvilleZukunft #Klimaschutz' },
+    ],
+  },
+  // Umwelt 2 — Jan 28, 2026
+  {
+    title: 'Studie: Private PV-Anlagen sparen 35 Millionen Tonnen CO2 pro Jahr',
+    summary: 'Das Fraunhofer ISE hat berechnet: Die installierten privaten PV-Anlagen in Deutschland vermeiden jaehrlich rund 35 Millionen Tonnen CO2. Das entspricht den Emissionen von 4 Millionen Fluegen nach Mallorca. Jede neu installierte 10-kWp-Anlage spart etwa 5 Tonnen CO2 pro Jahr.',
+    source: 'news',
+    outlet: 'Fraunhofer ISE',
+    sourceUrl: 'https://www.ise.fraunhofer.de/de/presse/presseinformationen/2026/pv-co2-einsparung.html',
+    topic: 'umwelt',
+    sentiment: 'positiv',
+    relevance: 86,
+    dateStr: '2026-01-28',
+    aiInsight: 'Stolz-Content fuer Planville-Kunden: "Jede Planville-Anlage spart 5 Tonnen CO2 pro Jahr. Zusammen haben unsere Kunden schon X Tonnen gespart." Community-Gefuehl erzeugen.',
+    contentIdeas: [
+      { type: 'Reel', hook: '"5 Tonnen CO2 weniger — pro Jahr — pro Dach. Hier sind 10 Planville-Daecher. Das sind 50 Tonnen. Und wir fangen gerade erst an."', hashtags: '#5TonnenProDach #CO2Sparen #PlanvilleDaecher #Klimaschutz #FraunhoferStudie' },
+      { type: 'Story-Serie', hook: 'Dein CO2-Fussabdruck mit und ohne PV: Interaktiver Vergleich. Slide 1: Durchschnittshaushalt. Slide 2: Mit PV. Slide 3: Mit PV + Waermepumpe. Slide 4: Dein Ergebnis.', hashtags: '#CO2Fussabdruck #MitOhnePV #Vergleich #PlanvilleKlima #DeinBeitrag' },
+    ],
+  },
+  // Umwelt 3 — Oct 30, 2025
+  {
+    title: 'Kommunen setzen auf Gruendaecher mit PV: Doppelter Klimaschutz',
+    summary: 'Immer mehr Staedte in NRW foerdern die Kombination von Gruendaechern und Photovoltaik. Biosolar-Daecher verbessern die PV-Leistung durch den Kuehleffekt der Begruenung und foerdern gleichzeitig die Biodiversitaet. Koeln und Duesseldorf haben bereits spezielle Foerderprogramme aufgelegt.',
+    source: 'news',
+    outlet: 'Kommunal.de',
+    sourceUrl: 'https://kommunal.de/gruendaecher-pv-nrw-foerderung-2025/',
+    topic: 'umwelt',
+    sentiment: 'positiv',
+    relevance: 83,
+    dateStr: '2025-10-30',
+    aiInsight: 'Nischen-Content mit Alleinstellung: "Gruendach + PV = mehr Leistung + mehr Natur." Planville als nachhaltiger Anbieter, der ueber reine Technik hinausdenkt. Perfekt fuer umweltbewusste Zielgruppe.',
+    contentIdeas: [
+      { type: 'Karussell', hook: 'Gruendach + PV: Warum die Kombi mehr Strom produziert als PV allein. Der Kuehleffekt erklaert in 5 Slides mit Leistungskurven und echten Messdaten.', hashtags: '#Gruendach #BiosolarDach #MehrLeistung #Kuehleffekt #PlanvilleNatur' },
+      { type: 'LinkedIn-Post', hook: 'Biodiversitaet trifft Energiewende: Wie Planville mit Biosolar-Daechern zwei Fliegen mit einer Klappe schlaegt — und warum Kommunen das jetzt foerdern.', hashtags: '#Biosolar #Biodiversitaet #KommunaleFoerderung #NRW #PlanvilleNachhaltig' },
     ],
   },
 ];
