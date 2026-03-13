@@ -3523,6 +3523,14 @@ const DEMO_STATS = {
     state.kanbanItems = hasDemoIds ? [] : savedKanban;
     if (hasDemoIds) localStorage.removeItem('pv-kanban');
     initNotifications();
+    // Global click handler for closing notification dropdown (registered once)
+    document.addEventListener('click', () => {
+      if (state.notifDropdownOpen) {
+        state.notifDropdownOpen = false;
+        const dd = $('#notifDropdown');
+        if (dd) dd.classList.remove('open');
+      }
+    });
     render();
     setupAutoRefresh();
     if (typeof lucide !== 'undefined') { try { lucide.createIcons(); } catch(e) {} }
@@ -4270,13 +4278,7 @@ const DEMO_STATS = {
         state.notifDropdownOpen = !state.notifDropdownOpen;
         notifDropdown.classList.toggle('open', state.notifDropdownOpen);
       });
-      // Close dropdown on outside click
-      document.addEventListener('click', (e) => {
-        if (state.notifDropdownOpen && !notifDropdown.contains(e.target) && !bellBtn.contains(e.target)) {
-          state.notifDropdownOpen = false;
-          notifDropdown.classList.remove('open');
-        }
-      });
+      notifDropdown.addEventListener('click', (e) => { e.stopPropagation(); });
     }
     // Mark all as read (shared logic)
     function markAllNotifsRead() {
