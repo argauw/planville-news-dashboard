@@ -382,6 +382,8 @@ a:hover { color: var(--color-primary-hover); }
   gap: var(--space-4);
   flex-shrink: 0;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 200;
 }
 
 .main-header-left {
@@ -578,6 +580,28 @@ a:hover { color: var(--color-primary-hover); }
 .notif-bell.has-new {
   animation: bellRing 0.6s ease;
 }
+
+/* Mark-all-read button next to bell */
+.notif-read-all-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-md);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: var(--glass-border);
+}
+.notif-read-all-btn:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
 @keyframes bellRing {
   0% { transform: rotate(0); }
   15% { transform: rotate(14deg); }
@@ -588,21 +612,27 @@ a:hover { color: var(--color-primary-hover); }
   100% { transform: rotate(0); }
 }
 
+/* Notification Wrapper */
+.notif-wrapper {
+  position: relative;
+  z-index: 500;
+}
+
 /* Notification Dropdown */
 .notif-dropdown {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  width: 320px;
-  max-height: 380px;
+  width: 340px;
+  max-height: 400px;
   overflow-y: auto;
   background: var(--bg-glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: var(--glass-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-float);
-  z-index: 1000;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  z-index: 9999;
   display: none;
   padding: 0;
 }
@@ -1997,6 +2027,10 @@ a:hover { color: var(--color-primary-hover); }
 [data-theme="light"] .notif-item.unread {
   background: rgba(50, 152, 102, 0.04);
 }
+[data-theme="light"] .notif-read-all-btn {
+  background: rgba(248, 249, 248, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.08);
+}
 
 /* Glass buttons: more defined with shadows */
 [data-theme="light"] .card-action-btn {
@@ -2474,6 +2508,15 @@ a:hover { color: var(--color-primary-hover); }
 [data-theme="dark"] .notif-item.unread {
   background: rgba(74, 222, 128, 0.04);
 }
+[data-theme="dark"] .notif-read-all-btn {
+  background: rgba(24, 24, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #4ADE80;
+}
+[data-theme="dark"] .notif-read-all-btn:hover {
+  background: rgba(74, 222, 128, 0.15);
+  color: #fff;
+}
 
   </style>
 </head>
@@ -2498,7 +2541,7 @@ const TOPICS = [
   { id: 'eauto', label: 'E-Auto/E-Lifestyle', icon: 'zap' },
   { id: 'smarthome', label: 'Immobilien (Smart-Home)', icon: 'wifi' },
   { id: 'energiekrise', label: 'Energie Krise', icon: 'alert-triangle' },
-  { id: 'umwelt', label: 'Umwelt', icon: 'trees' },
+  { id: 'umwelt', label: 'Umwelt', icon: 'tree-pine' },
 ];
 
 const SENTIMENTS = ['positiv', 'neutral', 'negativ'];
@@ -3740,7 +3783,8 @@ const DEMO_STATS = {
             <span>Live</span>
             ${tip('refreshIndicator')}
           </div>
-          <div style="position:relative;">
+          ${state.unreadNotifs > 0 ? `<button class="notif-read-all-btn" id="notifReadAllBtn" title="Alle als gelesen markieren"><i data-lucide="check-check" width="16" height="16"></i></button>` : ''}
+          <div class="notif-wrapper">
             <button class="notif-bell${state.unreadNotifs > 0 ? ' has-new' : ''}" id="notifBellBtn" title="Benachrichtigungen">
               <i data-lucide="bell" width="16" height="16"></i>
               ${state.unreadNotifs > 0 ? `<span class="notif-badge">${state.unreadNotifs}</span>` : ''}
@@ -4186,8 +4230,17 @@ const DEMO_STATS = {
   function setupAutoRefresh() {
     setInterval(() => {
       state.lastRefresh = new Date();
-      // Simulate new article discovery — re-check notifications
+      // Re-generate articles (simulates fetching new curated content)
+      state.articles = generateDemoArticles();
+      const prevUnread = state.unreadNotifs;
       initNotifications();
+      // Re-render to show updated badge and any new content
+      render();
+      // Trigger bell ring if new unread appeared
+      if (state.unreadNotifs > prevUnread) {
+        const bell = $('#notifBellBtn');
+        if (bell) { bell.classList.remove('has-new'); void bell.offsetWidth; bell.classList.add('has-new'); }
+      }
     }, 30000);
   }
 
@@ -4225,19 +4278,19 @@ const DEMO_STATS = {
         }
       });
     }
-    // Mark all as read
-    const markReadBtn = $('#notifMarkRead');
-    if (markReadBtn) {
-      markReadBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        state.notifications.forEach(n => n.read = true);
-        state.unreadNotifs = 0;
-        const readIds = state.notifications.map(n => n.id);
-        localStorage.setItem('pv-notif-read', JSON.stringify(readIds));
-        state.notifDropdownOpen = false;
-        render();
-      });
+    // Mark all as read (shared logic)
+    function markAllNotifsRead() {
+      state.notifications.forEach(n => n.read = true);
+      state.unreadNotifs = 0;
+      const readIds = state.notifications.map(n => n.id);
+      localStorage.setItem('pv-notif-read', JSON.stringify(readIds));
+      state.notifDropdownOpen = false;
+      render();
     }
+    const markReadBtn = $('#notifMarkRead');
+    if (markReadBtn) markReadBtn.addEventListener('click', (e) => { e.stopPropagation(); markAllNotifsRead(); });
+    const readAllBtn = $('#notifReadAllBtn');
+    if (readAllBtn) readAllBtn.addEventListener('click', (e) => { e.stopPropagation(); markAllNotifsRead(); });
     // Click notification item → filter to that topic
     $$('[data-notif-id]').forEach(el => {
       el.addEventListener('click', () => {
