@@ -529,6 +529,153 @@ a:hover { color: var(--color-primary-hover); }
   50% { opacity: 0.4; }
 }
 
+/* === NOTIFICATION BELL === */
+.notif-bell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: var(--glass-border);
+}
+.notif-bell:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+.notif-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  background: #EF4444;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 1px 4px rgba(239, 68, 68, 0.4);
+  animation: notifPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes notifPop {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+.notif-bell.has-new {
+  animation: bellRing 0.6s ease;
+}
+@keyframes bellRing {
+  0% { transform: rotate(0); }
+  15% { transform: rotate(14deg); }
+  30% { transform: rotate(-12deg); }
+  45% { transform: rotate(8deg); }
+  60% { transform: rotate(-6deg); }
+  75% { transform: rotate(2deg); }
+  100% { transform: rotate(0); }
+}
+
+/* Notification Dropdown */
+.notif-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 320px;
+  max-height: 380px;
+  overflow-y: auto;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+  z-index: 1000;
+  display: none;
+  padding: 0;
+}
+.notif-dropdown.open { display: block; }
+.notif-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: var(--glass-border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.notif-mark-read {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  padding: 0;
+}
+.notif-mark-read:hover { text-decoration: underline; }
+.notif-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.06);
+  transition: background var(--transition-fast);
+  cursor: pointer;
+}
+.notif-item:hover { background: var(--color-primary-light); }
+.notif-item:last-child { border-bottom: none; }
+.notif-item.unread { background: rgba(50, 152, 102, 0.05); }
+.notif-item-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+.notif-item-icon.green { background: rgba(50, 152, 102, 0.12); color: var(--color-primary); }
+.notif-item-icon.blue { background: rgba(99, 102, 241, 0.12); color: #6366F1; }
+.notif-item-icon.orange { background: rgba(245, 158, 11, 0.12); color: #F59E0B; }
+.notif-item-icon.red { background: rgba(239, 68, 68, 0.12); color: #EF4444; }
+.notif-item-body { flex: 1; min-width: 0; }
+.notif-item-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.notif-item-meta {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.notif-empty {
+  padding: 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
 /* === THEME TOGGLE BUTTON — Glass Style === */
 .theme-toggle-btn {
   display: flex;
@@ -1838,6 +1985,18 @@ a:hover { color: var(--color-primary-hover); }
   background: rgba(248, 249, 248, 0.85);
   border: 1px solid rgba(30, 60, 42, 0.06);
 }
+[data-theme="light"] .notif-bell {
+  background: rgba(248, 249, 248, 0.9);
+  border: 1px solid rgba(30, 60, 42, 0.08);
+}
+[data-theme="light"] .notif-dropdown {
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(30, 60, 42, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+[data-theme="light"] .notif-item.unread {
+  background: rgba(50, 152, 102, 0.04);
+}
 
 /* Glass buttons: more defined with shadows */
 [data-theme="light"] .card-action-btn {
@@ -2298,6 +2457,22 @@ a:hover { color: var(--color-primary-hover); }
   background: rgba(24, 24, 30, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.05);
   color: #888892;
+}
+[data-theme="dark"] .notif-bell {
+  background: rgba(24, 24, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #A0A0AA;
+}
+[data-theme="dark"] .notif-bell:hover {
+  color: #4ADE80;
+  background: rgba(74, 222, 128, 0.08);
+}
+[data-theme="dark"] .notif-dropdown {
+  background: rgba(24, 24, 30, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+[data-theme="dark"] .notif-item.unread {
+  background: rgba(74, 222, 128, 0.04);
 }
 
   </style>
@@ -3140,6 +3315,72 @@ function generateKanbanItems() {
   }));
 }
 
+// Notification types for date-specific updates
+function generateNotifications(articles) {
+  const notifs = [];
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  // Group articles by topic for today's date range (show all curated as "new")
+  const topicCounts = {};
+  const topicLatest = {};
+  articles.forEach(a => {
+    if (!topicCounts[a.topic]) { topicCounts[a.topic] = 0; topicLatest[a.topic] = a; }
+    topicCounts[a.topic]++;
+  });
+
+  // Generate notifications from most-recent articles (simulate discovery feed)
+  const sorted = [...articles].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const seen = new Set();
+
+  sorted.slice(0, 12).forEach((a, i) => {
+    if (seen.has(a.topic)) return;
+    seen.add(a.topic);
+    const topicObj = TOPICS.find(t => t.id === a.topic);
+    const label = topicObj ? topicObj.label : a.topic;
+    const count = topicCounts[a.topic];
+    const hoursAgo = Math.floor((now - new Date(a.date)) / (1000 * 60 * 60));
+    const daysAgo = Math.floor(hoursAgo / 24);
+    let timeLabel = 'gerade eben';
+    if (daysAgo > 0) timeLabel = daysAgo === 1 ? 'Gestern' : `Vor ${daysAgo} Tagen`;
+    else if (hoursAgo > 0) timeLabel = `Vor ${hoursAgo} Std.`;
+
+    const typeMap = { news: { icon: 'green', emoji: '📰' }, reddit: { icon: 'orange', emoji: '💬' }, social: { icon: 'blue', emoji: '📱' } };
+    const style = typeMap[a.source] || typeMap.news;
+
+    notifs.push({
+      id: `notif-${a.id}`,
+      title: count > 1
+        ? `${count} neue ${label}-Artikel kuratiert`
+        : a.title,
+      meta: `${label} · ${timeLabel}`,
+      iconColor: style.icon,
+      emoji: style.emoji,
+      topic: a.topic,
+      read: false,
+      date: a.date,
+    });
+  });
+
+  // Add a viral/trending notification if any article has high relevance
+  const viral = sorted.find(a => a.relevance >= 93);
+  if (viral) {
+    const topicObj = TOPICS.find(t => t.id === viral.topic);
+    notifs.unshift({
+      id: `notif-viral-${viral.id}`,
+      title: `🔥 Trending: ${viral.title}`,
+      meta: `${topicObj ? topicObj.label : viral.topic} · ${viral.relevance}% Relevanz`,
+      iconColor: 'red',
+      emoji: '🔥',
+      topic: viral.topic,
+      read: false,
+      date: viral.date,
+    });
+  }
+
+  return notifs;
+}
+
 // Trending stats
 const DEMO_STATS = {
   totalArticles: 847,
@@ -3217,6 +3458,9 @@ const DEMO_STATS = {
     lastRefresh: new Date(),
     generatorLoading: false,
     generatedIdeas: [],
+    notifications: [],
+    unreadNotifs: 0,
+    notifDropdownOpen: false,
   };
 
   // === INIT ===
@@ -3235,9 +3479,20 @@ const DEMO_STATS = {
     const hasDemoIds = savedKanban.some(i => /^k\d+$/.test(i.id));
     state.kanbanItems = hasDemoIds ? [] : savedKanban;
     if (hasDemoIds) localStorage.removeItem('pv-kanban');
+    initNotifications();
     render();
     setupAutoRefresh();
     if (typeof lucide !== 'undefined') { try { lucide.createIcons(); } catch(e) {} }
+  }
+
+  function initNotifications() {
+    const notifs = generateNotifications(state.articles);
+    // Restore read state from localStorage
+    let readIds = [];
+    try { readIds = JSON.parse(localStorage.getItem('pv-notif-read') || '[]'); } catch(e) {}
+    notifs.forEach(n => { if (readIds.includes(n.id)) n.read = true; });
+    state.notifications = notifs;
+    state.unreadNotifs = notifs.filter(n => !n.read).length;
   }
 
   // === HELPERS ===
@@ -3436,6 +3691,22 @@ const DEMO_STATS = {
     `;
   }
 
+  // --- NOTIFICATION ITEMS ---
+  function renderNotifItems() {
+    if (state.notifications.length === 0) {
+      return '<div class="notif-empty"><i data-lucide="bell-off" width="20" height="20" style="margin-bottom:6px;opacity:0.4;"></i><br>Keine Benachrichtigungen</div>';
+    }
+    return state.notifications.map(n => `
+      <div class="notif-item${n.read ? '' : ' unread'}" data-notif-id="${escAttr(n.id)}" data-notif-topic="${escAttr(n.topic)}">
+        <div class="notif-item-icon ${n.iconColor}">${n.emoji}</div>
+        <div class="notif-item-body">
+          <div class="notif-item-title">${esc(n.title)}</div>
+          <div class="notif-item-meta">${esc(n.meta)}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
   // --- MAIN HEADER ---
   function renderMainHeader() {
     return `
@@ -3468,6 +3739,19 @@ const DEMO_STATS = {
             <span class="refresh-dot"></span>
             <span>Live</span>
             ${tip('refreshIndicator')}
+          </div>
+          <div style="position:relative;">
+            <button class="notif-bell${state.unreadNotifs > 0 ? ' has-new' : ''}" id="notifBellBtn" title="Benachrichtigungen">
+              <i data-lucide="bell" width="16" height="16"></i>
+              ${state.unreadNotifs > 0 ? `<span class="notif-badge">${state.unreadNotifs}</span>` : ''}
+            </button>
+            <div class="notif-dropdown" id="notifDropdown">
+              <div class="notif-dropdown-header">
+                <span>Benachrichtigungen</span>
+                ${state.unreadNotifs > 0 ? '<button class="notif-mark-read" id="notifMarkRead">Alle gelesen</button>' : ''}
+              </div>
+              ${renderNotifItems()}
+            </div>
           </div>
           <button class="theme-toggle-btn" id="themeToggleBtn" title="${state.theme === 'dark' ? 'Zum hellen Modus wechseln' : 'Zum dunklen Modus wechseln'}">
             <i data-lucide="${state.theme === 'dark' ? 'sun' : 'moon'}" width="18" height="18"></i>
@@ -3900,7 +4184,11 @@ const DEMO_STATS = {
 
   // === AUTO REFRESH ===
   function setupAutoRefresh() {
-    setInterval(() => { state.lastRefresh = new Date(); }, 30000);
+    setInterval(() => {
+      state.lastRefresh = new Date();
+      // Simulate new article discovery — re-check notifications
+      initNotifications();
+    }, 30000);
   }
 
   // === EVENT BINDING ===
@@ -3918,6 +4206,57 @@ const DEMO_STATS = {
     // Source filters (vertical) — always switch to feed view
     $$('[data-source]').forEach(el => {
       el.addEventListener('click', () => { state.activeSource = el.dataset.source || null; state.currentView = 'feed'; render(); });
+    });
+
+    // Notification bell
+    const bellBtn = $('#notifBellBtn');
+    const notifDropdown = $('#notifDropdown');
+    if (bellBtn && notifDropdown) {
+      bellBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        state.notifDropdownOpen = !state.notifDropdownOpen;
+        notifDropdown.classList.toggle('open', state.notifDropdownOpen);
+      });
+      // Close dropdown on outside click
+      document.addEventListener('click', (e) => {
+        if (state.notifDropdownOpen && !notifDropdown.contains(e.target) && !bellBtn.contains(e.target)) {
+          state.notifDropdownOpen = false;
+          notifDropdown.classList.remove('open');
+        }
+      });
+    }
+    // Mark all as read
+    const markReadBtn = $('#notifMarkRead');
+    if (markReadBtn) {
+      markReadBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        state.notifications.forEach(n => n.read = true);
+        state.unreadNotifs = 0;
+        const readIds = state.notifications.map(n => n.id);
+        localStorage.setItem('pv-notif-read', JSON.stringify(readIds));
+        state.notifDropdownOpen = false;
+        render();
+      });
+    }
+    // Click notification item → filter to that topic
+    $$('[data-notif-id]').forEach(el => {
+      el.addEventListener('click', () => {
+        const notifId = el.dataset.notifId;
+        const topic = el.dataset.notifTopic;
+        // Mark this one as read
+        const n = state.notifications.find(n => n.id === notifId);
+        if (n && !n.read) {
+          n.read = true;
+          state.unreadNotifs = Math.max(0, state.unreadNotifs - 1);
+          const readIds = state.notifications.filter(n => n.read).map(n => n.id);
+          localStorage.setItem('pv-notif-read', JSON.stringify(readIds));
+        }
+        // Navigate to that topic
+        state.activeTopic = topic || null;
+        state.currentView = 'feed';
+        state.notifDropdownOpen = false;
+        render();
+      });
     });
 
     // Theme toggle button in header
