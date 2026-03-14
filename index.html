@@ -1824,17 +1824,20 @@ a:hover { color: var(--color-primary-hover); }
   opacity: 0;
   position: absolute;
   bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  transform: none;
   background: var(--color-secondary);
   color: #E8ECE6;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 400;
-  line-height: 1.4;
-  padding: 8px 12px;
+  line-height: 1.5;
+  padding: 10px 14px;
   border-radius: var(--radius-sm);
-  max-width: 280px;
+  min-width: 200px;
+  max-width: 300px;
   white-space: normal;
+  text-transform: none;
+  letter-spacing: normal;
   z-index: 500;
   pointer-events: none;
   transition: opacity var(--transition-fast), visibility var(--transition-fast);
@@ -1845,14 +1848,26 @@ a:hover { color: var(--color-primary-hover); }
   content: '';
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 14px;
+  transform: none;
   border-width: 5px;
   border-style: solid;
   border-color: var(--color-secondary) transparent transparent transparent;
 }
 
 .info-tip:hover .tip-text { visibility: visible; opacity: 1; }
+
+/* Stat cards: flip last two tooltips to the left so they don't overflow viewport */
+.stat-card:nth-child(3) .info-tip .tip-text,
+.stat-card:nth-child(4) .info-tip .tip-text {
+  left: auto;
+  right: 0;
+}
+.stat-card:nth-child(3) .info-tip .tip-text::after,
+.stat-card:nth-child(4) .info-tip .tip-text::after {
+  left: auto;
+  right: 14px;
+}
 
 /* Tooltip positioning variants */
 .info-tip.tip-right .tip-text {
