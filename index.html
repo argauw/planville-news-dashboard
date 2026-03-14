@@ -1857,7 +1857,17 @@ a:hover { color: var(--color-primary-hover); }
 
 .info-tip:hover .tip-text { visibility: visible; opacity: 1; }
 
-/* Stat cards: flip last two tooltips to the left so they don't overflow viewport */
+/* Stat cards: show tooltips below the icon (not above) to avoid top clipping */
+.stat-card .info-tip .tip-text {
+  bottom: auto;
+  top: calc(100% + 8px);
+}
+.stat-card .info-tip .tip-text::after {
+  top: auto;
+  bottom: 100%;
+  border-color: transparent transparent var(--color-secondary) transparent;
+}
+/* Last two stat cards: expand tooltip to the left */
 .stat-card:nth-child(3) .info-tip .tip-text,
 .stat-card:nth-child(4) .info-tip .tip-text {
   left: auto;
@@ -2543,6 +2553,9 @@ a:hover { color: var(--color-primary-hover); }
 }
 [data-theme="dark"] .info-tip .tip-text::after {
   border-color: #1E1E26 transparent transparent transparent;
+}
+[data-theme="dark"] .stat-card .info-tip .tip-text::after {
+  border-color: transparent transparent #1E1E26 transparent;
 }
 
 /* Refresh indicator */
@@ -3795,10 +3808,6 @@ const DEMO_STATS = {
 
   function renderApp() {
     return `
-      <div class="demo-banner">
-        <i data-lucide="newspaper" width="16" height="16"></i>
-        <span>Kuratierte Branchennews — Manuell gepflegt von Planville</span>
-      </div>
       <div class="app-layout">
         <div class="sidebar-overlay ${state.sidebarOpen ? 'active' : ''}" id="sidebarOverlay"></div>
         ${renderSidebar()}
