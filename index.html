@@ -249,7 +249,34 @@ a:hover { color: var(--color-primary-hover); }
 
 .sidebar-nav {
   padding: var(--space-4) var(--space-3);
+  padding-bottom: calc(var(--space-4) * 3);
   flex: 1;
+}
+
+.nav-section-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  padding: 4px 0;
+  transition: opacity 0.15s;
+}
+.nav-section-toggle:hover { opacity: 0.8; }
+.nav-section-toggle .toggle-chevron {
+  transition: transform 0.2s ease;
+  opacity: 0.5;
+}
+.nav-section-toggle.expanded .toggle-chevron {
+  transform: rotate(90deg);
+}
+.nav-section-items {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+}
+.nav-section-items.expanded {
+  max-height: 500px;
 }
 
 .nav-section-label {
@@ -926,65 +953,21 @@ a:hover { color: var(--color-primary-hover); }
   color: var(--text-muted);
 }
 
-/* SEO Angle badges */
-.angle-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 6px;
-}
-.angle-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  padding: 2px 8px;
+/* Inline angle badges (grey, next to Lesezeit) */
+.angle-badge-inline {
+  display: inline;
+  padding: 1px 6px;
   border-radius: var(--radius-pill);
   font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  background: color-mix(in srgb, var(--angle-color) 12%, transparent);
-  color: var(--angle-color);
-  border: 1px solid color-mix(in srgb, var(--angle-color) 20%, transparent);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.angle-badge:hover {
-  background: color-mix(in srgb, var(--angle-color) 22%, transparent);
-  border-color: color-mix(in srgb, var(--angle-color) 35%, transparent);
-  transform: translateY(-1px);
-}
-
-/* Angle filter pills in header */
-.angle-filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  padding: 0 var(--space-4);
-  margin-bottom: var(--space-2);
-}
-.angle-filter-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-  font-size: 11px;
   font-weight: 500;
-  background: var(--glass-bg);
-  color: var(--text-secondary);
-  border: 1px solid var(--glass-border);
-  cursor: pointer;
-  transition: all 0.2s ease;
+  background: rgba(128, 128, 128, 0.15);
+  color: var(--text-muted);
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  white-space: nowrap;
 }
-.angle-filter-pill:hover {
-  background: color-mix(in srgb, var(--angle-color) 15%, transparent);
-  color: var(--angle-color);
-}
-.angle-filter-pill.active {
-  background: color-mix(in srgb, var(--angle-color) 18%, transparent);
-  color: var(--angle-color);
-  border-color: color-mix(in srgb, var(--angle-color) 30%, transparent);
-  font-weight: 600;
+[data-theme="light"] .angle-badge-inline {
+  background: rgba(100, 100, 100, 0.1);
+  border-color: rgba(100, 100, 100, 0.15);
 }
 
 /* Relevance badge with glass style */
@@ -3555,7 +3538,7 @@ function generateNotifications(articles) {
       notifs.push({
         id: `notif-angle-${alert.id}`,
         title: `${alert.emoji} ${cnt} Artikel mit ${alert.label}`,
-        meta: `SEO-Angle · ${angObj ? angObj.label : alert.label}`,
+        meta: `Key Angle · ${angObj ? angObj.label : alert.label}`,
         iconColor: alert.id === 'regulation' ? 'red' : alert.id === 'roi' ? 'orange' : 'blue',
         emoji: alert.emoji,
         topic: null,
@@ -3639,6 +3622,8 @@ const DEMO_STATS = {
     activeTopic: null,
     activeSource: null,
     activeAngle: null,
+    quellenExpanded: false,
+    anglesExpanded: false,
     searchQuery: '',
     articles: [],
     kanbanItems: [],
@@ -3777,10 +3762,20 @@ const DEMO_STATS = {
 
   // === RENDER ===
   function render() {
+    // Preserve scroll positions before re-render
+    const main = $('.main-content');
+    const aside = $('aside');
+    const mainScroll = main ? main.scrollTop : 0;
+    const asideScroll = aside ? aside.scrollTop : 0;
     const app = $('#app');
     app.innerHTML = renderApp();
     bindEvents();
     if (typeof lucide !== 'undefined') { try { lucide.createIcons(); } catch(e) {} }
+    // Restore scroll positions after re-render
+    const newMain = $('.main-content');
+    const newAside = $('aside');
+    if (newMain) newMain.scrollTop = mainScroll;
+    if (newAside) newAside.scrollTop = asideScroll;
   }
 
   function renderApp() {
@@ -3861,45 +3856,55 @@ const DEMO_STATS = {
             `).join('')}
           </div>
 
-          <div class="nav-section-label" style="margin-top: var(--space-2);">Quellen ${tip('sourceFilter')}</div>
-          <div class="topic-filters-vertical">
-            <div class="topic-filter-item ${!state.activeSource ? 'active' : ''}" data-source="">
-              <i data-lucide="layers" class="filter-icon" width="18" height="18"></i>
-              Alle Quellen
-              <span class="filter-count">${state.articles.length}</span>
-            </div>
-            <div class="topic-filter-item ${state.activeSource === 'news' ? 'active' : ''}" data-source="news">
-              <i data-lucide="globe" class="filter-icon" width="18" height="18"></i>
-              Nachrichten
-              <span class="filter-count">${sourceCounts['news'] || 0}</span>
-            </div>
-            <div class="topic-filter-item ${state.activeSource === 'reddit' ? 'active' : ''}" data-source="reddit">
-              <i data-lucide="message-circle" class="filter-icon" width="18" height="18"></i>
-              Reddit
-              <span class="filter-count">${sourceCounts['reddit'] || 0}</span>
-            </div>
-            <div class="topic-filter-item ${state.activeSource === 'social' ? 'active' : ''}" data-source="social">
-              <i data-lucide="share-2" class="filter-icon" width="18" height="18"></i>
-              Social Media
-              <span class="filter-count">${sourceCounts['social'] || 0}</span>
+          <div class="nav-section-toggle ${state.quellenExpanded ? 'expanded' : ''}" id="quellenToggle" style="margin-top: var(--space-2);">
+            <div class="nav-section-label" style="margin: 0;">Quellen ${tip('sourceFilter')}</div>
+            <i data-lucide="chevron-right" class="toggle-chevron" width="14" height="14"></i>
+          </div>
+          <div class="nav-section-items ${state.quellenExpanded ? 'expanded' : ''}">
+            <div class="topic-filters-vertical">
+              <div class="topic-filter-item ${!state.activeSource ? 'active' : ''}" data-source="">
+                <i data-lucide="layers" class="filter-icon" width="18" height="18"></i>
+                Alle Quellen
+                <span class="filter-count">${state.articles.length}</span>
+              </div>
+              <div class="topic-filter-item ${state.activeSource === 'news' ? 'active' : ''}" data-source="news">
+                <i data-lucide="globe" class="filter-icon" width="18" height="18"></i>
+                Nachrichten
+                <span class="filter-count">${sourceCounts['news'] || 0}</span>
+              </div>
+              <div class="topic-filter-item ${state.activeSource === 'reddit' ? 'active' : ''}" data-source="reddit">
+                <i data-lucide="message-circle" class="filter-icon" width="18" height="18"></i>
+                Reddit
+                <span class="filter-count">${sourceCounts['reddit'] || 0}</span>
+              </div>
+              <div class="topic-filter-item ${state.activeSource === 'social' ? 'active' : ''}" data-source="social">
+                <i data-lucide="share-2" class="filter-icon" width="18" height="18"></i>
+                Social Media
+                <span class="filter-count">${sourceCounts['social'] || 0}</span>
+              </div>
             </div>
           </div>
 
-          <div class="nav-section-label" style="margin-top: var(--space-2);">SEO-Angle</div>
-          <div class="topic-filters-vertical">
-            <div class="topic-filter-item ${!state.activeAngle ? 'active' : ''}" data-angle="">
-              <i data-lucide="layers" class="filter-icon" width="18" height="18"></i>
-              Alle Angles
-              <span class="filter-count">${state.articles.length}</span>
+          <div class="nav-section-toggle ${state.anglesExpanded ? 'expanded' : ''}" id="anglesToggle" style="margin-top: var(--space-2);">
+            <div class="nav-section-label" style="margin: 0;">Key Angles</div>
+            <i data-lucide="chevron-right" class="toggle-chevron" width="14" height="14"></i>
+          </div>
+          <div class="nav-section-items ${state.anglesExpanded ? 'expanded' : ''}">
+            <div class="topic-filters-vertical">
+              <div class="topic-filter-item ${!state.activeAngle ? 'active' : ''}" data-angle="">
+                <i data-lucide="layers" class="filter-icon" width="18" height="18"></i>
+                Alle Angles
+                <span class="filter-count">${state.articles.length}</span>
+              </div>
+              ${ANGLES.map(ang => {
+                const cnt = state.articles.filter(a => a.angles && a.angles.includes(ang.id)).length;
+                return '<div class="topic-filter-item ' + (state.activeAngle === ang.id ? 'active' : '') + '" data-angle="' + ang.id + '" style="' + (state.activeAngle === ang.id ? '--filter-accent: ' + ang.color : '') + '">' +
+                  '<i data-lucide="' + ang.icon + '" class="filter-icon" width="18" height="18"' + (state.activeAngle === ang.id ? ' style="color: ' + ang.color + '"' : '') + '></i>' +
+                  ang.label +
+                  '<span class="filter-count">' + cnt + '</span>' +
+                '</div>';
+              }).join('')}
             </div>
-            ${ANGLES.map(ang => {
-              const cnt = state.articles.filter(a => a.angles && a.angles.includes(ang.id)).length;
-              return '<div class="topic-filter-item ' + (state.activeAngle === ang.id ? 'active' : '') + '" data-angle="' + ang.id + '" style="' + (state.activeAngle === ang.id ? '--filter-accent: ' + ang.color : '') + '">' +
-                '<i data-lucide="' + ang.icon + '" class="filter-icon" width="18" height="18"' + (state.activeAngle === ang.id ? ' style="color: ' + ang.color + '"' : '') + '></i>' +
-                ang.label +
-                '<span class="filter-count">' + cnt + '</span>' +
-              '</div>';
-            }).join('')}
           </div>
         </nav>
       </aside>
@@ -4081,10 +4086,8 @@ const DEMO_STATS = {
           </span>
         </div>
 
-        ${(article.angles && article.angles.length > 0) ? `<div class="angle-badges">${article.angles.map(a => { const ang = ANGLES.find(x => x.id === a); return ang ? '<span class="angle-badge" style="--angle-color: ' + ang.color + '" data-angle="' + ang.id + '"><i data-lucide="' + ang.icon + '" width="10" height="10"></i> ' + ang.label + '</span>' : ''; }).join('')}</div>` : ''}
-
         <h3 class="news-card-title">${esc(article.title)}</h3>
-        <div class="news-card-outlet">${esc(article.outlet)} &middot; ${esc(String(article.readTime))} Min. Lesezeit</div>
+        <div class="news-card-outlet">${esc(article.outlet)} &middot; ${esc(String(article.readTime))} Min. Lesezeit${(article.angles && article.angles.length > 0) ? ' &middot; ' + article.angles.map(a => { const ang = ANGLES.find(x => x.id === a); return ang ? '<span class="angle-badge-inline" data-angle="' + ang.id + '">' + ang.label + '</span>' : ''; }).join(' ') : ''}</div>
         <p class="news-card-summary">${esc(article.summary)}</p>
 
         <div class="sentiment-bar">
@@ -4439,6 +4442,12 @@ const DEMO_STATS = {
     $$('[data-angle]').forEach(el => {
       el.addEventListener('click', () => { state.activeAngle = el.dataset.angle || null; state.currentView = 'feed'; render(); });
     });
+
+    // Collapsible section toggles
+    const quellenToggle = $('#quellenToggle');
+    if (quellenToggle) quellenToggle.addEventListener('click', () => { state.quellenExpanded = !state.quellenExpanded; render(); });
+    const anglesToggle = $('#anglesToggle');
+    if (anglesToggle) anglesToggle.addEventListener('click', () => { state.anglesExpanded = !state.anglesExpanded; render(); });
 
     // Notification bell
     const bellBtn = $('#notifBellBtn');
