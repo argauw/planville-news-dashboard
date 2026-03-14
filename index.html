@@ -926,6 +926,67 @@ a:hover { color: var(--color-primary-hover); }
   color: var(--text-muted);
 }
 
+/* SEO Angle badges */
+.angle-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+.angle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: color-mix(in srgb, var(--angle-color) 12%, transparent);
+  color: var(--angle-color);
+  border: 1px solid color-mix(in srgb, var(--angle-color) 20%, transparent);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.angle-badge:hover {
+  background: color-mix(in srgb, var(--angle-color) 22%, transparent);
+  border-color: color-mix(in srgb, var(--angle-color) 35%, transparent);
+  transform: translateY(-1px);
+}
+
+/* Angle filter pills in header */
+.angle-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 0 var(--space-4);
+  margin-bottom: var(--space-2);
+}
+.angle-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--glass-bg);
+  color: var(--text-secondary);
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.angle-filter-pill:hover {
+  background: color-mix(in srgb, var(--angle-color) 15%, transparent);
+  color: var(--angle-color);
+}
+.angle-filter-pill.active {
+  background: color-mix(in srgb, var(--angle-color) 18%, transparent);
+  color: var(--angle-color);
+  border-color: color-mix(in srgb, var(--angle-color) 30%, transparent);
+  font-weight: 600;
+}
+
 /* Relevance badge with glass style */
 .relevance-badge {
   display: flex;
@@ -2548,6 +2609,15 @@ const SENTIMENTS = ['positiv', 'neutral', 'negativ'];
 const SOURCES = ['news', 'reddit', 'social'];
 const SOURCE_LABELS = { news: 'Nachricht', reddit: 'Reddit', social: 'Social Media' };
 
+// SEO Content-Angles — highlight data-driven, conversion-relevant curation signals
+const ANGLES = [
+  { id: 'stats', label: 'Zahlen & Fakten', icon: 'hash', color: '#3b82f6' },
+  { id: 'savings', label: 'Kostenersparnis', icon: 'piggy-bank', color: '#10b981' },
+  { id: 'roi', label: 'ROI & Amortisation', icon: 'trending-up', color: '#f59e0b' },
+  { id: 'conversion', label: 'Verkauf & Conversion', icon: 'shopping-cart', color: '#8b5cf6' },
+  { id: 'regulation', label: 'Gesetz & Pflicht', icon: 'scale', color: '#ef4444' },
+];
+
 // Kuratierte Artikel — sortiert nach Datum (neueste zuerst)
 const DEMO_ARTICLES = [
   // 1 — Mar 6, 2026
@@ -2560,6 +2630,7 @@ const DEMO_ARTICLES = [
     topic: 'photovoltaik',
     sentiment: 'positiv',
     relevance: 95,
+    angles: ['stats'],
     dateStr: '2026-03-06',
     aiInsight: 'Starker Aufhänger für einen Reel: "16% Deutschlands Strom kommt von der Sonne — und ein Teil davon von unseren Dächern!" Zeigt Planville-Projektbilder und feiert eure Kunden.',
     contentIdeas: [
@@ -2577,6 +2648,7 @@ const DEMO_ARTICLES = [
     topic: 'photovoltaik',
     sentiment: 'positiv',
     relevance: 91,
+    angles: ['stats', 'savings', 'conversion'],
     dateStr: '2026-03-03',
     aiInsight: 'Unbedingt auf diesen Trend aufspringen! Fragt eure Kunden nach Vorher/Nachher-Rechnungen. Authentischer Content mit echten Zahlen wirkt stärker als jede Werbung.',
     contentIdeas: [
@@ -2594,6 +2666,7 @@ const DEMO_ARTICLES = [
     topic: 'photovoltaik',
     sentiment: 'negativ',
     relevance: 98,
+    angles: ['regulation', 'roi'],
     dateStr: '2026-02-27',
     aiInsight: 'Höchste Dringlichkeit! Informiert eure Community sofort. Positioniert Planville als Experte: "Wir ordnen ein, was der EEG-Entwurf wirklich bedeutet." Call-to-Action: Jetzt noch beraten lassen.',
     contentIdeas: [
@@ -2611,6 +2684,7 @@ const DEMO_ARTICLES = [
     topic: 'foerderung',
     sentiment: 'negativ',
     relevance: 97,
+    angles: ['regulation', 'savings'],
     dateStr: '2026-02-26',
     aiInsight: 'Top-Relevanz! Verbindet die Nachricht mit eurem Beratungsangebot: "Gerade jetzt lohnt sich professionelle Planung. Wir zeigen dir, wie sich PV auch ohne Einspeisevergütung rechnet." Eigenverbrauch-Strategie betonen.',
     contentIdeas: [
@@ -2628,6 +2702,7 @@ const DEMO_ARTICLES = [
     topic: 'waermepumpen',
     sentiment: 'positiv',
     relevance: 92,
+    angles: ['stats', 'conversion'],
     dateStr: '2026-02-26',
     aiInsight: 'Comeback-Story! Positioniert Planville als stabilen Partner: "Wir haben nie aufgehört zu installieren, während andere aufgegeben haben." Zeigt installierte WP-Projekte.',
     contentIdeas: [
@@ -2645,6 +2720,7 @@ const DEMO_ARTICLES = [
     topic: 'innovation',
     sentiment: 'positiv',
     relevance: 68,
+    angles: ['stats'],
     dateStr: '2026-02-25',
     aiInsight: 'Innovation-Content für technikaffine Follower: "Die Zukunft der Solarzelle kommt aus Deutschland." Erklärt Perowskit einfach und zeigt, was das für die Branche bedeutet.',
     contentIdeas: [
@@ -2662,6 +2738,7 @@ const DEMO_ARTICLES = [
     topic: 'foerderung',
     sentiment: 'neutral',
     relevance: 93,
+    angles: ['regulation'],
     dateStr: '2026-02-24',
     aiInsight: 'Wichtiges Thema für eure Kunden! Viele haben wegen GEG-Unsicherheit abgewartet. Jetzt aufklären: "Das neue GMG bringt Klarheit — und wir helfen euch, die richtige Heizung zu wählen."',
     contentIdeas: [
@@ -2679,6 +2756,7 @@ const DEMO_ARTICLES = [
     topic: 'pvpflicht',
     sentiment: 'neutral',
     relevance: 96,
+    angles: ['regulation', 'stats'],
     dateStr: '2026-02-22',
     aiInsight: 'Höchste Relevanz für Planville in NRW! "Dach sanieren = PV drauf. Das ist jetzt Gesetz." Positioniert euch als Komplettanbieter: Dach + PV aus einer Hand. Sofort Hausverwaltungen und Eigentümer ansprechen.',
     contentIdeas: [
@@ -2696,6 +2774,7 @@ const DEMO_ARTICLES = [
     topic: 'waermepumpen',
     sentiment: 'negativ',
     relevance: 88,
+    angles: ['regulation', 'stats'],
     dateStr: '2026-02-20',
     aiInsight: 'Chance für Beratungs-Content! Planville kann hier Expertise zeigen: "Wir setzen nur auf Modelle, die die neuen Grenzwerte einhalten." Vertrauensaufbau durch Fachkompetenz.',
     contentIdeas: [
@@ -2713,6 +2792,7 @@ const DEMO_ARTICLES = [
     topic: 'energiewende',
     sentiment: 'negativ',
     relevance: 86,
+    angles: ['stats', 'conversion'],
     dateStr: '2026-02-18',
     aiInsight: 'Positionierung zeigen! "Auch Planville steht für eine bezahlbare Energiewende." Solidarität mit der Branche zeigen und gleichzeitig Lösungen anbieten.',
     contentIdeas: [
@@ -2730,6 +2810,7 @@ const DEMO_ARTICLES = [
     topic: 'innovation',
     sentiment: 'positiv',
     relevance: 76,
+    angles: ['stats', 'savings'],
     dateStr: '2026-02-15',
     aiInsight: 'Speicher-Content mit Daten! Zeigt, welche Speicher Planville verbaut und warum. "Wir empfehlen nur Speicher mit Top-Effizienz" — unterstützt mit den Testergebnissen.',
     contentIdeas: [
@@ -2747,6 +2828,7 @@ const DEMO_ARTICLES = [
     topic: 'mieterstrom',
     sentiment: 'positiv',
     relevance: 96,
+    angles: ['roi', 'stats', 'conversion'],
     dateStr: '2026-02-12',
     aiInsight: 'Höchste Relevanz für Planville-Mieterstrom! "Energy Sharing macht unser Kerngeschäft noch attraktiver." Erklärt das Konzept einfach und zeigt, wie Planville davon profitiert.',
     contentIdeas: [
@@ -2764,6 +2846,7 @@ const DEMO_ARTICLES = [
     topic: 'energiewende',
     sentiment: 'positiv',
     relevance: 78,
+    angles: ['stats', 'savings'],
     dateStr: '2026-02-10',
     aiInsight: 'Positiv-Story! "Strom wird billiger — und wer eigenen Strom produziert, profitiert doppelt." Verbindet die Nachricht mit dem Eigenverbrauch-Vorteil einer PV-Anlage.',
     contentIdeas: [
@@ -2781,6 +2864,7 @@ const DEMO_ARTICLES = [
     topic: 'photovoltaik',
     sentiment: 'negativ',
     relevance: 82,
+    angles: ['regulation'],
     dateStr: '2026-02-09',
     aiInsight: 'Einordnung gefragt! Viele Kunden fragen sich, ob sich PV noch lohnt. Antwortet klar: "Eigenverbrauch bleibt rentabel — und mit Speicher sogar noch mehr." Beratungstermin anbieten.',
     contentIdeas: [
@@ -2798,6 +2882,7 @@ const DEMO_ARTICLES = [
     topic: 'waermepumpen',
     sentiment: 'neutral',
     relevance: 85,
+    angles: ['stats', 'savings'],
     dateStr: '2026-02-05',
     aiInsight: 'Perfekt gegen WP-Angst! Zeigt echte Monitoring-Daten einer Planville-Installation bei Kälte. "Unsere Wärmepumpe bei -15°C: Das zeigen die echten Daten."',
     contentIdeas: [
@@ -2815,6 +2900,7 @@ const DEMO_ARTICLES = [
     topic: 'dachsanierung',
     sentiment: 'positiv',
     relevance: 94,
+    angles: ['stats', 'savings', 'roi'],
     dateStr: '2026-02-03',
     aiInsight: 'Direkte Relevanz für Planville in NRW! "30% Zuschuss für PV auf Mehrfamilienhäusern — wir planen und realisieren diese Projekte." Sofort an Hausverwaltungen kommunizieren.',
     contentIdeas: [
@@ -2832,6 +2918,7 @@ const DEMO_ARTICLES = [
     topic: 'pvpflicht',
     sentiment: 'neutral',
     relevance: 88,
+    angles: ['regulation', 'stats'],
     dateStr: '2026-01-30',
     aiInsight: 'Wichtig für Aufklärung! Viele Kunden wissen nicht, dass die EU-Pflicht kommt. "Die Solarpflicht wird bundesweit — wer jetzt plant, ist vorbereitet." Beratungstermin-CTA.',
     contentIdeas: [
@@ -2849,6 +2936,7 @@ const DEMO_ARTICLES = [
     topic: 'handwerk',
     sentiment: 'negativ',
     relevance: 72,
+    angles: ['stats'],
     dateStr: '2026-01-28',
     aiInsight: 'Employer-Branding-Chance! Zeigt, wie Planville als Arbeitgeber dagegenhält: faire Bezahlung, moderne Ausstattung, Weiterbildung. "Bei uns sind die Stellen besetzt."',
     contentIdeas: [
@@ -2866,6 +2954,7 @@ const DEMO_ARTICLES = [
     topic: 'handwerk',
     sentiment: 'positiv',
     relevance: 70,
+    angles: [],
     dateStr: '2026-01-24',
     aiInsight: 'Messe-Content! Wenn Planville auf der SHK+E war: Fotos, Eindrücke, Neuheiten zeigen. Wenn nicht: die spannendsten Produkte vorstellen und kommentieren.',
     contentIdeas: [
@@ -2883,6 +2972,7 @@ const DEMO_ARTICLES = [
     topic: 'pvpflicht',
     sentiment: 'neutral',
     relevance: 82,
+    angles: ['regulation'],
     dateStr: '2026-01-18',
     aiInsight: 'Chance für Planville als Meisterbetrieb! "PV-Montage darf nur der Meister — und das sind wir." Vertrauen aufbauen durch Qualifikation. Auch Kooperationen mit Dachdeckern ansprechen.',
     contentIdeas: [
@@ -2900,6 +2990,7 @@ const DEMO_ARTICLES = [
     topic: 'dachsanierung',
     sentiment: 'neutral',
     relevance: 84,
+    angles: ['regulation'],
     dateStr: '2026-01-20',
     aiInsight: 'Service-Content: "Förderchaos? Nicht mit uns." Erklärt die neuen BAFA-Anforderungen und zeigt, dass Planville den kompletten Förderprozess übernimmt. Vertrauen durch Expertise.',
     contentIdeas: [
@@ -2917,6 +3008,7 @@ const DEMO_ARTICLES = [
     topic: 'foerderung',
     sentiment: 'neutral',
     relevance: 80,
+    angles: ['stats', 'savings'],
     dateStr: '2026-01-15',
     aiInsight: 'Perfekter Trigger für Heizungstausch-Content: "55€ pro Tonne CO₂ — wer jetzt noch Gas oder Öl verbrennt, zahlt drauf." Call-to-Action: Wärmepumpen-Beratung.',
     contentIdeas: [
@@ -2934,6 +3026,7 @@ const DEMO_ARTICLES = [
     topic: 'waermepumpen',
     sentiment: 'negativ',
     relevance: 81,
+    angles: ['stats', 'savings'],
     dateStr: '2026-01-10',
     aiInsight: 'Qualitäts-Content Gold! Zeigt, wie Planville die Dimensionierung macht: Heizlastberechnung, Gebäudeanalyse, keine Pauschalangebote. "Die richtige Größe entscheidet alles."',
     contentIdeas: [
@@ -2954,6 +3047,7 @@ const DEMO_ARTICLES = [
     topic: 'mieterstrom',
     sentiment: 'positiv',
     relevance: 90,
+    angles: ['stats', 'savings', 'roi'],
     dateStr: '2025-12-24',
     aiInsight: 'Mieterstrom-Content Gold! Planville kann dieses Berliner Modell als Referenz nutzen: "So funktioniert Solarstrom im Mehrfamilienhaus — ganz ohne Bürokratie-Monster." Zeigt, dass GGV in der Praxis ankommt.',
     contentIdeas: [
@@ -2971,6 +3065,7 @@ const DEMO_ARTICLES = [
     topic: 'energiewende',
     sentiment: 'positiv',
     relevance: 82,
+    angles: ['stats'],
     dateStr: '2025-12-10',
     aiInsight: 'Starke Zahl für Jahresrückblick-Content: "56% — mehr als die Hälfte unseres Stroms ist grün. Und jedes Dach mit PV bringt uns weiter." Planville als Teil der Energiewende positionieren.',
     contentIdeas: [
@@ -2988,6 +3083,7 @@ const DEMO_ARTICLES = [
     topic: 'innovation',
     sentiment: 'positiv',
     relevance: 79,
+    angles: ['regulation'],
     dateStr: '2025-12-04',
     aiInsight: 'Wichtig für die Branche! Schnellere Genehmigungen = mehr Projekte. "Das neue Gesetz macht unsere Arbeit einfacher — Wärmepumpen haben jetzt Vorfahrt." Zeigt Planville als Profiteur der neuen Regelung.',
     contentIdeas: [
@@ -3005,6 +3101,7 @@ const DEMO_ARTICLES = [
     topic: 'waermepumpen',
     sentiment: 'positiv',
     relevance: 87,
+    angles: ['stats', 'conversion'],
     dateStr: '2025-12-01',
     aiInsight: 'Optimismus-Story! "Die Wärmepumpe kommt zurück — stärker als je zuvor. Und Planville ist bereit." Zeigt eure Kapazitäten und nutzt den positiven Trend für Auftragsgewinnung.',
     contentIdeas: [
@@ -3022,6 +3119,7 @@ const DEMO_ARTICLES = [
     topic: 'photovoltaik',
     sentiment: 'negativ',
     relevance: 88,
+    angles: ['regulation', 'roi'],
     dateStr: '2025-11-18',
     aiInsight: 'Beratungs-Chance! Kunden fragen sich: Lohnt sich PV noch ohne Einspeisung? Antwort: "Mit Speicher auf jeden Fall. Wir planen Anlagen, die sich auch ohne Netzeinspeisung rechnen."',
     contentIdeas: [
@@ -3039,6 +3137,7 @@ const DEMO_ARTICLES = [
     topic: 'waermepumpen',
     sentiment: 'positiv',
     relevance: 86,
+    angles: ['stats', 'conversion'],
     dateStr: '2025-11-05',
     aiInsight: 'Comeback-Content! "30.000 Wärmepumpen in einem Monat. Die Nachfrage explodiert — und wir liefern." Zeigt eure aktuellen Projekte und Kapazitäten. Wartelisten-Content als Dringlichkeits-Trigger.',
     contentIdeas: [
@@ -3056,6 +3155,7 @@ const DEMO_ARTICLES = [
     topic: 'foerderung',
     sentiment: 'positiv',
     relevance: 85,
+    angles: ['stats', 'savings', 'roi'],
     dateStr: '2025-10-24',
     aiInsight: 'Förderungs-Content! "90% aller Förderanträge gehen an Wärmepumpen. Wir helfen dir beim Antrag — von der Planung bis zur Auszahlung." KfW-Prozess als Service von Planville positionieren.',
     contentIdeas: [
@@ -3073,6 +3173,7 @@ const DEMO_ARTICLES = [
     topic: 'handwerk',
     sentiment: 'negativ',
     relevance: 75,
+    angles: ['stats'],
     dateStr: '2025-10-21',
     aiInsight: 'Employer-Branding-Pflicht! "24.000 Fachkräfte verlassen das Handwerk pro Jahr. Bei Planville nicht." Zeigt was euch als Arbeitgeber ausmacht: faire Löhne, modernes Equipment, Weiterbildung.',
     contentIdeas: [
@@ -3090,6 +3191,7 @@ const DEMO_ARTICLES = [
     topic: 'photovoltaik',
     sentiment: 'positiv',
     relevance: 92,
+    angles: ['stats', 'savings', 'conversion'],
     dateStr: '2025-10-17',
     aiInsight: 'Verkaufs-Argument Nummer 1! "Die Preise sind unten, die Kapazitäten da — wer jetzt nicht bestellt, verpasst das beste Fenster." Dringlichkeits-Marketing mit echten Marktzahlen.',
     contentIdeas: [
@@ -3107,6 +3209,7 @@ const DEMO_ARTICLES = [
     topic: 'pvpflicht',
     sentiment: 'neutral',
     relevance: 80,
+    angles: ['regulation', 'roi'],
     dateStr: '2025-10-07',
     aiInsight: 'Community-Fragen aufgreifen! Viele Eigentümer sind unsicher bei der Solarpflicht. "Du musst dein Dach sanieren und PV drauf? Wir machen beides aus einer Hand." FAQ-Content erstellen.',
     contentIdeas: [
@@ -3125,6 +3228,7 @@ const DEMO_ARTICLES = [
     topic: 'eauto',
     sentiment: 'neutral',
     relevance: 88,
+    angles: ['regulation', 'stats', 'savings'],
     dateStr: '2026-03-05',
     aiInsight: 'Planville-Chance: Wallbox-Installation direkt mit PV-Anlage kombinieren! "Dein Dach produziert den Strom, deine Wallbox tankt ihn" — perfektes Cross-Selling-Argument fuer Eigenheimbesitzer.',
     contentIdeas: [
@@ -3142,6 +3246,7 @@ const DEMO_ARTICLES = [
     topic: 'eauto',
     sentiment: 'positiv',
     relevance: 91,
+    angles: ['stats', 'savings'],
     dateStr: '2026-02-20',
     aiInsight: 'Zukunftsthema fuer Planville! V2H macht PV-Anlagen noch attraktiver. "Dein E-Auto wird zum Hausspeicher — und Planville installiert die Technik." Technologie-Vorreiter-Image aufbauen.',
     contentIdeas: [
@@ -3159,6 +3264,7 @@ const DEMO_ARTICLES = [
     topic: 'eauto',
     sentiment: 'positiv',
     relevance: 85,
+    angles: ['stats', 'savings', 'conversion'],
     dateStr: '2026-01-12',
     aiInsight: 'Trend-Jacking-Chance! Eigene Version dieses TikTok-Formats erstellen mit echten Planville-Kunden-Rechnungen. Authentischer Content mit viralem Potenzial.',
     contentIdeas: [
@@ -3177,6 +3283,7 @@ const DEMO_ARTICLES = [
     topic: 'smarthome',
     sentiment: 'positiv',
     relevance: 87,
+    angles: ['stats', 'roi', 'conversion'],
     dateStr: '2026-03-04',
     aiInsight: 'Starkes Verkaufsargument: "Dein Haus wird nicht nur energieeffizient, sondern auch 8% mehr wert." Planville als Wertsteigerungs-Partner positionieren, nicht nur als Installatuer.',
     contentIdeas: [
@@ -3194,6 +3301,7 @@ const DEMO_ARTICLES = [
     topic: 'smarthome',
     sentiment: 'positiv',
     relevance: 90,
+    angles: ['stats', 'savings'],
     dateStr: '2026-02-15',
     aiInsight: 'Test-Ergebnisse als Vertrauens-Content nutzen! "Stiftung Warentest sagt: HEMS spart 30% — wir installieren den Testsieger." Perfekt fuer Karussell mit Testergebnissen.',
     contentIdeas: [
@@ -3211,6 +3319,7 @@ const DEMO_ARTICLES = [
     topic: 'smarthome',
     sentiment: 'neutral',
     relevance: 78,
+    angles: [],
     dateStr: '2025-12-18',
     aiInsight: 'Community-Beduerfnis aufgreifen: Viele wollen alles smart vernetzen, wissen aber nicht wie. Planville kann als "Alles-aus-einer-Hand-Integrator" auftreten.',
     contentIdeas: [
@@ -3229,6 +3338,7 @@ const DEMO_ARTICLES = [
     topic: 'energiekrise',
     sentiment: 'negativ',
     relevance: 93,
+    angles: ['stats', 'savings'],
     dateStr: '2026-03-03',
     aiInsight: 'Perfekter Angst-zu-Loesung-Content: "Die Netzentgelte explodieren — aber mit eigener PV bist du davon kaum betroffen." Dringlichkeit erzeugen mit konkreten Euro-Zahlen.',
     contentIdeas: [
@@ -3246,6 +3356,7 @@ const DEMO_ARTICLES = [
     topic: 'energiekrise',
     sentiment: 'negativ',
     relevance: 89,
+    angles: ['stats', 'savings', 'conversion'],
     dateStr: '2026-02-08',
     aiInsight: 'Waermepumpen-Push mit aktuellem Anlass! "Die Gaspreise steigen wieder — wer jetzt auf Waermepumpe umsteigt, spart ab Tag 1." Kombination aus News-Aktualitaet und Planville-Loesung.',
     contentIdeas: [
@@ -3263,6 +3374,7 @@ const DEMO_ARTICLES = [
     topic: 'energiekrise',
     sentiment: 'negativ',
     relevance: 82,
+    angles: ['stats'],
     dateStr: '2025-11-25',
     aiInsight: 'Emotionaler Content mit Haltung: Planville als Unternehmen positionieren, das bezahlbare Energie fuer alle will. Mieterstrom-Angebote hervorheben. Soziale Verantwortung zeigen.',
     contentIdeas: [
@@ -3281,6 +3393,7 @@ const DEMO_ARTICLES = [
     topic: 'umwelt',
     sentiment: 'neutral',
     relevance: 90,
+    angles: ['stats', 'savings'],
     dateStr: '2026-03-02',
     aiInsight: 'CO2-Preis als Verkaufsargument: "Jede Tonne CO2 kostet jetzt 55 Euro — dein Sonnenstrom ist CO2-frei." Konkrete Einsparungen in Euro und kg CO2 berechnen fuer Planville-Kunden.',
     contentIdeas: [
@@ -3298,6 +3411,7 @@ const DEMO_ARTICLES = [
     topic: 'umwelt',
     sentiment: 'positiv',
     relevance: 86,
+    angles: ['stats'],
     dateStr: '2026-01-28',
     aiInsight: 'Stolz-Content fuer Planville-Kunden: "Jede Planville-Anlage spart 5 Tonnen CO2 pro Jahr. Zusammen haben unsere Kunden schon X Tonnen gespart." Community-Gefuehl erzeugen.',
     contentIdeas: [
@@ -3315,6 +3429,7 @@ const DEMO_ARTICLES = [
     topic: 'umwelt',
     sentiment: 'positiv',
     relevance: 83,
+    angles: ['stats', 'savings'],
     dateStr: '2025-10-30',
     aiInsight: 'Nischen-Content mit Alleinstellung: "Gruendach + PV = mehr Leistung + mehr Natur." Planville als nachhaltiger Anbieter, der ueber reine Technik hinausdenkt. Perfekt fuer umweltbewusste Zielgruppe.',
     contentIdeas: [
@@ -3421,6 +3536,36 @@ function generateNotifications(articles) {
     });
   }
 
+  // Angle-specific SEO alerts
+  const angleCounts = {};
+  articles.forEach(a => {
+    (a.angles || []).forEach(ang => { angleCounts[ang] = (angleCounts[ang] || 0) + 1; });
+  });
+  const angleAlerts = [
+    { id: 'stats', emoji: '📊', label: 'SEO-Zahlen', threshold: 3 },
+    { id: 'savings', emoji: '💰', label: 'Kostenersparnis', threshold: 2 },
+    { id: 'roi', emoji: '📈', label: 'ROI-Vergleich', threshold: 2 },
+    { id: 'conversion', emoji: '🛒', label: 'Conversion-Daten', threshold: 2 },
+    { id: 'regulation', emoji: '⚖️', label: 'Gesetzesänderung', threshold: 1 },
+  ];
+  angleAlerts.forEach(alert => {
+    const cnt = angleCounts[alert.id] || 0;
+    if (cnt >= alert.threshold) {
+      const angObj = ANGLES.find(x => x.id === alert.id);
+      notifs.push({
+        id: `notif-angle-${alert.id}`,
+        title: `${alert.emoji} ${cnt} Artikel mit ${alert.label}`,
+        meta: `SEO-Angle · ${angObj ? angObj.label : alert.label}`,
+        iconColor: alert.id === 'regulation' ? 'red' : alert.id === 'roi' ? 'orange' : 'blue',
+        emoji: alert.emoji,
+        topic: null,
+        angle: alert.id,
+        read: false,
+        date: sorted[0] ? sorted[0].date : now.toISOString(),
+      });
+    }
+  });
+
   return notifs;
 }
 
@@ -3493,6 +3638,7 @@ const DEMO_STATS = {
     selectedDate: new Date(),
     activeTopic: null,
     activeSource: null,
+    activeAngle: null,
     searchQuery: '',
     articles: [],
     kanbanItems: [],
@@ -3612,6 +3758,7 @@ const DEMO_STATS = {
     }
     if (state.activeTopic) articles = articles.filter(a => a.topic === state.activeTopic);
     if (state.activeSource) articles = articles.filter(a => a.source === state.activeSource);
+    if (state.activeAngle) articles = articles.filter(a => a.angles && a.angles.includes(state.activeAngle));
     if (state.searchQuery) {
       const q = state.searchQuery.toLowerCase();
       articles = articles.filter(a => a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q) || a.outlet.toLowerCase().includes(q));
@@ -3737,6 +3884,23 @@ const DEMO_STATS = {
               <span class="filter-count">${sourceCounts['social'] || 0}</span>
             </div>
           </div>
+
+          <div class="nav-section-label" style="margin-top: var(--space-2);">SEO-Angle</div>
+          <div class="topic-filters-vertical">
+            <div class="topic-filter-item ${!state.activeAngle ? 'active' : ''}" data-angle="">
+              <i data-lucide="layers" class="filter-icon" width="18" height="18"></i>
+              Alle Angles
+              <span class="filter-count">${state.articles.length}</span>
+            </div>
+            ${ANGLES.map(ang => {
+              const cnt = state.articles.filter(a => a.angles && a.angles.includes(ang.id)).length;
+              return '<div class="topic-filter-item ' + (state.activeAngle === ang.id ? 'active' : '') + '" data-angle="' + ang.id + '" style="' + (state.activeAngle === ang.id ? '--filter-accent: ' + ang.color : '') + '">' +
+                '<i data-lucide="' + ang.icon + '" class="filter-icon" width="18" height="18"' + (state.activeAngle === ang.id ? ' style="color: ' + ang.color + '"' : '') + '></i>' +
+                ang.label +
+                '<span class="filter-count">' + cnt + '</span>' +
+              '</div>';
+            }).join('')}
+          </div>
         </nav>
       </aside>
     `;
@@ -3748,7 +3912,7 @@ const DEMO_STATS = {
       return '<div class="notif-empty"><i data-lucide="bell-off" width="20" height="20" style="margin-bottom:6px;opacity:0.4;"></i><br>Keine Benachrichtigungen</div>';
     }
     return state.notifications.map(n => `
-      <div class="notif-item${n.read ? '' : ' unread'}" data-notif-id="${escAttr(n.id)}" data-notif-topic="${escAttr(n.topic)}">
+      <div class="notif-item${n.read ? '' : ' unread'}" data-notif-id="${escAttr(n.id)}" data-notif-topic="${escAttr(n.topic || '')}" data-notif-angle="${escAttr(n.angle || '')}">
         <div class="notif-item-icon ${n.iconColor}">${n.emoji}</div>
         <div class="notif-item-body">
           <div class="notif-item-title">${esc(n.title)}</div>
@@ -3916,6 +4080,8 @@ const DEMO_STATS = {
             ${tip('relevance')}
           </span>
         </div>
+
+        ${(article.angles && article.angles.length > 0) ? `<div class="angle-badges">${article.angles.map(a => { const ang = ANGLES.find(x => x.id === a); return ang ? '<span class="angle-badge" style="--angle-color: ' + ang.color + '" data-angle="' + ang.id + '"><i data-lucide="' + ang.icon + '" width="10" height="10"></i> ' + ang.label + '</span>' : ''; }).join('')}</div>` : ''}
 
         <h3 class="news-card-title">${esc(article.title)}</h3>
         <div class="news-card-outlet">${esc(article.outlet)} &middot; ${esc(String(article.readTime))} Min. Lesezeit</div>
@@ -4269,6 +4435,11 @@ const DEMO_STATS = {
       el.addEventListener('click', () => { state.activeSource = el.dataset.source || null; state.currentView = 'feed'; render(); });
     });
 
+    // Angle filters (sidebar) — always switch to feed view
+    $$('[data-angle]').forEach(el => {
+      el.addEventListener('click', () => { state.activeAngle = el.dataset.angle || null; state.currentView = 'feed'; render(); });
+    });
+
     // Notification bell
     const bellBtn = $('#notifBellBtn');
     const notifDropdown = $('#notifDropdown');
@@ -4293,11 +4464,12 @@ const DEMO_STATS = {
     if (markReadBtn) markReadBtn.addEventListener('click', (e) => { e.stopPropagation(); markAllNotifsRead(); });
     const readAllBtn = $('#notifReadAllBtn');
     if (readAllBtn) readAllBtn.addEventListener('click', (e) => { e.stopPropagation(); markAllNotifsRead(); });
-    // Click notification item → filter to that topic
+    // Click notification item → filter to that topic or angle
     $$('[data-notif-id]').forEach(el => {
       el.addEventListener('click', () => {
         const notifId = el.dataset.notifId;
         const topic = el.dataset.notifTopic;
+        const angle = el.dataset.notifAngle;
         // Mark this one as read
         const n = state.notifications.find(n => n.id === notifId);
         if (n && !n.read) {
@@ -4306,8 +4478,14 @@ const DEMO_STATS = {
           const readIds = state.notifications.filter(n => n.read).map(n => n.id);
           localStorage.setItem('pv-notif-read', JSON.stringify(readIds));
         }
-        // Navigate to that topic
-        state.activeTopic = topic || null;
+        // Navigate to that topic or angle
+        if (angle) {
+          state.activeAngle = angle;
+          state.activeTopic = null;
+        } else {
+          state.activeTopic = topic || null;
+          state.activeAngle = null;
+        }
         state.currentView = 'feed';
         state.notifDropdownOpen = false;
         render();
