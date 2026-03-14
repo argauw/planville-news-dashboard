@@ -1857,29 +1857,8 @@ a:hover { color: var(--color-primary-hover); }
 
 .info-tip:hover .tip-text { visibility: visible; opacity: 1; }
 
-/* Stat cards: show tooltips below the icon (not above) to avoid top clipping */
-.stat-card .info-tip .tip-text {
-  bottom: auto;
-  top: calc(100% + 8px);
-}
-.stat-card .info-tip .tip-text::after {
-  top: auto;
-  bottom: 100%;
-  border-color: transparent transparent var(--color-secondary) transparent;
-}
-/* Last two stat cards: expand tooltip to the left */
-.stat-card:nth-child(3) .info-tip .tip-text,
-.stat-card:nth-child(4) .info-tip .tip-text {
-  left: auto;
-  right: 0;
-}
-.stat-card:nth-child(3) .info-tip .tip-text::after,
-.stat-card:nth-child(4) .info-tip .tip-text::after {
-  left: auto;
-  right: 14px;
-}
-
-/* Sidebar tooltips: hidden (shown via global floating tooltip instead) */
+/* Stat card & sidebar tooltips: hidden (shown via global floating tooltip instead) */
+.stat-card .info-tip .tip-text,
 .sidebar .info-tip .tip-text {
   display: none;
 }
@@ -2594,9 +2573,7 @@ a:hover { color: var(--color-primary-hover); }
 [data-theme="dark"] .info-tip .tip-text::after {
   border-color: #1E1E26 transparent transparent transparent;
 }
-[data-theme="dark"] .stat-card .info-tip .tip-text::after {
-  border-color: transparent transparent #1E1E26 transparent;
-}
+
 
 /* Refresh indicator */
 [data-theme="dark"] .refresh-indicator {
@@ -4487,7 +4464,7 @@ const DEMO_STATS = {
 
   // === EVENT BINDING ===
   function bindEvents() {
-    // Sidebar tooltip: global floating element appended to body
+    // Global floating tooltip for sidebar & stat card info-tips
     var gTooltip = document.getElementById('globalTooltip');
     if (!gTooltip) {
       gTooltip = document.createElement('div');
@@ -4496,6 +4473,7 @@ const DEMO_STATS = {
       document.body.appendChild(gTooltip);
     }
     var sidebar = $('aside') || $('.sidebar');
+    // Sidebar tips: appear to the right of sidebar
     $$('.sidebar .info-tip').forEach(function(tip) {
       tip.addEventListener('mouseenter', function() {
         var text = tip.getAttribute('aria-label') || '';
@@ -4507,9 +4485,25 @@ const DEMO_STATS = {
         gTooltip.style.top = Math.max(8, iconRect.top - 4) + 'px';
         gTooltip.classList.add('visible');
       });
-      tip.addEventListener('mouseleave', function() {
-        gTooltip.classList.remove('visible');
+      tip.addEventListener('mouseleave', function() { gTooltip.classList.remove('visible'); });
+    });
+    // Stat card tips: appear below the icon, floating above content
+    $$('.stat-card .info-tip').forEach(function(tip) {
+      tip.addEventListener('mouseenter', function() {
+        var text = tip.getAttribute('aria-label') || '';
+        if (!text) return;
+        gTooltip.textContent = text;
+        var iconRect = tip.getBoundingClientRect();
+        var tooltipLeft = iconRect.left;
+        // If tooltip would overflow right edge, align to right
+        if (tooltipLeft + 300 > window.innerWidth) {
+          tooltipLeft = iconRect.right - 200;
+        }
+        gTooltip.style.left = Math.max(8, tooltipLeft) + 'px';
+        gTooltip.style.top = (iconRect.bottom + 8) + 'px';
+        gTooltip.classList.add('visible');
       });
+      tip.addEventListener('mouseleave', function() { gTooltip.classList.remove('visible'); });
     });
 
     // View navigation
