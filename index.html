@@ -1879,6 +1879,46 @@ a:hover { color: var(--color-primary-hover); }
   right: 14px;
 }
 
+/* Sidebar tooltips: hidden (shown via global floating tooltip instead) */
+.sidebar .info-tip .tip-text {
+  display: none;
+}
+
+/* Global floating tooltip for sidebar info tips */
+.global-tooltip {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  background: var(--color-secondary);
+  color: #E8ECE6;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  min-width: 200px;
+  max-width: 300px;
+  white-space: normal;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0.15s;
+}
+.global-tooltip.visible {
+  opacity: 1;
+  visibility: visible;
+}
+[data-theme="dark"] .global-tooltip {
+  background: #1E1E26;
+  color: #E0E0E6;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+[data-theme="light"] .global-tooltip {
+  background: var(--color-secondary);
+  color: #E8ECE6;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18), 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
 /* Tooltip positioning variants */
 .info-tip.tip-right .tip-text {
   left: calc(100% + 8px);
@@ -4447,6 +4487,31 @@ const DEMO_STATS = {
 
   // === EVENT BINDING ===
   function bindEvents() {
+    // Sidebar tooltip: global floating element appended to body
+    var gTooltip = document.getElementById('globalTooltip');
+    if (!gTooltip) {
+      gTooltip = document.createElement('div');
+      gTooltip.id = 'globalTooltip';
+      gTooltip.className = 'global-tooltip';
+      document.body.appendChild(gTooltip);
+    }
+    var sidebar = $('aside') || $('.sidebar');
+    $$('.sidebar .info-tip').forEach(function(tip) {
+      tip.addEventListener('mouseenter', function() {
+        var text = tip.getAttribute('aria-label') || '';
+        if (!text) return;
+        gTooltip.textContent = text;
+        var sidebarRect = sidebar ? sidebar.getBoundingClientRect() : { right: 264 };
+        var iconRect = tip.getBoundingClientRect();
+        gTooltip.style.left = (sidebarRect.right + 8) + 'px';
+        gTooltip.style.top = Math.max(8, iconRect.top - 4) + 'px';
+        gTooltip.classList.add('visible');
+      });
+      tip.addEventListener('mouseleave', function() {
+        gTooltip.classList.remove('visible');
+      });
+    });
+
     // View navigation
     $$('[data-view]').forEach(el => {
       el.addEventListener('click', () => { state.currentView = el.dataset.view; state.sidebarOpen = false; render(); });
